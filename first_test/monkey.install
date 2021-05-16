@@ -1,0 +1,28 @@
+lib: [
+  "_build/install/default/lib/monkey/META"
+  "_build/install/default/lib/monkey/dune-package"
+  "_build/install/default/lib/monkey/lexer.ml"
+  "_build/install/default/lib/monkey/monkey.a"
+  "_build/install/default/lib/monkey/monkey.cma"
+  "_build/install/default/lib/monkey/monkey.cmi"
+  "_build/install/default/lib/monkey/monkey.cmt"
+  "_build/install/default/lib/monkey/monkey.cmx"
+  "_build/install/default/lib/monkey/monkey.cmxa"
+  "_build/install/default/lib/monkey/monkey.cmxs"
+  "_build/install/default/lib/monkey/monkey.ml"
+  "_build/install/default/lib/monkey/monkey__.cmi"
+  "_build/install/default/lib/monkey/monkey__.cmt"
+  "_build/install/default/lib/monkey/monkey__.cmx"
+  "_build/install/default/lib/monkey/monkey__.ml"
+  "_build/install/default/lib/monkey/monkey__Lexer.cmi"
+  "_build/install/default/lib/monkey/monkey__Lexer.cmt"
+  "_build/install/default/lib/monkey/monkey__Lexer.cmx"
+  "_build/install/default/lib/monkey/monkey__Token.cmi"
+  "_build/install/default/lib/monkey/monkey__Token.cmt"
+  "_build/install/default/lib/monkey/monkey__Token.cmx"
+  "_build/install/default/lib/monkey/opam"
+  "_build/install/default/lib/monkey/token.ml"
+]
+doc: [
+  "_build/install/default/doc/monkey/README.md"
+]

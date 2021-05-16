@@ -1,0 +1,7 @@
+opam-version: "2.0.0"
+maintainer: "nikhil@nthomas.org"
+authors: ["Nikhil Thomas"]
+license: "MIT"
+build: [
+  ["dune" "build" "--only" "monkey" "--root" "." "-j" jobs "@install"]
+]
