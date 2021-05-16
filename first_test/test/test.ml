@@ -2,22 +2,11 @@ open Monkey
 include Lexer
 include Token
 
-let token_testable = Alcotest.testable Token.pretty_print (=)
+let print_token_list list =
+  let rec str acc list = 
+    match list with
+      | [] -> acc
+      | t::q -> str (acc ^ (Token.token_to_string t) ^ " ") q
+  in let s = str "[" list in print_string (s ^ "]");;
 
-let test_lexer_delimiters () =
-  Alcotest.(check (list token_testable))
-    "same token types" [
-        Token.PLUS
-      ; Token.RIGHT_PARENTHESIS
-      ; Token.LEFT_PARENTHESIS
-      ; Token.SEMI_COLON
-      ; Token.QUOTE
-      ]
-      (Lexer.generate_tokens "=+(){},;")
-
-let () =
-  Alcotest.run "Lexer"
-    [
-      ( "list-delimiters",
-        [ Alcotest.test_case "first case" `Slow test_lexer_delimiters ] );
-    ]
+let () = print_token_list (Lexer.generate_token "CHOUQUETTE CLAFOUTIS PARISBREST lol 3 PARISBREST CLAFOUTIS")
