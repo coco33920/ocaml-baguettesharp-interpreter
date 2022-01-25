@@ -3,7 +3,7 @@ module Parser = struct
 
   type arguments = Str of string | I of int;;
   type parameters = CallExpression of string | Argument of arguments;;
-  type 'a ast = Nil | Node of 'a * 'a list ast;;
+  type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
   let parse_string_rec lst = 
     let rec parse acc lst = 
