@@ -3,7 +3,7 @@ include Lexer
 include Token
 include Parser
 
-let str = "CHOUQUETTE PARISBREST lol 3 pdpkdqopdq 45 () () () ) CHOUQUETTE PARISBREST CLAFOUTIS"
+let str = "CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE "
 
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 
@@ -14,7 +14,7 @@ let print_token_list list =
       | t::q -> str (acc ^ (Token.token_to_string t) ^ " ") q
   in let s = str "[" list in print_string (s ^ "]");;
 
-let token_list = Lexer.generate_token "CHOUQUETTE PARISBREST lol 3 pdpkdqopdq 45 () () () ) CHOUQUETTE PARISBREST CLAFOUTIS"
+let token_list = Lexer.generate_token str
 
 let () = print_string "Affichage de la liste de token après le tokenizer"; print_newline (); print_token_list (token_list); print_newline (); print_newline ()
 
@@ -30,5 +30,9 @@ let rec i n lst = match (n,lst) with
   | _ -> "";;
 
 let a = i 0 token_list;;
-let () = print_string ("String calculé: "^ a); print_newline ();
+let () = print_string ("String calculé: "^ a); print_newline (); print_newline ()
+
+let ast = Parser.parse_line token_list
+
+let () = print_string (Parser.print_pretty_node (Array.of_list ast).(0))
 
