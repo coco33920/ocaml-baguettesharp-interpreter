@@ -25,15 +25,6 @@ module Lexer = struct
       }
     in read_char lexer;;
 
-  (*let read_token lexer =
-    let rec aux acc lexer =
-      print_string acc;
-      print_newline ();
-      match (Token.string_to_token acc) with
-        | NULL_TOKEN -> let lex = read_char lexer in aux (acc ^ (String.make 1 lex.ch)) lex
-        | token -> (, token)
-    in aux (String.make 1 lexer.ch) lexer;;*)
-
   let read_token word = 
     match (Token.string_to_token word) with
       | NULL_TOKEN -> Token.STRING_TOKEN(word ^ " ")
@@ -45,4 +36,13 @@ module Lexer = struct
       | [] -> List.rev acc
       | t::q -> aux ((read_token t)::acc) q
   in aux [] lst;;
+
+  let validate_parenthesis input_token_list = 
+    let stack = Stack.create () in
+    let rec aux stack lst = match lst with 
+      | [] -> Stack.is_empty stack
+      | Token.LEFT_PARENTHESIS::q -> Stack.push 1 stack; aux stack q
+      | Token.RIGHT_PARENTHESIS::q  -> if Stack.is_empty stack then failwith "parenthésage invalide" else (let _ = Stack.pop stack in aux stack q)
+      | _::q -> aux stack q
+  in aux stack input_token_list;;
 end
