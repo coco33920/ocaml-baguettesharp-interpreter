@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Baguette# (in OCaml) 👋</h1>
+<h1 align="center">The Baguette# OCaml Interpreter</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
@@ -6,8 +6,14 @@
   </a>
 </p>
 
-> Baguette# is back! Now in OCaml, using https://dev.to/nt591/writing-an-interpreter-in-ocaml-45hm and https://ruslanspivak.com/lsbasi-part1/ and friends support and help :heart:
-
+<h1 align="center">
+    <br>
+    <img src="https://i.imgur.com/iBSb0Fh.png" alt="Baguette#" width="540">
+    <br>
+    Baguette#
+    <br>
+</h1>
+<h4 align="center">Baguette# est de retour..... En OCaml !</h4>
 ## Histoire 
 J'ai repris ce projet début 2022, il sert de TIPE ENS et Tétraconcours ( je suis en prépa ) pour illustrer la théorie des langages formels de manière plus ludique, pour sa manière ludique de jouer avec... des pâtisseries! Je fais la base du langage : le lexer (l'algorithme qui transforme le texte brute en liste de token plus facile à travailler) est prêt.
 
@@ -15,33 +21,22 @@ En ce moment je travaille le parser, il sert à transformer la liste de token en
 
 Suivra l'interpréteur !
 
-## Install
+## Installation
 
 ```sh
 dune build .
 ```
 
-## Usage
+## Utilisation
 
 ```sh
 dune exec 
 ```
 
-## Run tests
+## Test
 
 ```sh
 dune runtest
 ```
 
-## Author
-
-👤 **Charlotte Thomas**
-
-* Github: [@coco33920](https://github.com/coco33920)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+À venir..... la documentation!
