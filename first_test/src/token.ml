@@ -27,6 +27,13 @@ module Token = struct
     | STRING_TOKEN (s) -> "{String \"" ^ s ^ "\"}"
     | _ -> ""
   
+  let token_to_litteral_string = function
+    | LEFT_PARENTHESIS -> "("
+    | RIGHT_PARENTHESIS -> ")"
+    | SEMI_COLON -> ";"
+    | INT_TOKEN(i) -> string_of_int i ^ " "
+    | STRING_TOKEN (s) -> s 
+    | _ -> ""
 
     
     let pretty_print ppf tok = Fmt.pf ppf "Token %s" (token_to_string tok)
