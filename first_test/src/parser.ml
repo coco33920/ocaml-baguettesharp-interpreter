@@ -1,7 +1,7 @@
 module Parser = struct
   include Token
 
-  type arguments = Str of string | I of int;;
+  type arguments = Str of string | I of int | Nul of unit;;
   type parameters = CallExpression of string | Argument of arguments;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
@@ -22,7 +22,7 @@ module Parser = struct
             | _ -> aux Token.LEFT_PARENTHESIS acc q)
           | Token.RIGHT_PARENTHESIS::_ -> acc
           | Token.QUOTE::q -> let str,q2 = parse_string_rec q in aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2
-          | Token.SEMI_COLON::q -> acc
+          | Token.SEMI_COLON::_ -> acc
           | (Token.STRING_TOKEN s)::q -> aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
           | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q 
           | _ -> acc 
@@ -31,7 +31,8 @@ module Parser = struct
       let print_argument arg = 
         match arg with 
           | Str s -> s
-          | I i -> string_of_int i;;
+          | I i -> string_of_int i
+          | Nul () -> "Nil"
 
       
 
@@ -39,11 +40,15 @@ module Parser = struct
         match param with 
           | CallExpression s -> "Fonction: " ^ s
           | Argument s -> "Argument: " ^ print_argument s
+
+      let print_pretty_arguments param = 
+        String.concat " " (List.map print_parameter param);;
+
       let rec print_pretty_node node =
           match node with 
             | Nil -> ""
             | Node (parameter, arguments) -> "(" ^ print_parameter parameter ^ ") [" ^ (String.concat " " (List.map print_pretty_node arguments)) ^ "]"
 
-      
+    
 
 end

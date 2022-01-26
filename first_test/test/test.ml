@@ -1,9 +1,9 @@
-open Monkey
+open Baguette_sharp
 include Lexer
 include Token
 include Parser
-
-let str = "CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE "
+include Interpreter
+let str = "CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE"
 
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 
@@ -34,5 +34,9 @@ let () = print_string ("String calculé: "^ a); print_newline (); print_newline 
 
 let ast = Parser.parse_line token_list
 
-let () = print_string (Parser.print_pretty_node (Array.of_list ast).(0))
+let () = print_string (Parser.print_pretty_node (Array.of_list ast).(0)); print_newline (); print_newline ()
+
+let () = print_string "Test de l'interpréteur"; print_newline (); print_newline ()
+
+let _ = Interpreter.exec_node (List.hd ast)
 

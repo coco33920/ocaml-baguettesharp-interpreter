@@ -1,4 +1,4 @@
 (test
   (name test)
-  (libraries alcotest monkey fmt)
+  (libraries baguette_sharp fmt)
 )
