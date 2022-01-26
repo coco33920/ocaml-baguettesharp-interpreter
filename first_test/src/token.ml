@@ -5,6 +5,7 @@ module Token = struct
     | QUOTE
     | SEMI_COLON
     | INT_TOKEN of int
+    | FLOAT_TOKEN of float
     | NULL_TOKEN
     | STRING_TOKEN of string
 
@@ -13,7 +14,7 @@ module Token = struct
     | "CLAFOUTIS" -> RIGHT_PARENTHESIS
     | "PARISBREST" -> QUOTE
     | "BAGUETTE" -> SEMI_COLON
-    | str -> try INT_TOKEN(int_of_string str) with Failure _ -> NULL_TOKEN
+    | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
 
 
@@ -24,6 +25,7 @@ module Token = struct
     | QUOTE -> "{\"}"
     | SEMI_COLON -> "{;}"
     | INT_TOKEN(i) ->  "{Int " ^ string_of_int i ^ "}"
+    | FLOAT_TOKEN(i) -> "{Float " ^ string_of_float i ^ "}"
     | STRING_TOKEN (s) -> "{String \"" ^ s ^ "\"}"
     | _ -> ""
   
@@ -33,6 +35,7 @@ module Token = struct
     | SEMI_COLON -> ";"
     | INT_TOKEN(i) -> string_of_int i ^ " "
     | STRING_TOKEN (s) -> s 
+    | FLOAT_TOKEN d -> string_of_float d ^ " "
     | _ -> ""
 
     

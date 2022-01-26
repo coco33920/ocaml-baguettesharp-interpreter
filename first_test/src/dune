@@ -1,4 +1,4 @@
 (library
- (public_name monkey)
-  (libraries fmt)
+ (public_name baguette_sharp)
+  (libraries fmt str)
 )

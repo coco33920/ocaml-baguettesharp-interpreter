@@ -23,6 +23,12 @@ En ce moment je travaille le parser, il sert à transformer la liste de token en
 
 Suivra l'interpréteur !
 
+## Support
+
+Actuellement l'interpréteur supporte les entier, les flottant, les chaînes de caractères et implémente les fonction
+standard précédemment implémentées dans la version en GO
+La grammaire est identique, chaque mot/symbole est séparé d'un espace et chaque symbole et fonction ont un nom de pâtisserie/viennoiserie/sucrerie française ou non.
+
 ## Installation
 
 ```sh
