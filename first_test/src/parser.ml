@@ -1,7 +1,7 @@
 module Parser = struct
   include Token
 
-  type arguments = Str of string | I of int | Nul of unit;;
+  type arguments = Str of string | I of int | Nul of unit | D of float;;
   type parameters = CallExpression of string | Argument of arguments;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
@@ -25,6 +25,7 @@ module Parser = struct
           | Token.SEMI_COLON::_ -> acc
           | (Token.STRING_TOKEN s)::q -> aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
           | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q 
+          | (Token.FLOAT_TOKEN d)::q -> aux (Token.FLOAT_TOKEN d) (Node(Argument (D d), [Nil])::acc) q
           | _ -> acc 
       in aux Token.NULL_TOKEN [] lst;;
 
@@ -32,7 +33,9 @@ module Parser = struct
         match arg with 
           | Str s -> s
           | I i -> string_of_int i
-          | Nul () -> "Nil"
+          | D d -> string_of_float d
+          | Nul () -> "Nil";;
+
 
       
 

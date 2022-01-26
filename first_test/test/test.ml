@@ -3,7 +3,7 @@ include Lexer
 include Token
 include Parser
 include Interpreter
-let str = "CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE"
+let str = "CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2.3 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE"
 
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 
