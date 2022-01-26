@@ -25,6 +25,7 @@ module Token = struct
     | QUOTE -> "{\"}"
     | SEMI_COLON -> "{;}"
     | INT_TOKEN(i) ->  "{Int " ^ string_of_int i ^ "}"
+    | FLOAT_TOKEN(i) -> "{Float " ^ string_of_float i ^ "}"
     | STRING_TOKEN (s) -> "{String \"" ^ s ^ "\"}"
     | _ -> ""
   
@@ -34,6 +35,7 @@ module Token = struct
     | SEMI_COLON -> ";"
     | INT_TOKEN(i) -> string_of_int i ^ " "
     | STRING_TOKEN (s) -> s 
+    | FLOAT_TOKEN d -> string_of_float d ^ " "
     | _ -> ""
 
     

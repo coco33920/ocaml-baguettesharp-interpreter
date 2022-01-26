@@ -16,17 +16,17 @@ module Parser = struct
     let parse_line lst = 
       let rec aux last_token acc lst = 
         match lst with 
-          | [] -> acc
+          | [] -> List.rev acc
           | Token.LEFT_PARENTHESIS::q -> (match last_token with 
             | Token.STRING_TOKEN s -> [Node(CallExpression s, aux Token.LEFT_PARENTHESIS [] q)]
             | _ -> aux Token.LEFT_PARENTHESIS acc q)
-          | Token.RIGHT_PARENTHESIS::_ -> acc
+          | Token.RIGHT_PARENTHESIS::_ -> List.rev acc
           | Token.QUOTE::q -> let str,q2 = parse_string_rec q in aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2
-          | Token.SEMI_COLON::_ -> acc
+          | Token.SEMI_COLON::_ -> List.rev acc
           | (Token.STRING_TOKEN s)::q -> aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
           | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q 
           | (Token.FLOAT_TOKEN d)::q -> aux (Token.FLOAT_TOKEN d) (Node(Argument (D d), [Nil])::acc) q
-          | _ -> acc 
+          | _ -> List.rev acc 
       in aux Token.NULL_TOKEN [] lst;;
 
       let print_argument arg = 
