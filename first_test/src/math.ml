@@ -20,6 +20,7 @@ let add list_of_arguments =
       | (Parser.Argument (Parser.D(d)))::q -> aux (acc +. d) q
       | (Parser.Argument (Parser.Str(_)))::_ -> failwith "Error add cannot take string arguments"
       | (Parser.Argument (Parser.Nul(())))::q -> aux acc q
+      | (Parser.GOTO(_))::_ -> failwith "goto are illegals"
   in aux 0. list_of_arguments;;
 
 
@@ -32,6 +33,7 @@ let mult list_of_arguments =
       | (Parser.Argument (Parser.D(d)))::q -> aux (acc *. d) q
       | (Parser.Argument (Parser.Str(_)))::_ -> failwith "Error mult cannot take string arguments"
       | (Parser.Argument (Parser.Nul(())))::q -> aux acc q
+      | Parser.GOTO(_)::_ -> failwith "goto are illegals"
   in aux 1. list_of_arguments;;
 
 let fibonacci list_of_arguments = 
