@@ -2,6 +2,9 @@ module Functions = struct
 include Token
 include Parser
 include Math
+include Dictionnaire
+
+let main_ram = ref (Dictionnaire.create ())
 
 let rec boucle regex str list = 
   match list with 
@@ -35,6 +38,20 @@ let verify_goto list_of_arguments =
   in let a = List.hd list_of_arguments in 
   match a with Parser.Argument (Parser.I(i)) -> (if i<n then i else failwith "cannot go this far away") | _ -> failwith "argument must be an integer";; 
   
+let add_variable list_of_arguments = 
+  if List.length list_of_arguments < 2 then failwith "not enough arguments"
+  else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
+  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> (main_ram := (Dictionnaire.insert (s,head2) !main_ram)) | _ -> failwith "first argument must be a string"
+
+let read_variable list_of_arguments = 
+  if List.length list_of_arguments < 1 then failwith "not enough arguments"
+  else let head = List.hd list_of_arguments in 
+  match head with | Parser.Argument (Parser.Str s) -> if Dictionnaire.exists s !main_ram then Dictionnaire.search s !main_ram else failwith "La clef n'existe pas"
+    | _ -> failwith "first argument must be a string"
+
+ let read_entry () = 
+  let a = read_line () in
+  try Parser.Argument (Parser.D (float_of_string a)) with Failure _ -> (try Parser.Argument (Parser.I (int_of_string a)) with Failure _ -> Parser.Argument (Parser.Str a))
 
 let recognize_function name list_of_args =
 match (String.trim name) with 
@@ -46,6 +63,16 @@ match (String.trim name) with
   | "FINANCIER" -> Parser.Argument (Parser.I(Math.fibonacci list_of_args))
   | "PAINAUCHOCOLAT" -> Parser.Argument (Parser.Nul(printf list_of_args))
   | "PAINVIENNOIS" -> Parser.GOTO (verify_goto list_of_args)
+  | "PAINAURAISIN" -> Parser.Argument (Parser.D(Math.substract list_of_args))
+  | "CHOCOLATINE" -> Parser.Argument (Parser.D(Math.divide list_of_args))
+  | "BRETZEL" -> Parser.Argument (Parser.I(Math.randint list_of_args))
+  | "BAGUETTEVIÉNOISE" -> Parser.Argument (Parser.D(Math.logb list_of_args))
+  | "OPERA" -> Parser.Argument (Parser.D(Math.opposite list_of_args))
+  | "MILLEFEUILLE" -> Parser.Argument (Parser.I(Math.floor list_of_args))
+  | "FRAISIER" -> Parser.Argument (Parser.I(Math.ceil list_of_args))
+  | "QUATREQUART" -> Parser.Argument (Parser.Nul (add_variable list_of_args))
+  | "MADELEINE" -> read_variable list_of_args
+  | "ECLAIR" -> read_entry ()
   | _ -> Parser.Argument (Parser.Nul(print [Parser.Argument (Parser.Str(""))]));;
 
 end
