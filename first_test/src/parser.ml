@@ -13,6 +13,7 @@ module Parser = struct
         | token::q -> parse (acc ^ (Token.token_to_litteral_string token)) q
     in parse "" lst;;
     
+    (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
     let parse_line lst = 
       let rec aux last_token acc lst = 
         match lst with 
@@ -28,6 +29,17 @@ module Parser = struct
           | (Token.FLOAT_TOKEN d)::q -> aux (Token.FLOAT_TOKEN d) (Node(Argument (D d), [Nil])::acc) q
           | _ -> List.rev acc 
       in aux Token.NULL_TOKEN [] lst;;
+
+
+
+    let parse_file list_of_tokens = 
+      let rec aux acc lst = 
+        match lst with
+          | [] -> acc
+          | Token.SEMI_COLON::[] -> acc
+          | Token.SEMI_COLON::q -> aux (acc @ (parse_line q)) q
+          | _::q -> aux acc q
+      in aux (parse_line list_of_tokens) list_of_tokens
 
       let print_argument arg = 
         match arg with 

@@ -14,7 +14,7 @@ let rec boucle regex str list =
 
 let rec print list_of_arguments =
   match list_of_arguments with 
-    | [] -> ()
+    | [] -> print_newline ()
     | (Parser.CallExpression _)::_ -> failwith "callexpressions are illegal"
     | (Parser.Argument (Parser.Str(s)))::q -> print_string (s^" "); print q
     | (Parser.Argument (Parser.I(i)))::q -> print_string((string_of_int i) ^ " "); print q
@@ -27,7 +27,7 @@ let printf list_of_arguments =
   let regexp_d = Str.regexp "%d" in
   if List.length list_of_arguments < 1 then failwith "not enough arguments"
   else let hd,tl = List.hd list_of_arguments,List.tl list_of_arguments in 
-  match hd with Parser.Argument(Parser.Str s) -> print_string (boucle regexp_d s tl); print_newline (); print_newline (); | _ -> failwith "first argument must be int"
+  match hd with Parser.Argument(Parser.Str s) -> print_string (boucle regexp_d s tl); print_newline () | _ -> failwith "first argument must be int"
   
 
 let recognize_function name list_of_args =
