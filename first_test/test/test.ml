@@ -16,7 +16,6 @@ let read_file filename =
   with End_of_file ->
     close_in chan;
     List.rev !lines ;;
-
 let str = String.concat " " (read_file "/home/charlotte/test.bag")
 
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
@@ -34,9 +33,10 @@ let () = print_string "Affichage de la liste de token après le tokenizer"; prin
 
 let () = print_string "Vérification du parenthésage et des quote"; print_newline ()
 let () = if Lexer.validate_parenthesis_and_quote token_list then print_string "Parenthesage valide" else failwith "parenthesage invalide"; print_newline (); print_newline ()
-let array = Array.of_list token_list
 
-let new_ast = Parser.parse_file token_list
+let new_ast = (Parser.parse_file token_list)
+
+
 
 let () = print_string "Vérification du parsing"; print_newline()
 

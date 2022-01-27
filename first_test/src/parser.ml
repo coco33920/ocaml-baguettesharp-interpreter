@@ -16,18 +16,18 @@ module Parser = struct
     (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
     let parse_line lst = 
       let rec aux last_token acc lst = 
-        match lst with 
-          | [] -> List.rev acc
+        match lst with
+          | [] -> lst,List.rev acc
           | Token.LEFT_PARENTHESIS::q -> (match last_token with 
-            | Token.STRING_TOKEN s -> [Node(CallExpression s, aux Token.LEFT_PARENTHESIS [] q)]
+            | Token.STRING_TOKEN s -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in (aux Token.NULL_TOKEN (Node(CallExpression s, accs)::(List.tl acc)) rest)
             | _ -> aux Token.LEFT_PARENTHESIS acc q)
-          | Token.RIGHT_PARENTHESIS::_ -> List.rev acc
+          | Token.RIGHT_PARENTHESIS::q -> q,List.rev acc
           | Token.QUOTE::q -> let str,q2 = parse_string_rec q in aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2
-          | Token.SEMI_COLON::_ -> List.rev acc
+          | Token.SEMI_COLON::_ -> lst,List.rev acc
           | (Token.STRING_TOKEN s)::q -> aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
-          | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q 
+          | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q
           | (Token.FLOAT_TOKEN d)::q -> aux (Token.FLOAT_TOKEN d) (Node(Argument (D d), [Nil])::acc) q
-          | _ -> List.rev acc 
+          | _::q -> q,List.rev acc 
       in aux Token.NULL_TOKEN [] lst;;
 
 
@@ -37,15 +37,15 @@ module Parser = struct
         match lst with
           | [] -> acc
           | Token.SEMI_COLON::[] -> acc
-          | Token.SEMI_COLON::q -> aux (acc @ (parse_line q)) q
+          | Token.SEMI_COLON::q -> let rest,accs = parse_line q in aux (acc @ accs) rest
           | _::q -> aux acc q
-      in aux (parse_line list_of_tokens) list_of_tokens
+      in let rest,accs = parse_line list_of_tokens in aux accs rest;;
 
       let print_argument arg = 
         match arg with 
-          | Str s -> s
-          | I i -> string_of_int i
-          | D d -> string_of_float d
+          | Str s -> "String: " ^ s
+          | I i -> "Int: " ^ string_of_int i
+          | D d -> "Float: " ^ string_of_float d
           | Nul () -> "Nil";;
 
 

@@ -41,17 +41,17 @@ let verify_goto list_of_arguments =
 let add_variable list_of_arguments = 
   if List.length list_of_arguments < 2 then failwith "not enough arguments"
   else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
-  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> (main_ram := (Dictionnaire.insert (s,head2) !main_ram)) | _ -> failwith "first argument must be a string"
+  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> (main_ram := (Dictionnaire.insert ((String.trim s),head2) !main_ram)) | _ -> failwith "first argument must be a string"
 
 let read_variable list_of_arguments = 
   if List.length list_of_arguments < 1 then failwith "not enough arguments"
   else let head = List.hd list_of_arguments in 
-  match head with | Parser.Argument (Parser.Str s) -> if Dictionnaire.exists s !main_ram then Dictionnaire.search s !main_ram else failwith "La clef n'existe pas"
+  match head with | Parser.Argument (Parser.Str s) -> if Dictionnaire.exists (String.trim s) !main_ram then Dictionnaire.search (String.trim s) !main_ram else failwith "La clef n'existe pas"
     | _ -> failwith "first argument must be a string"
 
  let read_entry () = 
   let a = read_line () in
-  try Parser.Argument (Parser.D (float_of_string a)) with Failure _ -> (try Parser.Argument (Parser.I (int_of_string a)) with Failure _ -> Parser.Argument (Parser.Str a))
+  try Parser.Argument (Parser.D (float_of_string (String.trim a))) with Failure _ -> (try Parser.Argument (Parser.I (int_of_string ((String.trim a)))) with Failure _ -> Parser.Argument (Parser.Str a))
 
 let recognize_function name list_of_args =
 match (String.trim name) with 
@@ -72,7 +72,7 @@ match (String.trim name) with
   | "FRAISIER" -> Parser.Argument (Parser.I(Math.ceil list_of_args))
   | "QUATREQUART" -> Parser.Argument (Parser.Nul (add_variable list_of_args))
   | "MADELEINE" -> read_variable list_of_args
-  | "ECLAIR" -> read_entry ()
+  | "ÉCLAIR" -> read_entry ()
   | _ -> Parser.Argument (Parser.Nul(print [Parser.Argument (Parser.Str(""))]));;
 
 end
