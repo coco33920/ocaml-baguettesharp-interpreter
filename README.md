@@ -15,6 +15,15 @@
 </h1>
 <h4 align="center">Baguette# est de retour..... En OCaml !</h4>
 
+## Requierements 
+Ocaml version >= 4.13.1; Module Str, String, et fmt (module standard sauf fmt)
+mais sinon
+
+```sh
+opam install fmt
+```
+
+
 ## Histoire 
 
 J'ai repris ce projet début 2022, il sert de TIPE ENS et Tétraconcours ( je suis en prépa ) pour illustrer la théorie des langages formels de manière plus ludique, pour sa manière ludique de jouer avec... des pâtisseries! Je fais la base du langage : le lexer (l'algorithme qui transforme le texte brute en liste de token plus facile à travailler) est prêt.

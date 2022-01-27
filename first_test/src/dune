@@ -1,4 +1,3 @@
 (library
  (public_name baguette_sharp)
-  (libraries fmt str)
-)
+ (libraries fmt str))

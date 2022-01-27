@@ -5,7 +5,20 @@ include Parser
 include Interpreter
 
 (**)
-let str = "CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE PAINAUCHOCOLAT CHOUQUETTE PARISBREST %dHello %d! PARISBREST 1 PARISBREST World PARISBREST CLAFOUTIS BAGUETTE CROISSANT CHOUQUETTE CANELÉ CHOUQUETTE 2 3 12 20 CLAFOUTIS CLAFOUTIS BAGUETTE"
+
+let read_file filename = 
+  let lines = ref [] in
+  let chan = open_in filename in
+  try
+    while true; do
+      let a = input_line chan in if not (String.starts_with ~prefix:"//" a) then lines := a :: !lines
+    done; !lines
+  with End_of_file ->
+    close_in chan;
+    List.rev !lines ;;
+
+let str = String.concat " " (read_file "/home/charlotte/test.bag")
+
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 
 let print_token_list list =
