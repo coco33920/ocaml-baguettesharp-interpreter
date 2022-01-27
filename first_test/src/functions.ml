@@ -2,7 +2,7 @@ module Functions = struct
 include Token
 include Parser
 include Math
-include Dictionnaire
+include Conditions
 
 let main_ram = Hashtbl.create 1000
 
@@ -12,6 +12,7 @@ let rec boucle regex str list =
     | Parser.Argument(Parser.Str(s))::q -> let nstr = Str.replace_first regex s str in boucle regex nstr q
     | Parser.Argument(Parser.I(i))::q -> let nstr = Str.replace_first regex (string_of_int i) str in boucle regex nstr q
     | Parser.Argument(Parser.D(d))::q -> let nstr = Str.replace_first regex (string_of_float d) str in boucle regex nstr q
+    | Parser.Argument(Parser.Bool(f))::q -> let nstr = Str.replace_first regex (string_of_bool f) str in boucle regex nstr q
     | _::q -> boucle regex str q;;
 
 
@@ -23,6 +24,7 @@ let rec print list_of_arguments =
     | (Parser.Argument (Parser.Str(s)))::q -> print_string (s^" "); print q
     | (Parser.Argument (Parser.I(i)))::q -> print_string((string_of_int i) ^ " "); print q
     | (Parser.Argument (Parser.D(d)))::q -> print_string((string_of_float d) ^ " "); print q
+    | (Parser.Argument (Parser.Bool(f)))::q -> print_string((string_of_bool f) ^ " "); print q
     | (Parser.Argument Parser.Nul(()))::q -> print q;;
 
 
@@ -54,15 +56,18 @@ let read_variable list_of_arguments =
   try Parser.Argument (Parser.D (float_of_string (String.trim a))) with Failure _ -> (try Parser.Argument (Parser.I (int_of_string ((String.trim a)))) with Failure _ -> Parser.Argument (Parser.Str a))
 
 let recognize_function name list_of_args =
-match (String.trim name) with 
+match (String.trim name) with
+  | "PAINAUCHOCOLAT" -> Parser.Argument (Parser.Nul(printf list_of_args)) (*IO + GOTO*)
+  | "PAINVIENNOIS" -> Parser.GOTO (verify_goto list_of_args)
   | "CROISSANT" -> Parser.Argument (Parser.Nul(print list_of_args))
-  | "CANELÉ" -> Parser.Argument (Parser.D(Math.add list_of_args))
+  | "MADELEINE" -> read_variable list_of_args
+  | "ÉCLAIR" -> read_entry ()
+  
+  | "CANELÉ" -> Parser.Argument (Parser.D(Math.add list_of_args)) (*MATH*)
   | "STHONORÉ" -> Parser.Argument (Parser.D(Math.mult list_of_args))
   | "KOUGNAMANN" -> Parser.Argument (Parser.D(Math.power list_of_args))
-  | "PROFITEROLES" -> Parser.Argument (Parser.D(Math.sqrt list_of_args))
+  | "PROFITEROLE" -> Parser.Argument (Parser.D(Math.sqrt list_of_args))
   | "FINANCIER" -> Parser.Argument (Parser.I(Math.fibonacci list_of_args))
-  | "PAINAUCHOCOLAT" -> Parser.Argument (Parser.Nul(printf list_of_args))
-  | "PAINVIENNOIS" -> Parser.GOTO (verify_goto list_of_args)
   | "PAINAURAISIN" -> Parser.Argument (Parser.D(Math.substract list_of_args))
   | "CHOCOLATINE" -> Parser.Argument (Parser.D(Math.divide list_of_args))
   | "BRETZEL" -> Parser.Argument (Parser.I(Math.randint list_of_args))
@@ -71,8 +76,17 @@ match (String.trim name) with
   | "MILLEFEUILLE" -> Parser.Argument (Parser.I(Math.floor list_of_args))
   | "FRAISIER" -> Parser.Argument (Parser.I(Math.ceil list_of_args))
   | "QUATREQUART" -> Parser.Argument (Parser.Nul (add_variable list_of_args))
-  | "MADELEINE" -> read_variable list_of_args
-  | "ÉCLAIR" -> read_entry ()
+
+  | "TIRAMISU" -> Parser.Argument (Parser.Bool (Condition.equality list_of_args)) (*operateur de conditions & binaire*)
+  | "MERINGUE" -> Parser.Argument (Parser.Bool (Condition.inferior_large list_of_args))
+  | "MERVEILLE" -> Parser.Argument (Parser.Bool (Condition.inferior_strict list_of_args))
+  | "BRIOCHE" -> Parser.Argument (Parser.Bool (Condition.superior_large list_of_args))
+  | "TARTE" -> Parser.Argument (Parser.Bool (Condition.superior_strict list_of_args))
+  | "FLAN" -> Parser.Argument (Parser.Bool (Condition.binary_and list_of_args))
+  | "PAINDEPICE" -> Parser.Argument(Parser.Bool (Condition.binary_or list_of_args))
+  | "CRÊPE" -> Parser.Argument(Parser.Bool(Condition.binary_xor list_of_args))
+  | "CHAUSSONAUPOMME" -> Parser.Argument(Parser.Bool(Condition.binary_not list_of_args))
+
   | _ -> Parser.Argument (Parser.Nul(print [Parser.Argument (Parser.Str(""))]));;
 
 end

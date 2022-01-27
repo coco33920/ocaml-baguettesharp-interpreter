@@ -38,6 +38,7 @@ include Parser
           | (Parser.Argument (Parser.Str(_)))::_ -> failwith "Error add cannot take string arguments"
           | (Parser.Argument (Parser.Nul(())))::q -> aux acc q
           | (Parser.GOTO(_))::_ -> failwith "goto are illegals"
+          | (Parser.Argument (Parser.Bool _))::_ -> failwith "Error add cannot take boolean arguments"
       in aux 0. list_of_arguments;;
 
 
@@ -51,6 +52,7 @@ include Parser
           | (Parser.Argument (Parser.Str(_)))::_ -> failwith "Error mult cannot take string arguments"
           | (Parser.Argument (Parser.Nul(())))::q -> aux acc q
           | Parser.GOTO(_)::_ -> failwith "goto are illegals"
+          | (Parser.Argument (Parser.Bool _))::_ -> failwith "Error mult cannot take boolean arguments"
       in aux 1. list_of_arguments;;
 
     let fibonacci list_of_arguments = 
