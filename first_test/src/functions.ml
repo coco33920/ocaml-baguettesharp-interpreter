@@ -4,7 +4,7 @@ include Parser
 include Math
 include Dictionnaire
 
-let main_ram = ref (Dictionnaire.create ())
+let main_ram = Hashtbl.create 1000
 
 let rec boucle regex str list = 
   match list with 
@@ -41,12 +41,12 @@ let verify_goto list_of_arguments =
 let add_variable list_of_arguments = 
   if List.length list_of_arguments < 2 then failwith "not enough arguments"
   else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
-  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> (main_ram := (Dictionnaire.insert ((String.trim s),head2) !main_ram)) | _ -> failwith "first argument must be a string"
+  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> Hashtbl.add main_ram s head2 | _ -> failwith "first argument must be a string"
 
 let read_variable list_of_arguments = 
   if List.length list_of_arguments < 1 then failwith "not enough arguments"
   else let head = List.hd list_of_arguments in 
-  match head with | Parser.Argument (Parser.Str s) -> if Dictionnaire.exists (String.trim s) !main_ram then Dictionnaire.search (String.trim s) !main_ram else failwith "La clef n'existe pas"
+  match head with | Parser.Argument (Parser.Str s) -> (try (Hashtbl.find main_ram s) with Not_found -> failwith "Error")
     | _ -> failwith "first argument must be a string"
 
  let read_entry () = 
@@ -66,7 +66,7 @@ match (String.trim name) with
   | "PAINAURAISIN" -> Parser.Argument (Parser.D(Math.substract list_of_args))
   | "CHOCOLATINE" -> Parser.Argument (Parser.D(Math.divide list_of_args))
   | "BRETZEL" -> Parser.Argument (Parser.I(Math.randint list_of_args))
-  | "BAGUETTEVIÉNOISE" -> Parser.Argument (Parser.D(Math.logb list_of_args))
+  | "BAGUETTEVIENNOISE" -> Parser.Argument (Parser.D(Math.logb list_of_args))
   | "OPERA" -> Parser.Argument (Parser.D(Math.opposite list_of_args))
   | "MILLEFEUILLE" -> Parser.Argument (Parser.I(Math.floor list_of_args))
   | "FRAISIER" -> Parser.Argument (Parser.I(Math.ceil list_of_args))
