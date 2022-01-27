@@ -40,6 +40,14 @@ module Token = struct
 
     
     let pretty_print ppf tok = Fmt.pf ppf "Token %s" (token_to_string tok)
+
+
+let print_token_list list =
+  let rec str acc list = 
+    match list with
+      | [] -> acc
+      | t::q -> str (acc ^ (token_to_string t) ^ " ") q
+  in let s = str "[" list in print_string (s ^ "]");;
     
 
   end

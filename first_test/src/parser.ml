@@ -2,7 +2,7 @@ module Parser = struct
   include Token
 
   type arguments = Str of string | I of int | Nul of unit | D of float;;
-  type parameters = CallExpression of string | Argument of arguments;;
+  type parameters = CallExpression of string | Argument of arguments | GOTO of int;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
   let parse_string_rec lst = 
@@ -13,6 +13,7 @@ module Parser = struct
         | token::q -> parse (acc ^ (Token.token_to_litteral_string token)) q
     in parse "" lst;;
     
+    (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
     let parse_line lst = 
       let rec aux last_token acc lst = 
         match lst with 
@@ -29,6 +30,17 @@ module Parser = struct
           | _ -> List.rev acc 
       in aux Token.NULL_TOKEN [] lst;;
 
+
+
+    let parse_file list_of_tokens = 
+      let rec aux acc lst = 
+        match lst with
+          | [] -> acc
+          | Token.SEMI_COLON::[] -> acc
+          | Token.SEMI_COLON::q -> aux (acc @ (parse_line q)) q
+          | _::q -> aux acc q
+      in aux (parse_line list_of_tokens) list_of_tokens
+
       let print_argument arg = 
         match arg with 
           | Str s -> s
@@ -43,6 +55,7 @@ module Parser = struct
         match param with 
           | CallExpression s -> "Fonction: " ^ s
           | Argument s -> "Argument: " ^ print_argument s
+          | GOTO i -> "GOTO: " ^ (string_of_int i)
 
       let print_pretty_arguments param = 
         String.concat " " (List.map print_parameter param);;
