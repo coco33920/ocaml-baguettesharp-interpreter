@@ -3,6 +3,7 @@ module Interpreter = struct
   include Parser
   include Functions
 
+
   (*Called when a node is a call expression and we need the list of arguments*)
   let rec exec_node node = 
     match node with 
@@ -17,10 +18,11 @@ module Interpreter = struct
     let i = ref 0 in
     while !i <= (n-1) do
       let exec = exec_node array_of_node.(!i) in match exec with 
-        | Parser.GOTO w -> i := w-1;
+        | Parser.Exception s -> print_string ("Error: " ^ s); print_newline (); i := n+1; 
+        | Parser.GOTO w -> i := w-1; print_string ("goto " ^ (string_of_int w));
         | _ -> i := !i + 1
     done;
-    ();;
+    Functions.main_ram;;
 
 
 end
