@@ -36,9 +36,8 @@ let printf list_of_arguments =
   match hd with Parser.Argument(Parser.Str s) -> print_string (boucle regexp_d s tl); print_newline () | _ -> failwith "first argument must be int"
   
 let verify_goto list_of_arguments =
-  let n = List.length list_of_arguments 
-  in let a = List.hd list_of_arguments in 
-  match a with Parser.Argument (Parser.I(i)) -> (if i<n then i else failwith "cannot go this far away") | _ -> failwith "argument must be an integer";; 
+  let a = List.hd list_of_arguments in 
+  match a with Parser.Argument (Parser.I(i)) -> i | _ -> failwith "argument must be an integer";; 
   
 let add_variable list_of_arguments = 
   if List.length list_of_arguments < 2 then failwith "not enough arguments"
@@ -86,6 +85,7 @@ match (String.trim name) with
   | "PAINDEPICE" -> Parser.Argument(Parser.Bool (Condition.binary_or list_of_args))
   | "CRÊPE" -> Parser.Argument(Parser.Bool(Condition.binary_xor list_of_args))
   | "CHAUSSONAUPOMME" -> Parser.Argument(Parser.Bool(Condition.binary_not list_of_args))
+  | "SABLÉ" -> Condition.if_funct list_of_args
 
   | _ -> Parser.Argument (Parser.Nul(print [Parser.Argument (Parser.Str(""))]));;
 

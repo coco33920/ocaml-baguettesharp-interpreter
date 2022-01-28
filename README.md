@@ -1,6 +1,6 @@
 <h1 align="center">The Baguette# OCaml Interpreter</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-0.1-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
@@ -34,7 +34,7 @@ Suivra l'interpréteur !
 
 ## Support
 
-Actuellement l'interpréteur supporte les entier, les flottant, les chaînes de caractères et implémente les fonction
+Actuellement l'interpréteur supporte les entier, les flottant, les chaînes de caractères, les booleans, les conditions simple, le retour à une ligne antérieure/postérieure et les if/else et implémente les fonction
 standard précédemment implémentées dans la version en GO
 La grammaire est identique, chaque mot/symbole est séparé d'un espace et chaque symbole et fonction ont un nom de pâtisserie/viennoiserie/sucrerie française ou non.
 
