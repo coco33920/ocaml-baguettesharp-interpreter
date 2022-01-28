@@ -61,10 +61,10 @@ match (String.trim name) with
   | "PAINVIENNOIS" -> verify_goto list_of_args
   | "CROISSANT" -> print list_of_args
   | "MADELEINE" -> read_variable list_of_args
-  | "ÉCLAIR" -> read_entry ()
+  | "ECLAIR" -> read_entry ()
   
-  | "CANELÉ" -> Math.add list_of_args (*MATH*)
-  | "STHONORÉ" -> Math.mult list_of_args
+  | "CANELE" -> Math.add list_of_args (*MATH*)
+  | "STHONORE" -> Math.mult list_of_args
   | "KOUGNAMANN" -> Math.power list_of_args
   | "PROFITEROLE" -> Math.sqrt list_of_args
   | "FINANCIER" -> Math.fibonacci list_of_args
@@ -84,9 +84,9 @@ match (String.trim name) with
   | "TARTE" -> Condition.superior_strict list_of_args
   | "FLAN" -> Condition.binary_and list_of_args
   | "PAINDEPICE" -> Condition.binary_or list_of_args
-  | "CRÊPE" -> Condition.binary_xor list_of_args
+  | "CREPE" -> Condition.binary_xor list_of_args
   | "CHAUSSONAUPOMME" -> Condition.binary_not list_of_args
-  | "SABLÉ" -> Condition.if_funct list_of_args
+  | "SABLE" -> Condition.if_funct list_of_args
 
   | _ -> Exception "unknown function";;
 
