@@ -1,30 +1,5 @@
 module Lexer = struct
   include Token
-
-  type lexer = {
-    input : string;
-    position : int;
-    read_position : int;
-    ch : char;
-  };;
-
-  let null_byte = '\x00'
-
- 
-
-  let read_char lexer =
-    let str_end = lexer.read_position >= String.length (lexer.input) in
-    let new_ch = if str_end then null_byte else String.get (lexer.input) (lexer.read_position) in
-    {lexer with position=lexer.read_position; read_position=lexer.read_position+1; ch=new_ch};;
- let new_lexer input_string = 
-      let lexer = {
-        input = input_string;
-        position = 0;
-        read_position = 0;
-        ch = null_byte;
-      }
-    in read_char lexer;;
-
   let read_token word in_quote = 
     match (Token.string_to_token word) with
       | NULL_TOKEN -> (Token.STRING_TOKEN(word ^ " "),0)

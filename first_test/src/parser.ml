@@ -32,11 +32,147 @@ module Parser = struct
       in aux Token.NULL_TOKEN [] lst;;
 
 
+    let create_int_argument param = Argument(I(param))
+    let create_float_argument param = Argument(D(param))
+    let create_bool_argument param = Argument(Bool(param))
+    let create_string_argument param = Argument(Str(param))
 
+    let add_numbers a b = 
+      match a,b with 
+        | Argument(I(i)),Argument(I(i')) -> create_int_argument (i + i')
+        | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) +. d)
+        | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) +. d)
+        | Argument(D(d)),Argument(D(d')) -> create_float_argument (d +. d')
+        | Argument(Str s),Argument(Str s') -> create_string_argument (s ^ s')
+        | Argument(Str s),Argument(I i) -> create_string_argument (s ^ (string_of_int i))
+        | Argument(Str s),Argument(D d) -> create_string_argument (s ^ (string_of_float d))
+        | Argument(I i),Argument(Str s) -> create_string_argument ((string_of_int i) ^ s)
+        | Argument(D d),Argument(Str s) -> create_string_argument ((string_of_float d) ^ s)
+        | _ -> Exception "non summable" 
+   
+   let equality a b = 
+      let aux a b =
+        match a,b with 
+          | Argument(I(i)),Argument(I(i')) ->  i=i'
+          | Argument(I(i)),Argument(D(d)) -> (float_of_int i)=d
+          | Argument(D(d)),Argument(I(i)) -> d=(float_of_int i)
+          | Argument(D(d)),Argument(D(d')) -> d=d'
+          | Argument(Str s),Argument(Str s') -> s=s'
+          | Argument(Str s),Argument(I i) -> s=(string_of_int i)
+          | Argument(Str s),Argument(D d) -> s=(string_of_float d)
+          | Argument(I i),Argument(Str s) -> (string_of_int i)=s
+          | Argument(D d),Argument(Str s) -> (string_of_float d)=s
+          | _ -> false
+      in create_bool_argument (aux a b);;
+
+   let inferior_large a b = 
+      let aux a b =
+        match a,b with 
+          | Argument(I(i)),Argument(I(i')) ->  i<=i'
+          | Argument(I(i)),Argument(D(d)) -> (float_of_int i)<=d
+          | Argument(D(d)),Argument(I(i)) -> d<=(float_of_int i)
+          | Argument(D(d)),Argument(D(d')) -> d<=d'
+          | Argument(Str s),Argument(Str s') -> s<=s'
+          | Argument(Str s),Argument(I i) -> s<=(string_of_int i)
+          | Argument(Str s),Argument(D d) -> s<=(string_of_float d)
+          | Argument(I i),Argument(Str s) -> (string_of_int i)<=s
+          | Argument(D d),Argument(Str s) -> (string_of_float d)<=s
+          | _ -> false
+      in create_bool_argument (aux a b);;
+
+   let inferior a b = 
+      let aux a b =
+        match a,b with 
+          | Argument(I(i)),Argument(I(i')) ->  i<i'
+          | Argument(I(i)),Argument(D(d)) -> (float_of_int i)<d
+          | Argument(D(d)),Argument(I(i)) -> d<(float_of_int i)
+          | Argument(D(d)),Argument(D(d')) -> d<d'
+          | Argument(Str s),Argument(Str s') -> s<s'
+          | Argument(Str s),Argument(I i) -> s<(string_of_int i)
+          | Argument(Str s),Argument(D d) -> s<(string_of_float d)
+          | Argument(I i),Argument(Str s) -> (string_of_int i)<s
+          | Argument(D d),Argument(Str s) -> (string_of_float d)<s
+          | _ -> false
+      in create_bool_argument (aux a b);;
+
+   let superior_large a b = 
+      let aux a b =
+        match a,b with 
+          | Argument(I(i)),Argument(I(i')) ->  i>=i'
+          | Argument(I(i)),Argument(D(d)) -> (float_of_int i)>=d
+          | Argument(D(d)),Argument(I(i)) -> d>=(float_of_int i)
+          | Argument(D(d)),Argument(D(d')) -> d>=d'
+          | Argument(Str s),Argument(Str s') -> s>=s'
+          | Argument(Str s),Argument(I i) -> s>=(string_of_int i)
+          | Argument(Str s),Argument(D d) -> s>=(string_of_float d)
+          | Argument(I i),Argument(Str s) -> (string_of_int i)>=s
+          | Argument(D d),Argument(Str s) -> (string_of_float d)>=s
+          | _ -> false
+      in create_bool_argument (aux a b);;
+
+   let superior a b = 
+      let aux a b =
+        match a,b with 
+          | Argument(I(i)),Argument(I(i')) ->  i>i'
+          | Argument(I(i)),Argument(D(d)) -> (float_of_int i)>d
+          | Argument(D(d)),Argument(I(i)) -> d>(float_of_int i)
+          | Argument(D(d)),Argument(D(d')) -> d>d'
+          | Argument(Str s),Argument(Str s') -> s>s'
+          | Argument(Str s),Argument(I i) -> s>(string_of_int i)
+          | Argument(Str s),Argument(D d) -> s>(string_of_float d)
+          | Argument(I i),Argument(Str s) -> (string_of_int i)>s
+          | Argument(D d),Argument(Str s) -> (string_of_float d)>s
+          | _ -> false
+      in create_bool_argument (aux a b);;
+
+    let mult_numbers a b = 
+      match a,b with 
+        | Argument(I(i)),Argument(I(i')) -> create_int_argument (i * i')
+        | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) *. d)
+        | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) *. d)
+        | Argument(D(d)),Argument(D(d')) -> create_float_argument (d *. d')
+        | _ -> Exception "not numbers"
+
+    
+    let expn a b = 
+      match a,b with 
+        | Argument(I(i)),Argument(I(i')) -> create_int_argument (int_of_float(float_of_int i ** float_of_int i'))
+        | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) ** d)
+        | Argument(D(d)),Argument(I(i)) -> create_float_argument (d ** (float_of_int i))
+        | Argument(D(d)),Argument(D(d')) -> create_float_argument (d ** d')
+        | _ -> Exception "not numbers"
+
+
+    let divide_numbers a b = 
+      match a,b with 
+        | Argument(I(i)),Argument(I(i')) -> create_int_argument (i/i')
+        | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) /. d)
+        | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) /. d)
+        | Argument(D(d)),Argument(D(d')) -> create_float_argument (d /. d')
+        | _ -> Exception "not numbers"
+
+    let substract_numbers a b = 
+      match a,b with
+        | Argument(I(i)),Argument(I(i')) -> create_int_argument (i - i')
+        | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) -. d)
+        | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) -. d)
+        | Argument(D(d)),Argument(D(d')) -> create_float_argument (d -. d')
+        | _ -> Exception "not numbers"
+  
+    let apply_binary_operator operator a b = 
+      match a,b with 
+        | Argument(Bool b),Argument(Bool b') -> create_bool_argument (operator b b')
+        | _ -> Exception "not booleans";;
+    
+    let apply_unary_operator operator a = 
+      match a with 
+        | Argument(Bool b) -> create_bool_argument (operator b)
+        | _ -> Exception "not boolean"
+      
     let parse_file list_of_tokens = 
       let rec aux acc lst = 
         match lst with
-          | [] -> acc
+          | [] -> acc;
           | Token.SEMI_COLON::[] -> acc
           | Token.SEMI_COLON::q -> let rest,accs = parse_line q in aux (acc @ accs) rest
           | _::q -> aux acc q

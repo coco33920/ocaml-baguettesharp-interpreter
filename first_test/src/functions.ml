@@ -38,7 +38,7 @@ let printf list_of_arguments =
   
 let verify_goto list_of_arguments =
   let a = List.hd list_of_arguments in 
-  match a with Parser.Argument(Parser.I i) -> Parser.Argument(Parser.I i) | _ -> Parser.Exception "argument must be an integer";; 
+  match a with Parser.Argument(Parser.I i) -> Parser.GOTO i | _ -> Parser.Exception "argument must be an integer";; 
   
 let add_variable list_of_arguments = 
   if List.length list_of_arguments < 2 then Parser.Exception "not enough arguments"
@@ -53,7 +53,7 @@ let read_variable list_of_arguments =
 
  let read_entry () = 
   let a = read_line () in
-  try Parser.Argument (Parser.D (float_of_string (String.trim a))) with Failure _ -> (try Parser.Argument (Parser.I (int_of_string ((String.trim a)))) with Failure _ -> Parser.Argument (Parser.Str a))
+  try Parser.create_float_argument (float_of_string (String.trim a)) with Failure _ -> (try (Parser.create_float_argument (float_of_string (String.trim a)) ) with Failure _ -> Parser.create_string_argument a)
 
 let recognize_function name list_of_args =
 match (String.trim name) with

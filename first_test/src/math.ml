@@ -1,8 +1,6 @@
 module Math = struct
 include Token
 include Parser
-
-
     let argument_to_float a =
       match a with
         | Parser.Argument (Parser.I(i)) -> float_of_int i
@@ -29,48 +27,29 @@ include Parser
       !a.((n+1) mod 2);;
 
     let add list_of_arguments = 
-      let rec aux acc list =
+      let rec aux acc list = 
         match list with 
-          | [] -> Parser.Argument (Parser.D acc)
-          | (Parser.CallExpression _)::_ -> Parser.Exception "callexpressions are illegal"
-          | (Parser.Argument (Parser.I(i)))::q -> aux (acc +. float_of_int i) q
-          | (Parser.Argument (Parser.D(d)))::q -> aux (acc +. d) q
-          | (Parser.Argument (Parser.Str(_)))::_ -> Parser.Exception "add cannot take string arguments"
-          | (Parser.Argument (Parser.Nul(())))::q -> aux acc q
-          | (Parser.GOTO(_))::_ -> Parser.Exception "goto are illegals"
-          | (Parser.Argument (Parser.Bool _))::_ -> Parser.Exception "add cannot take boolean arguments"
-          | _ -> Parser.Exception "argument not recognized"
-      in aux 0. list_of_arguments;;
-
-
+          | [] -> acc
+          | arg::q -> aux (Parser.add_numbers arg acc) q
+      in aux (Parser.create_int_argument 0) list_of_arguments
+    
+    
     let mult list_of_arguments = 
-      let rec aux acc list =
-        match list with
-          | [] -> Parser.Argument (Parser.D (acc)) 
-          | (Parser.CallExpression _)::_ -> Parser.Exception "callexpression are illegal"
-          | (Parser.Argument (Parser.I(i)))::q -> aux (acc *. (float_of_int i)) q
-          | (Parser.Argument (Parser.D(d)))::q -> aux (acc *. d) q
-          | (Parser.Argument (Parser.Str(_)))::_ -> Parser.Exception "mult cannot take string arguments"
-          | (Parser.Argument (Parser.Nul(())))::q -> aux acc q
-          | Parser.GOTO(_)::_ -> Parser.Exception "goto are illegals"
-          | (Parser.Argument (Parser.Bool _))::_ -> Parser.Exception "mult cannot take boolean arguments"
-          | _ -> Parser.Exception "argument not recognized"
-      in aux 1. list_of_arguments;;
+      let rec aux acc list = 
+        match list with 
+          | [] -> acc
+          | arg::q -> aux (Parser.mult_numbers arg acc) q
+      in aux (Parser.create_int_argument 1) list_of_arguments
 
     let fibonacci list_of_arguments = 
       if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
-      else let a = List.hd list_of_arguments in match a with (Parser.Argument(Parser.I(i))) -> Parser.Argument(Parser.I(fibo i)) | _ -> Parser.Exception "argument must be an integer";;
+      else let a = List.hd list_of_arguments in match a with (Parser.Argument(Parser.I(i))) -> Parser.create_int_argument (fibo i) | _ -> Parser.Exception "argument must be an integer";;
 
     let power list_of_arguments = 
       if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
-      else let a,b = List.hd list_of_arguments, List.tl list_of_arguments in let c = List.hd b in 
-        match a,c with 
-          | Parser.Argument(Parser.I(i)),Parser.Argument(Parser.I(j)) -> Parser.Argument (Parser.D (float_of_int i ** float_of_int j))
-          | Parser.Argument(Parser.I(i)),Parser.Argument(Parser.D(d)) -> Parser.Argument (Parser.D (float_of_int i ** d))
-          | Parser.Argument(Parser.D(d)),Parser.Argument(Parser.I(i)) -> Parser.Argument (Parser.D (d ** float_of_int i))
-          | Parser.Argument(Parser.D(d)),Parser.Argument(Parser.D(d2)) -> Parser.Argument (Parser.D (d ** d2))
-          | _ -> Parser.Exception "arguments must be numbers";;
+      else let a,b = List.hd list_of_arguments, List.tl list_of_arguments in let c = List.hd b in Parser.expn a c;;
 
+    
     let sqrt list_of_arguments = 
       if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
       else let a = List.hd list_of_arguments in
@@ -83,13 +62,13 @@ include Parser
     let substract list_of_arguments = 
       if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
-      let head2 = List.hd tail in let a,b = (arguments_to_float head head2) in Parser.Argument (Parser.D ((a -. b)));;
+      let head2 = List.hd tail in Parser.substract_numbers head head2;;
 
 
     let divide list_of_arguments = 
       if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
-      let head2 = List.hd tail in let a,b = (arguments_to_float head head2) in Parser.Argument (Parser.D ((a /. b)));;
+      let head2 = List.hd tail in Parser.divide_numbers head head2;;
 
 
     let randint list_of_arguments = 
@@ -105,7 +84,7 @@ include Parser
     
     let opposite list_of_arguments = 
       if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
-      else let head = List.hd list_of_arguments in let a = argument_to_float head in Parser.Argument (Parser.D (-1. *. a));;
+      else let head = List.hd list_of_arguments in Parser.mult_numbers (Parser.create_int_argument (-1)) head;;
   
     let floor list_of_arguments = 
       if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
@@ -114,10 +93,6 @@ include Parser
     let ceil list_of_arguments = 
       if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
       else let head = List.hd list_of_arguments in let a = argument_to_float head in Parser.Argument (Parser.I (int_of_float (ceil a)));;
-  
-
-
-
 
   end
 
