@@ -17,7 +17,7 @@ module Interpreter = struct
     let i = ref 0 in
     while !i <= (n-1) do
       let exec = exec_node array_of_node.(!i) in match exec with 
-        | Parser.GOTO w -> i := w; print_string ("goto"^(string_of_int w))
+        | Parser.GOTO w -> i := w-1;
         | _ -> i := !i + 1
     done;
     ();;

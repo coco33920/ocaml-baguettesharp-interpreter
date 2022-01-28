@@ -10,6 +10,7 @@ module Condition = struct
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> i = i'
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.D(d)) -> float_of_int i = d
           | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.I(i)) -> d = float_of_int i
+          | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.D(d')) -> d = d'
           | Parser.Argument (Parser.Str(s)),Parser.Argument (Parser.Str(s')) -> String.equal s s'
           | Parser.Argument (Parser.Bool(f)),Parser.Argument (Parser.Bool(f')) -> f = f'
           | _ -> failwith "Arguments are not comparable";;
@@ -22,6 +23,7 @@ module Condition = struct
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> i <= i'
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.D(d)) -> float_of_int i <= d
           | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.I(i)) -> d <= float_of_int i
+          | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.D(d')) -> d <= d'
           | Parser.Argument (Parser.Str(s)),Parser.Argument (Parser.Str(s')) -> s <= s'
           | _ -> failwith "Arguments are not comparable";;
 
@@ -34,6 +36,7 @@ module Condition = struct
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> i < i'
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.D(d)) -> float_of_int i < d
           | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.I(i)) -> d < float_of_int i
+          | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.D(d')) -> d < d'
           | Parser.Argument (Parser.Str(s)),Parser.Argument (Parser.Str(s')) -> s < s'
           | _ -> failwith "Arguments are not comparable";;
 
@@ -46,6 +49,7 @@ module Condition = struct
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> i >= i'
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.D(d)) -> float_of_int i >= d
           | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.I(i)) -> d >= float_of_int i
+          | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.D(d')) -> d >= d'
           | Parser.Argument (Parser.Str(s)),Parser.Argument (Parser.Str(s')) -> s >= s'
           | _ -> failwith "Arguments are not comparable";;
 
@@ -58,6 +62,7 @@ module Condition = struct
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> i > i'
           | Parser.Argument (Parser.I(i)),Parser.Argument (Parser.D(d)) -> float_of_int i > d
           | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.I(i)) -> d > float_of_int i
+          | Parser.Argument (Parser.D(d)),Parser.Argument (Parser.D(d')) -> d > d'
           | Parser.Argument (Parser.Str(s)),Parser.Argument (Parser.Str(s')) -> s > s'
           | _ -> failwith "Arguments are not comparable";;
 
@@ -94,5 +99,14 @@ module Condition = struct
         match head with 
           | Parser.Argument (Parser.Bool(b)) -> not b
           | _ -> failwith "Argument must be boolean";;
+
+    let if_funct list_of_arguments = 
+      if List.length list_of_arguments < 3 then failwith "not enough arguments"
+      else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
+      in let head2,tl2 = List.hd tail,List.tl tail in let head3 = List.hd tl2 in 
+        match head,head2,head3 with 
+          | Parser.Argument (Parser.Bool(b)),Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> if b then Parser.GOTO i else Parser.GOTO i'
+          | _ -> failwith "if structure is IF BOOL INT INT"
+
 
 end
