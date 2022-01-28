@@ -3,3 +3,5 @@
 baguette-sharp/
 _build/
 first_test/install.sh
+*.bc
+baguette_sharp
