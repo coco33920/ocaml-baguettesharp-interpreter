@@ -74,13 +74,12 @@ let fill = (list_of_funct,[
   "\"";
  ]) |> (fun (a,b) -> List.combine a b) |> (List.iter (fun (a,b) -> Hashtbl.add hash_table a b))
   
-let usage_message = "baguette-sharp -input <filename>";;
+let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
-let repl = ref false;;
+let output_file = ref "";;
 
-let spec = [("-repl", Arg.Set repl, "lance le repl"); ("-input", Arg.Set_string input_file, "precise le fichier à lancer")]
+let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)")]
 
-let anon_fun (_ : string) = ()
 
 let read_file filename = 
   let lines = ref [] in
@@ -161,7 +160,9 @@ let rec new_repl_funct () =
   ;;
 
 
+let anon_fun (_ : string) = ();;
 
 let () = 
+  if Array.length (Sys.argv) = 1 then new_repl_funct () else
   Arg.parse spec anon_fun usage_message;
-  if !repl then new_repl_funct () else parse_file !input_file;;
+  parse_file !input_file;;
