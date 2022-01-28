@@ -76,9 +76,12 @@ let fill = (list_of_funct,[
   
 let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
+let print_about () = print_string "Baguette# Version 1.0 by Charlotte THOMAS"
 let output_file = ref "";;
 
-let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)")]
+let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");
+("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)");
+("--version", Arg.Unit print_about, "print version and about the software")]
 
 
 let read_file filename = 
@@ -96,7 +99,7 @@ let parse_file file =
   let lines = read_file file in 
   let str = String.concat " " lines in
   let token_list = Lexer.generate_token str in
-  if (not (Lexer.validate_parenthesis_and_quote token_list)) then failwith "parenthésage invalide"
+  if (not (Lexer.validate_parenthesis_and_quote token_list)) then print_string "parenthésage invalide"
   else (
     let ast = Parser.parse_file token_list in 
     let _ = Interpreter.runtime ast in () 
@@ -165,4 +168,4 @@ let anon_fun (_ : string) = ();;
 let () = 
   if Array.length (Sys.argv) = 1 then new_repl_funct () else
   Arg.parse spec anon_fun usage_message;
-  parse_file !input_file;;
+  try parse_file !input_file with _ -> ();;
