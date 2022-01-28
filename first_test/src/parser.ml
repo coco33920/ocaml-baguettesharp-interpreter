@@ -2,7 +2,7 @@ module Parser = struct
   include Token
 
   type arguments = Str of string | I of int | Nul of unit | D of float | Bool of bool;;
-  type parameters = CallExpression of string | Argument of arguments | GOTO of int;;
+  type parameters = CallExpression of string | Argument of arguments | GOTO of int | Exception of string;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
   let parse_string_rec lst = 
@@ -58,6 +58,7 @@ module Parser = struct
           | CallExpression s -> "Fonction: " ^ s
           | Argument s -> "Argument: " ^ print_argument s
           | GOTO i -> "GOTO: " ^ (string_of_int i)
+          | Exception s -> "Exception " ^ s 
 
       let print_pretty_arguments param = 
         String.concat " " (List.map print_parameter param);;
