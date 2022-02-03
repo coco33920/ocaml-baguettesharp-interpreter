@@ -2,7 +2,7 @@
 */.merlin
 baguette-sharp/
 _build/
-first_test/install.sh
+install.sh
 *.bc
-.vscode/*
+.vscode/
 baguette_sharp
