@@ -1,4 +1,5 @@
 open Baguette_sharp
+open Baguette_base
 include Token 
 include Parser
 include Lexer
@@ -31,7 +32,7 @@ let list_of_funct = [
   "FLAN";
   "PAINDEPICE";
   "CREPE";
-  "CHAUSSONAUPOMME";
+  "CHAUSSONAUXPOMMES";
   "SABLE";
   "CHOUQUETTE";
   "CLAFOUTIS";
@@ -138,7 +139,7 @@ let rec new_repl_funct () =
   in LNoise.history_set ~max_length:100 |> ignore;
   print_endline "### Welcome to Baguette# REPL; type help for help ###"; print_newline ();
     
-  LNoise.set_hints_callback (fun line -> 
+  LNoise.set_hints_callback (fun line ->
     let a =  String.trim @@ List.hd @@ List.rev @@ (String.split_on_char ' ') @@ line in 
     try let v = Hashtbl.find hash_table a in Some (" >> "^v,LNoise.Green,false) with _ -> None
   );
@@ -146,7 +147,7 @@ let rec new_repl_funct () =
   LNoise.set_completion_callback (fun line_so_far in_completion ->
     let line = line_so_far |> String.split_on_char ' ' |> Array.of_list |> (fun arr -> arr.(Array.length arr - 1) <- ""; arr) |> Array.to_list |> String.concat " " in
     let current_word = List.hd @@ List.rev @@ String.split_on_char ' ' @@ line_so_far in
-    if line_so_far <> "" 
+    if line_so_far <> ""
       then list_of_funct |> List.filter (String.starts_with ~prefix:current_word) |> List.map (String.cat line) |> List.iter (LNoise.add_completion in_completion)
   );
 

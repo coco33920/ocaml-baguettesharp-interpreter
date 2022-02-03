@@ -1,8 +1,9 @@
-open Baguette_sharp
+open Baguette_base
+open Baguette_compiler
 include Lexer
 include Token
 include Parser
-include Interpreter
+include Compiler 
 
 (**)
 
@@ -16,7 +17,7 @@ let read_file filename =
   with End_of_file ->
     close_in chan;
     List.rev !lines ;;
-let str = String.concat " " (read_file "/home/charlotte/test.bag")
+let str = "CROISSANT CHOUQUETTE CANELE CHOUQUETTE 2 3 4 5 CLAFOUTIS CLAFOUTIS BAGUETTE"
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 let print_token_list list =
   let rec str acc list = 
@@ -43,5 +44,5 @@ let _ = List.map funct new_ast;;
 let () = print_string "Test de l'interpréteur"; print_newline ()
 
 (*let _ = Interpreter.exec_node (List.hd new_ast)*)
-let _ = Interpreter.runtime new_ast
+(*let _ = Compiler.compile new_ast "out.c";;*)
 

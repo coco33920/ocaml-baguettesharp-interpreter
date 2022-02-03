@@ -1,4 +1,5 @@
 module Functions = struct 
+open Baguette_base
 include Token
 include Parser
 include Math
@@ -85,9 +86,11 @@ match (String.trim name) with
   | "FLAN" -> Condition.binary_and list_of_args
   | "PAINDEPICE" -> Condition.binary_or list_of_args
   | "CREPE" -> Condition.binary_xor list_of_args
-  | "CHAUSSONAUPOMME" -> Condition.binary_not list_of_args
+  | "CHAUSSONAUXPOMMES" -> Condition.binary_not list_of_args
   | "SABLE" -> Condition.if_funct list_of_args
 
   | _ -> Exception "unknown function";;
+
+
 
 end
