@@ -33,7 +33,7 @@ module Condition = struct
       else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
       in let head2,tl2 = List.hd tail,List.tl tail in let head3 = List.hd tl2 in 
         match head,head2,head3 with 
-          | Parser.Argument (Parser.Bool(b)),Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> if b then (Parser.GOTO i) else (Parser.GOTO i')
+          | Parser.Argument (Parser.Bool(b)),Parser.Argument (Parser.Str(i)),Parser.Argument (Parser.Str(i')) -> if b then (Parser.GOTO i) else (Parser.GOTO i')
           | _ -> Parser.Exception "if structure is IF BOOL INT INT"
 
 

@@ -2,6 +2,7 @@ module Token = struct
   type token_type = 
     | LEFT_PARENTHESIS
     | RIGHT_PARENTHESIS
+    | KEYWORD of string
     | QUOTE
     | SEMI_COLON
     | INT_TOKEN of int
@@ -10,17 +11,22 @@ module Token = struct
     | STRING_TOKEN of string
     | BOOL_TOKEN of bool
 
-  let string_to_token str = match (String.trim str) with
+ 
+
+  let string_to_token str = 
+    match (String.trim str) with
     | "CHOUQUETTE" -> LEFT_PARENTHESIS
     | "CLAFOUTIS" -> RIGHT_PARENTHESIS
     | "PARISBREST" -> QUOTE
     | "BAGUETTE" -> SEMI_COLON
     | "CUPCAKE" -> BOOL_TOKEN true
     | "POPCAKE" -> BOOL_TOKEN false 
+    | "MUFFIN" -> KEYWORD "BEGIN"
+    | "COOKIES" -> KEYWORD "END"
+    | "ICECREAM" -> KEYWORD "LABEL"
+    | "PAINVIENNOIS" -> KEYWORD "GOTO"
     | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
-
-
 
   let token_to_string = function
     | LEFT_PARENTHESIS -> "{(}"
@@ -31,6 +37,7 @@ module Token = struct
     | FLOAT_TOKEN(i) -> "{Float " ^ string_of_float i ^ "}"
     | STRING_TOKEN (s) -> "{String \"" ^ s ^ "\"}"
     | BOOL_TOKEN f -> "{Bool: " ^ string_of_bool f ^ "}"
+    | KEYWORD k -> "{KEYWORD: " ^ k ^ "}"
     | _ -> ""
   
   let token_to_litteral_string = function
@@ -41,6 +48,7 @@ module Token = struct
     | STRING_TOKEN (s) -> s 
     | FLOAT_TOKEN d -> string_of_float d ^ " "
     | BOOL_TOKEN f -> string_of_bool f ^ " "
+    | KEYWORD k -> k ^ " "
     | _ -> ""
 
     

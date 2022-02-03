@@ -2,9 +2,9 @@ module Lexer = struct
   include Token
   let read_token word in_quote = 
     match (Token.string_to_token word) with
-      | NULL_TOKEN -> (Token.STRING_TOKEN(word ^ " "),0)
+      | NULL_TOKEN -> (Token.STRING_TOKEN(word),0)
       | QUOTE -> (QUOTE,1)
-      | token -> if in_quote then (Token.STRING_TOKEN(word ^ " "),0) else (token,0);;
+      | token -> if in_quote then (Token.STRING_TOKEN(word),0) else (token,0);;
 
   let generate_token input_string = 
     let lst = String.split_on_char ' ' input_string in

@@ -2,32 +2,49 @@ module Parser = struct
   include Token
 
   type arguments = Str of string | I of int | Nul of unit | D of float | Bool of bool;;
-  type parameters = CallExpression of string | Argument of arguments | GOTO of int | Exception of string;;
+  type parameters = CallExpression of string | Argument of arguments | GOTO of string | Exception of string | Label of string;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
   let parse_string_rec lst = 
-    let rec parse acc lsts = 
+    let rec parse acc lsts =
       match lsts with 
-        | [] -> ( acc,[])
-        | Token.QUOTE::q -> (acc,q)
-        | token::q -> parse (acc ^ (Token.token_to_litteral_string token)) q
+        | [] -> (String.trim acc,[])
+        | Token.QUOTE::q -> (String.trim acc,q)
+        | token::q -> parse (acc ^ " " ^ (Token.token_to_litteral_string token)) q
     in parse "" lst;;
     
     (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
+     (*
+  LABEL 0
+  BEGIN
+  LIGNE1
+  LIGNE2
+  LIGNE3
+  END
+  *)
     let parse_line lst = 
-      let rec aux last_token acc lst = 
+      let rec aux last_token acc lst =
         match lst with
           | [] -> lst,List.rev acc
           | Token.LEFT_PARENTHESIS::q -> (match last_token with 
             | Token.STRING_TOKEN s -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in (aux Token.NULL_TOKEN (Node(CallExpression s, accs)::(List.tl acc)) rest)
             | _ -> aux Token.LEFT_PARENTHESIS acc q)
           | Token.RIGHT_PARENTHESIS::q -> q,List.rev acc
-          | Token.QUOTE::q -> let str,q2 = parse_string_rec q in aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2
+          | (Token.KEYWORD k)::q when String.equal k "LABEL" -> aux (Token.KEYWORD k) acc q
+          | (Token.KEYWORD k)::q when String.equal k "END" -> q,List.rev acc
+          | (Token.KEYWORD k)::q when String.equal k "BEGIN" -> (match last_token with 
+            | Token.KEYWORD k -> aux (Token.KEYWORD k) acc q
+            | _ -> q,[Node(Exception "error syntax", [Nil])])
+          | Token.QUOTE::q -> let str,q2 = parse_string_rec q in (match last_token with
+            | Token.KEYWORD k when k="LABEL" -> let rest,accs = aux (Token.KEYWORD k) [] q2 in if List.length acc > 0 then (aux Token.NULL_TOKEN (Node(Label str, accs)::(List.tl acc)) rest) else aux (Token.NULL_TOKEN) [Node(Label str, accs)] rest
+            | Token.KEYWORD k when k="GOTO" -> aux (Token.KEYWORD k) (Node(GOTO str, [Nil])::acc) q2
+            | _ -> aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2)
           | Token.SEMI_COLON::_ -> lst,List.rev acc
           | (Token.STRING_TOKEN s)::q -> aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
           | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q
           | (Token.FLOAT_TOKEN d)::q -> aux (Token.FLOAT_TOKEN d) (Node(Argument (D d), [Nil])::acc) q
           | (Token.BOOL_TOKEN f)::q -> aux (Token.BOOL_TOKEN f) (Node(Argument (Bool f), [Nil])::acc) q
+          | (Token.KEYWORD k)::q when k="GOTO" -> aux (Token.KEYWORD k) acc q
           | _::q -> q,List.rev acc 
       in aux Token.NULL_TOKEN [] lst;;
 
@@ -193,8 +210,9 @@ module Parser = struct
         match param with 
           | CallExpression s -> "Fonction: " ^ s
           | Argument s -> "Argument: " ^ print_argument s
-          | GOTO i -> "GOTO: " ^ (string_of_int i)
+          | GOTO i -> "GOTO: " ^ i
           | Exception s -> "Exception " ^ s 
+          | Label i -> "LABEL: " ^ i
 
       let print_pretty_arguments param = 
         String.concat " " (List.map print_parameter param);;
