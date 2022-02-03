@@ -25,6 +25,8 @@ module Token = struct
     | "COOKIES" -> KEYWORD "END"
     | "ICECREAM" -> KEYWORD "LABEL"
     | "PAINVIENNOIS" -> KEYWORD "GOTO"
+    | "SABLE" -> KEYWORD "IF"
+    | "FRAMBOISIER" -> KEYWORD "THEN"
     | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
 

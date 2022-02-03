@@ -82,7 +82,6 @@ match (String.trim name) with
   | "PAINDEPICE" -> Condition.binary_or list_of_args
   | "CREPE" -> Condition.binary_xor list_of_args
   | "CHAUSSONAUXPOMMES" -> Condition.binary_not list_of_args
-  | "SABLE" -> Condition.if_funct list_of_args
 
   | _ -> Exception "unknown function";;
 

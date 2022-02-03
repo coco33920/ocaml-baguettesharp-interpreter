@@ -17,7 +17,9 @@ let read_file filename =
   with End_of_file ->
     close_in chan;
     List.rev !lines ;;
-let str = "ICECREAM PARISBREST test PARISBREST MUFFIN CROISSANT CHOUQUETTE PARISBREST hey PARISBREST CLAFOUTIS CROISSANT CHOUQUETTE PARISBREST heyyyy PARISBREST CLAFOUTIS COOKIES BAGUETTE CROISSANT CHOUQUETTE PARISBREST hey2 PARISBREST CLAFOUTIS BAGUETTE PAINVIENNOIS PARISBREST test PARISBREST BAGUETTE"
+
+let str = ""
+let str = str |> String.split_on_char '\n' |> List.map String.trim |> String.concat " "
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 let print_token_list list =
   let rec str acc list = 
