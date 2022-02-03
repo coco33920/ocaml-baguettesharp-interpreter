@@ -1,3 +1,0 @@
-(library
- (name baguette_compiler)
- (libraries baguette_base baguette_functions fmt str))

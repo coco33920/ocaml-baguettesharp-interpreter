@@ -1,9 +1,9 @@
 open Baguette_base
-open Baguette_compiler
+open Baguette_sharp
 include Lexer
 include Token
 include Parser
-include Compiler 
+include Interpreter
 
 (**)
 
@@ -43,6 +43,5 @@ let _ = List.map funct new_ast;;
 
 let () = print_string "Test de l'interpréteur"; print_newline ()
 
-(*let _ = Interpreter.exec_node (List.hd new_ast)*)
-(*let _ = Compiler.compile new_ast "out.c";;*)
+let _ = Interpreter.exec_node (List.hd new_ast)
 
