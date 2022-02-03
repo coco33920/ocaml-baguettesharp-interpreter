@@ -1,4 +1,5 @@
 module Math = struct
+open Baguette_base
 include Token
 include Parser
     let argument_to_float a =

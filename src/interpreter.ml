@@ -1,4 +1,6 @@
 module Interpreter = struct
+  open Baguette_base
+  open Baguette_functions
   include Token
   include Parser
   include Functions
@@ -19,7 +21,7 @@ module Interpreter = struct
     while !i <= (n-1) do
       let exec = exec_node array_of_node.(!i) in match exec with 
         | Parser.Exception s -> print_string ("Error: " ^ s); print_newline (); i := n+1; 
-        | Parser.GOTO w -> i := w-1; print_string ("goto " ^ (string_of_int w));
+        | Parser.GOTO w -> i := w-1;
         | _ -> i := !i + 1
     done;
     Functions.main_ram;;

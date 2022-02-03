@@ -1,0 +1,3 @@
+(library
+ (name baguette_sharp)
+ (libraries fmt str baguette_base baguette_functions))
