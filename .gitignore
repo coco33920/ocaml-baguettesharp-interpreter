@@ -1,8 +1,0 @@
-.merlin
-*/.merlin
-baguette-sharp/
-_build/
-install.sh
-*.bc
-.vscode/
-baguette_sharp
