@@ -18,8 +18,8 @@ let read_file filename =
     close_in chan;
     List.rev !lines ;;
 
-let str = ""
-let str = str |> String.split_on_char '\n' |> List.map String.trim |> String.concat " "
+let str = read_file "examples/while.baguette"
+let str = str |> List.map String.trim |> String.concat " "
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 let print_token_list list =
   let rec str acc list = 
