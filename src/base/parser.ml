@@ -36,8 +36,7 @@ module Parser = struct
           
           (*KEYWORD and Quote handling*)
           | (Token.KEYWORD k)::q when String.equal k "IF" -> let rest,accs = aux (Token.KEYWORD k) [] q in
-            let acc' = if List.length acc > 0 then List.tl acc else [] in
-             (aux Token.NULL_TOKEN (Node(IF, accs)::acc') rest)
+             (aux Token.NULL_TOKEN (Node(IF, accs)::acc) rest)
 
           | (Token.KEYWORD k)::q when String.equal k "BEGIN" -> 
             (match last_token with 
