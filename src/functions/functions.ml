@@ -36,11 +36,7 @@ let printf list_of_arguments =
   if List.length list_of_arguments < 1 then Parser.Exception "not enough arguments"
   else let hd,tl = List.hd list_of_arguments,List.tl list_of_arguments in 
   match hd with Parser.Argument(Parser.Str s) -> print_string (boucle regexp_d s tl); Parser.Argument(Parser.Nul(print_newline ())) | _ -> Parser.Exception "first argument must be int"
-  
-let verify_goto list_of_arguments =
-  let a = List.hd list_of_arguments in 
-  match a with Parser.Argument(Parser.I i) -> Parser.GOTO i | _ -> Parser.Exception "argument must be an integer";; 
-  
+    
 let add_variable list_of_arguments = 
   if List.length list_of_arguments < 2 then Parser.Exception "not enough arguments"
   else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
@@ -59,7 +55,6 @@ let read_variable list_of_arguments =
 let recognize_function name list_of_args =
 match (String.trim name) with
   | "PAINAUCHOCOLAT" -> printf list_of_args (*IO + GOTO*)
-  | "PAINVIENNOIS" -> verify_goto list_of_args
   | "CROISSANT" -> print list_of_args
   | "MADELEINE" -> read_variable list_of_args
   | "ECLAIR" -> read_entry ()
@@ -87,7 +82,6 @@ match (String.trim name) with
   | "PAINDEPICE" -> Condition.binary_or list_of_args
   | "CREPE" -> Condition.binary_xor list_of_args
   | "CHAUSSONAUXPOMMES" -> Condition.binary_not list_of_args
-  | "SABLE" -> Condition.if_funct list_of_args
 
   | _ -> Exception "unknown function";;
 

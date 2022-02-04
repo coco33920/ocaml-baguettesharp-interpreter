@@ -97,8 +97,7 @@ let read_file filename =
     List.rev !lines ;;
 
 let parse_file file = 
-  let lines = read_file file in 
-  let str = String.concat " " lines in
+  let str = read_file file |> List.map String.trim |> String.concat " " in
   let token_list = Lexer.generate_token str in
   if (not (Lexer.validate_parenthesis_and_quote token_list)) then print_string "parenthésage invalide"
   else (
@@ -107,7 +106,7 @@ let parse_file file =
   );;
 
 let parse_line line = 
-  let str = line in
+  let str = String.trim line in
   let token_list = Lexer.generate_token str in 
   if (not (Lexer.validate_parenthesis_and_quote token_list)) then (print_string "parenthésage invalide"; Hashtbl.create 1)
   else (

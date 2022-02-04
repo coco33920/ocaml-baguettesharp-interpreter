@@ -17,7 +17,9 @@ let read_file filename =
   with End_of_file ->
     close_in chan;
     List.rev !lines ;;
-let str = "CROISSANT CHOUQUETTE CANELE CHOUQUETTE 2 3 4 5 CLAFOUTIS CLAFOUTIS BAGUETTE"
+
+let str = read_file "examples/while.baguette"
+let str = str |> List.map String.trim |> String.concat " "
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
 let print_token_list list =
   let rec str acc list = 
@@ -43,5 +45,5 @@ let _ = List.map funct new_ast;;
 
 let () = print_string "Test de l'interpréteur"; print_newline ()
 
-let _ = Interpreter.exec_node (List.hd new_ast)
+let _ = Interpreter.runtime new_ast
 

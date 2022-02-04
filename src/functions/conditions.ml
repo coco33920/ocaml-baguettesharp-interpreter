@@ -28,13 +28,5 @@ module Condition = struct
       if List.length list_of_arguments < 1 then Parser.Exception "not enough arguments"
       else let head = List.hd list_of_arguments in Parser.apply_unary_operator (not) head
 
-    let if_funct list_of_arguments =
-      if List.length list_of_arguments < 3 then Parser.Exception "not enough arguments"
-      else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
-      in let head2,tl2 = List.hd tail,List.tl tail in let head3 = List.hd tl2 in 
-        match head,head2,head3 with 
-          | Parser.Argument (Parser.Bool(b)),Parser.Argument (Parser.I(i)),Parser.Argument (Parser.I(i')) -> if b then (Parser.GOTO i) else (Parser.GOTO i')
-          | _ -> Parser.Exception "if structure is IF BOOL INT INT"
-
 
 end
