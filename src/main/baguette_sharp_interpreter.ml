@@ -118,15 +118,14 @@ let fuse_hash_tbl original new_one =
   Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
 
 let display_help () =
-  print_string "### Baguette# Interpreter REPL Command Help ###";
-  print_newline ();
-  print_string "~ help: show this help"; print_newline();
-  print_string "~ load <file>: load and execute a baguette file"; print_newline ();
-  print_string "~ exit: exit the REPL"; print_newline ();
-  print_string "~ save <file>: save the history in file"; print_newline ();;
+  print_endline "### Baguette# Interpreter REPL Command Help ###";
+  print_endline "~ help: show this help";
+  print_endline "~ load <file>: load and execute a baguette file";
+  print_endline "~ exit: exit the REPL";
+  print_endline "~ save <file>: save the history in file";;
 
 let load_file lst = 
-  if List.length lst < 2 then print_string "not enough args"
+  if List.length lst < 2 then print_endline "not enough args"
   else (
     let tl = List.tl lst in let file = List.hd tl in parse_file file
   );;
@@ -157,7 +156,7 @@ let rec new_repl_funct () =
         | "help" -> display_help ()
         | "load" -> load_file lst
         | "exit" -> exit 0
-        | "save" -> if List.length lst < 2 then print_string "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
+        | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
         | _ -> let ram = parse_line from_user in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
     ) |> user_input "> "
   ;;
