@@ -15,7 +15,7 @@ module Interpreter = struct
       | Parser.Node(Parser.CallExpression name, list_of_arguments) -> let new_list = List.map exec_node list_of_arguments in (Functions.recognize_function name (new_list))
       | Parser.Node(Parser.GOTO s, _) -> Parser.GOTO s
       | Parser.Node(Parser.IF, (Parser.Node(Parser.COND, args))::q) -> let arg = List.hd args in let b = exec_node arg in
-        (match b with (Parser.Argument(Parser.Bool b)) -> let i' = string_of_int((Random.int 230)*(Random.int 67)) in Hashtbl.add labels ("if_in_use_"^i') q; if b then Parser.GOTO ("if_in_use_"^i') else Parser.GOTO "else" | _ -> Parser.Exception "error if")
+        (match b with (Parser.Argument(Parser.Bool b)) -> let i' = string_of_int((Random.int 230)*(Random.int 70)) in Hashtbl.add labels ("if_in_use_"^i') q; if b then Parser.GOTO ("if_in_use_"^i') else Parser.GOTO "else" | _ -> Parser.Exception "error if")
       | Parser.Node(Parser.Label s, list_of_arguments) -> Hashtbl.add labels s list_of_arguments; Parser.Argument (Parser.Nul())
       | Parser.Node(Parser.Argument a, _) -> Parser.Argument a
       | _ -> Parser.Argument (Parser.Nul ())
