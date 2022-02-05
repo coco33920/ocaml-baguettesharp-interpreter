@@ -1,0 +1,5 @@
+baguette_sharp
+install.sh
+validate.sh
+_build/*
+.vscode/*
