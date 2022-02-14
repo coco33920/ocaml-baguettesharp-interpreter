@@ -1,5 +1,6 @@
 module Lexer = struct
   include Token
+  open Parser 
   let read_token word in_quote = 
     match (Token.string_to_token word) with
       | NULL_TOKEN -> (Token.STRING_TOKEN(word),0)
@@ -16,9 +17,9 @@ module Lexer = struct
   let validate_parenthesis_and_quote input_token_list = 
     let stack = Stack.create () in
     let rec aux stack acc lst = match lst with 
-      | [] -> Stack.is_empty stack && (acc mod 2)=0
+      | [] -> Parser.create_bool_argument (Stack.is_empty stack && (acc mod 2)=0)
       | Token.LEFT_PARENTHESIS::q -> Stack.push 1 stack; aux stack acc q
-      | Token.RIGHT_PARENTHESIS::q  -> if Stack.is_empty stack then failwith "parenthésage invalide" else (let _ = Stack.pop stack in aux stack acc q)
+      | Token.RIGHT_PARENTHESIS::q  -> if Stack.is_empty stack then Parser.Exception ("parenthésage invalide") else (let _ = Stack.pop stack in aux stack acc q)
       | Token.QUOTE::q -> aux stack (acc+1) q
       | _::q -> aux stack acc q
   in aux stack 0 input_token_list;;

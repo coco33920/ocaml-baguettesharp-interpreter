@@ -33,8 +33,10 @@ let token_list = Lexer.generate_token str
 let () = print_string "Affichage de la liste de token après le tokenizer"; print_newline (); print_token_list (token_list); print_newline (); print_newline ()
 
 let () = print_string "Vérification du parenthésage et des quote"; print_newline ()
-let () = if Lexer.validate_parenthesis_and_quote token_list then print_string "Parenthesage valide" else failwith "parenthesage invalide"; print_newline (); print_newline ()
-
+let () = 
+   match (Lexer.validate_parenthesis_and_quote token_list) with 
+  | Exception s -> print_string s 
+  | _ -> print_string "parenthésage valide"
 let new_ast = (Parser.parse_file token_list)
 
 let () = print_string "Vérification du parsing"; print_newline()
