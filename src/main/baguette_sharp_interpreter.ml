@@ -38,6 +38,8 @@ let list_of_funct = [
   "CLAFOUTIS";
   "PARISBREST";]
 
+let () = list_of_funct |> String.concat " " |> print_string
+
 
 let hash_table = Hashtbl.create 100;;
 let shared_ram = Hashtbl.create 1000;;
@@ -99,20 +101,18 @@ let read_file filename =
 let parse_file file = 
   let str = read_file file |> List.map String.trim |> String.concat " " in
   let token_list = Lexer.generate_token str in
-  if (not (Lexer.validate_parenthesis_and_quote token_list)) then print_string "parenthésage invalide"
-  else (
-    let ast = Parser.parse_file token_list in 
-    let _ = Interpreter.runtime ast in () 
-  );;
+  let a = Lexer.validate_parenthesis_and_quote token_list in 
+  match a with 
+    | Exception s -> print_string s
+    | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
 let parse_line line = 
   let str = String.trim line in
-  let token_list = Lexer.generate_token str in 
-  if (not (Lexer.validate_parenthesis_and_quote token_list)) then (print_string "parenthésage invalide"; Hashtbl.create 1)
-  else (
-    let ast = Parser.parse_file token_list in
-    let ram = Interpreter.runtime ast in ram
-  );;
+  let token_list = Lexer.generate_token str in
+  let a = Lexer.validate_parenthesis_and_quote token_list in 
+  match a with 
+    | Exception s -> print_string s; Hashtbl.create 1
+    | _ -> Parser.parse_file token_list |> Interpreter.runtime;;
 
 let fuse_hash_tbl original new_one = 
   Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
