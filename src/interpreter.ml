@@ -20,7 +20,7 @@ module Interpreter = struct
       | Parser.Node(Parser.Argument a, _) -> Parser.Argument a
       | _ -> Parser.Argument (Parser.Nul ())
 
-  let rec runtime list_of_node = 
+  let rec runtime ?(repl = false) list_of_node = 
     let array_of_node = Array.of_list list_of_node in 
     let n = Array.length array_of_node in
     let i = ref 0 in
@@ -29,6 +29,9 @@ module Interpreter = struct
         | Parser.Exception s -> print_string ("Error: " ^ s); print_newline (); i := n+1;
         | Parser.GOTO s -> i := !i+1; if not (String.equal s "else") then
           (try let a = Hashtbl.find labels s in runtime a |> ignore with _ -> print_string "label do not exist")
+        | Parser.Argument a -> (match a with
+            | Nul () -> ()
+            | _ -> if repl then print_endline ("val: " ^ Parser.print_argument_for_repl a)); i := !i + 1;
         | _ -> i := !i + 1
     done;
     Functions.main_ram;;

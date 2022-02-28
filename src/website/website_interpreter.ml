@@ -1,7 +1,7 @@
 open Baguette_sharp
 open Baguette_base
 open Js_of_ocaml
-include Token 
+include Token
 include Parser
 include Lexer
 include Interpreter
@@ -57,8 +57,6 @@ let _ =
   print_endline "test";
   Js.export_all
     (object%js
-      method add x y = x +. y
-      method helloworld s = print_endline (Js.to_string s)
       method interpret fn = fn |> Js.to_string |> interpret_file |> ignore
       method call_line str = str |> Js.to_string |> execute_line;
       

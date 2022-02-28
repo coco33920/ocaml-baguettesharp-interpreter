@@ -225,7 +225,13 @@ module Parser = struct
           | Bool b -> "Bool: " ^ string_of_bool b
           | Nul () -> "Nil";;
 
-
+      let print_argument_for_repl arg = 
+        match arg with 
+          | Str s -> "String{" ^ s ^ "}"
+          | I i -> "Int{" ^ string_of_int i ^ "}"
+          | D d -> "Float{" ^ string_of_float d ^ "}"
+          | Bool b -> "Bool{" ^ string_of_bool b ^ "}"
+          | Nul () -> "Unit{}"
       
 
       let print_parameter param = 
