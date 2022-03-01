@@ -3,7 +3,9 @@ open Baguette_base
 include Token
 include Parser
 include Math
+include Array_manipulation
 include Conditions
+include String_manipulation
 
 let main_ram = Hashtbl.create 1000
 
@@ -48,16 +50,18 @@ let read_variable list_of_arguments =
   match head with | Parser.Argument (Parser.Str s) -> (try (Hashtbl.find main_ram s) with Not_found -> Parser.Exception "This variable does not exists")
     | _ -> Parser.Exception "first argument must be a string"
 
- let read_entry () = 
-  let a = read_line () in
-  try Parser.create_float_argument (float_of_string (String.trim a)) with Failure _ -> (try (Parser.create_float_argument (float_of_string (String.trim a)) ) with Failure _ -> Parser.create_string_argument a)
+ let read_entry list_of_args =
+  match list_of_args with 
+  | [] -> (let a = read_line () in
+  try Parser.create_float_argument (float_of_string (String.trim a)) with Failure _ -> (try (Parser.create_int_argument (int_of_string (String.trim a)) ) with Failure _ -> Parser.create_string_argument a))
+  | _ -> let a = read_line () in Parser.create_string_argument a
 
 let recognize_function name list_of_args =
 match (String.trim name) with
   | "PAINAUCHOCOLAT" -> printf list_of_args (*IO + GOTO*)
   | "CROISSANT" -> print list_of_args
   | "MADELEINE" -> read_variable list_of_args
-  | "ECLAIR" -> read_entry ()
+  | "ECLAIR" -> read_entry list_of_args
   
   | "CANELE" -> Math.add list_of_args (*MATH*)
   | "STHONORE" -> Math.mult list_of_args
@@ -82,6 +86,26 @@ match (String.trim name) with
   | "PAINDEPICE" -> Condition.binary_or list_of_args
   | "CREPE" -> Condition.binary_xor list_of_args
   | "CHAUSSONAUXPOMMES" -> Condition.binary_not list_of_args
+
+  | "ACCESS" -> ArrayManipulation.access list_of_args
+  | "REPLACE" -> ArrayManipulation.replace list_of_args
+  | "CREATE" -> ArrayManipulation.create_array list_of_args
+  | "MCREATE" -> ArrayManipulation.create_matrix list_of_args
+  | "DISPLAY" -> ArrayManipulation.display_array list_of_args
+  | "POPULATE" -> ArrayManipulation.populate list_of_args
+
+  | "SREPLACE" -> StringManipulation.replace list_of_args
+  | "SCREATE" -> StringManipulation.create list_of_args
+  | "SADD" -> StringManipulation.concat list_of_args
+  | "SACCESS" -> StringManipulation.access list_of_args
+  | "SPLIT" -> StringManipulation.split list_of_args
+  | "TOARR" -> StringManipulation.transform_to_array list_of_args
+  | "FROMARR" -> StringManipulation.transform_from_array list_of_args
+
+  | "TOSTRING" -> StringManipulation.convert_to_string list_of_args
+  | "IFS" -> StringManipulation.int_from_string list_of_args
+  | "FFS" -> StringManipulation.double_from_string list_of_args
+  | "BFS" -> StringManipulation.bool_from_string list_of_args
 
   | _ -> Exception "unknown function";;
 

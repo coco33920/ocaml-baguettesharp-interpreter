@@ -1,8 +1,9 @@
 module Parser = struct
   include Token
 
+
   type arguments = Str of string | I of int | Nul of unit | D of float | Bool of bool;;
-  type parameters = CallExpression of string | Argument of arguments | GOTO of string | Exception of string | Label of string | IF | COND ;;
+  type parameters = CallExpression of string | Argument of arguments | GOTO of string | Exception of string | Label of string | IF | COND | Array | TBL of parameters array;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
   let parse_string_rec lst = 
@@ -11,8 +12,7 @@ module Parser = struct
         | [] -> (String.trim acc,[])
         | Token.QUOTE::q -> (String.trim acc,q)
         | token::q -> parse (acc ^ " " ^ (Token.token_to_litteral_string token)) q
-    in parse "" lst;;
-    
+    in parse "" lst;;    
     (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
      (*syntax of a label
   LABEL 0
@@ -31,7 +31,9 @@ module Parser = struct
           | Token.LEFT_PARENTHESIS::q -> (match last_token with 
             | Token.STRING_TOKEN s -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in let acc' = if List.length acc > 0 then List.tl acc else [] in (aux Token.NULL_TOKEN (Node(CallExpression s, accs)::acc') rest)
             | _ -> aux Token.LEFT_PARENTHESIS acc q)
+          | Token.ARRAY_BEGIN::q -> let rest,accs = aux Token.ARRAY_BEGIN [] q in (aux Token.NULL_TOKEN (Node(Array, accs)::acc) rest)
           | Token.RIGHT_PARENTHESIS::q -> q,List.rev acc
+          | Token.ARRAY_END::q -> q,List.rev acc
           | Token.SEMI_COLON::_ -> lst,List.rev acc
           
           (*KEYWORD and Quote handling*)
@@ -223,21 +225,37 @@ module Parser = struct
           | I i -> "Int: " ^ string_of_int i
           | D d -> "Float: " ^ string_of_float d
           | Bool b -> "Bool: " ^ string_of_bool b
-          | Nul () -> "Nil";;
+          | Nul () -> "Nil"
+
+      let print_lit_argument arg = 
+        match arg with 
+          | Str s ->  s
+          | I i -> string_of_int i
+          | D d -> string_of_float d
+          | Bool b -> string_of_bool b
+          | Nul () -> "Nil"
 
 
+      let print_argument_for_repl arg = 
+        match arg with 
+          | Str s -> "String{" ^ s ^ "}"
+          | I i -> "Int{" ^ string_of_int i ^ "}"
+          | D d -> "Float{" ^ string_of_float d ^ "}"
+          | Bool b -> "Bool{" ^ string_of_bool b ^ "}"
+          | Nul () -> "Unit{}"
       
 
-      let print_parameter param = 
+      let rec print_parameter ?(fortbl=false) param = 
         match param with 
           | CallExpression s -> "Fonction: " ^ s
-          | Argument s -> "Argument: " ^ print_argument s
+          | Array -> "Array: "
+          | Argument s -> "" ^ if fortbl then print_lit_argument s else print_argument s
           | GOTO i -> "GOTO: " ^ i
           | Exception s -> "Exception " ^ s 
           | Label i -> "LABEL: " ^ i
           | IF -> "IF"
           | COND -> "COND"
-
+          | TBL narr -> "[|" ^ String.concat " " (Array.to_list (Array.map (print_parameter ~fortbl:true) narr)) ^ "|]";;
       let print_pretty_arguments param = 
         String.concat " " (List.map print_parameter param);;
 

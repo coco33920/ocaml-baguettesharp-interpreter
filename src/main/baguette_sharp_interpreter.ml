@@ -38,7 +38,6 @@ let list_of_funct = [
   "CLAFOUTIS";
   "PARISBREST";]
 
-
 let hash_table = Hashtbl.create 100;;
 let shared_ram = Hashtbl.create 1000;;
 let fill = (list_of_funct,[
@@ -104,13 +103,13 @@ let parse_file file =
     | Exception s -> print_string s
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
-let parse_line line = 
+let parse_line line repl = 
   let str = String.trim line in
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
     | Exception s -> print_string s; Hashtbl.create 1
-    | _ -> Parser.parse_file token_list |> Interpreter.runtime;;
+    | _ -> Parser.parse_file token_list |> Interpreter.runtime ~repl:repl;;
 
 let fuse_hash_tbl original new_one = 
   Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
@@ -155,7 +154,7 @@ let rec new_repl_funct () =
         | "load" -> load_file lst
         | "exit" -> exit 0
         | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
-        | _ -> let ram = parse_line from_user in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
+        | _ -> let ram = parse_line from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
     ) |> user_input "> "
   ;;
 
