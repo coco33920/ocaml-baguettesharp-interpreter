@@ -10,7 +10,8 @@ module Token = struct
     | NULL_TOKEN
     | STRING_TOKEN of string
     | BOOL_TOKEN of bool
-
+    | ARRAY_BEGIN 
+    | ARRAY_END
  
 
   let string_to_token str = 
@@ -27,6 +28,8 @@ module Token = struct
     | "PAINVIENNOIS" -> KEYWORD "GOTO"
     | "SABLE" -> KEYWORD "IF"
     | "FRAMBOISIER" -> KEYWORD "THEN"
+    | "[" -> ARRAY_BEGIN
+    | "]" -> ARRAY_END
     | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
 
@@ -40,6 +43,8 @@ module Token = struct
     | STRING_TOKEN (s) -> "{String \"" ^ s ^ "\"}"
     | BOOL_TOKEN f -> "{Bool: " ^ string_of_bool f ^ "}"
     | KEYWORD k -> "{KEYWORD: " ^ k ^ "}"
+    | ARRAY_BEGIN -> "{[}"
+    | ARRAY_END -> "{]}"
     | _ -> ""
   
   let token_to_litteral_string = function
@@ -51,6 +56,8 @@ module Token = struct
     | FLOAT_TOKEN d -> string_of_float d ^ " "
     | BOOL_TOKEN f -> string_of_bool f ^ " "
     | KEYWORD k -> k ^ " "
+    | ARRAY_BEGIN -> "["
+    | ARRAY_END -> "]"
     | _ -> ""
 
     
