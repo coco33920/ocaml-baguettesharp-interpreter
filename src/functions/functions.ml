@@ -87,25 +87,25 @@ match (String.trim name) with
   | "CREPE" -> Condition.binary_xor list_of_args
   | "CHAUSSONAUXPOMMES" -> Condition.binary_not list_of_args
 
-  | "ACCESS" -> ArrayManipulation.access list_of_args
-  | "REPLACE" -> ArrayManipulation.replace list_of_args
-  | "CREATE" -> ArrayManipulation.create_array list_of_args
-  | "MCREATE" -> ArrayManipulation.create_matrix list_of_args
-  | "DISPLAY" -> ArrayManipulation.display_array list_of_args
-  | "POPULATE" -> ArrayManipulation.populate list_of_args
+  | "TARTEAUXFRAISES" -> ArrayManipulation.access list_of_args (*ACCESS*)
+  | "TARTEAUXFRAMBOISES" -> ArrayManipulation.replace list_of_args (*REPLACE*)
+  | "TARTEAUXPOMMES" -> ArrayManipulation.create_array list_of_args (*CREATE*)
+  | "TARTEALARHUBARBE" -> ArrayManipulation.create_matrix list_of_args (*MCREATE*)
+  | "GLACE" -> ArrayManipulation.display_array list_of_args (*DISPLAY*)
+  | "BEIGNET" -> ArrayManipulation.populate list_of_args (*POPULATE*)
 
-  | "SREPLACE" -> StringManipulation.replace list_of_args
-  | "SCREATE" -> StringManipulation.create list_of_args
-  | "SADD" -> StringManipulation.concat list_of_args
-  | "SACCESS" -> StringManipulation.access list_of_args
-  | "SPLIT" -> StringManipulation.split list_of_args
-  | "TOARR" -> StringManipulation.transform_to_array list_of_args
-  | "FROMARR" -> StringManipulation.transform_from_array list_of_args
+  | "DOUGHNUT" -> StringManipulation.replace list_of_args (*SREPLACE*)
+  | "BUCHE" -> StringManipulation.create list_of_args (*SCREATE*)
+  | "GAUFFREDELIEGE" -> StringManipulation.concat list_of_args (*SADD*)
+  | "GAUFFREDEBRUXELLES" -> StringManipulation.access list_of_args (*SACCESS*)
+  | "GAUFFRE" -> StringManipulation.split list_of_args (*SPLIT*)
+  | "PANCAKE" -> StringManipulation.transform_to_array list_of_args (*TOARR*)
+  | "SIROPDERABLE" -> StringManipulation.transform_from_array list_of_args (*FROMARR*)
 
-  | "TOSTRING" -> StringManipulation.convert_to_string list_of_args
-  | "IFS" -> StringManipulation.int_from_string list_of_args
-  | "FFS" -> StringManipulation.double_from_string list_of_args
-  | "BFS" -> StringManipulation.bool_from_string list_of_args
+  | "FROSTING" -> StringManipulation.convert_to_string list_of_args (*TOSTRING*)
+  | "CARROTCAKE" -> StringManipulation.int_from_string list_of_args (*IFS*)
+  | "GALETTEDESROIS" -> StringManipulation.double_from_string list_of_args (*DFS*)
+  | "FRANGIPANE" -> StringManipulation.bool_from_string list_of_args (*BFS*)
 
   | _ -> Exception "unknown function";;
 
