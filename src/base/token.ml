@@ -28,8 +28,8 @@ module Token = struct
     | "PAINVIENNOIS" -> KEYWORD "GOTO"
     | "SABLE" -> KEYWORD "IF"
     | "FRAMBOISIER" -> KEYWORD "THEN"
-    | "[" -> ARRAY_BEGIN
-    | "]" -> ARRAY_END
+    | "BABAAURHUM" -> ARRAY_BEGIN
+    | "CHARLOTTEAUXFRAISES" -> ARRAY_END
     | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
 

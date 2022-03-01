@@ -36,7 +36,27 @@ let list_of_funct = [
   "SABLE";
   "CHOUQUETTE";
   "CLAFOUTIS";
-  "PARISBREST";]
+  "PARISBREST";
+  "TARTEAUXFRAISES";
+  "TARTEAUXFRAMBOISES";
+  "TARTEAUXPOMMES";
+  "TARTEALARHUBARBE";
+  "GLACE";
+  "BEIGNET";
+  "DOUGHNUT";
+  "BUCHE";
+  "GAUFFREDELIEGE";
+  "GAUFFREDEBRUXELLE";
+  "GAUFFRE";
+  "PANCAKE";
+  "SIROPDERABLE";
+  "FROSTING";
+  "CARROTCAKE";
+  "GALETTEDESROIS";
+  "FRANGIPANE";
+  "BABAAURHUM";
+  "CHARLOTTEAUXFRAISES"
+  ]
 
 let hash_table = Hashtbl.create 100;;
 let shared_ram = Hashtbl.create 1000;;
@@ -72,6 +92,25 @@ let fill = (list_of_funct,[
   "(";
   ")";
   "\"";
+  "access <n:int> <arr:array> arr.(n)";
+  "replace <n:int> <arr:array> <el> arr.(n) <- el";
+  "create <n:int> <el> Array.make n el";
+  "mcreate <n:int> <p:int> <el> Array.make_matrix n p el";
+  "display <arr:array> [|el1...eln|]";
+  "populate <arr:array> <el> populate the array arr with el";
+  "replace <s1:string> <s2:string> <s3:string> replace all s2 occurence by s3 in s1";
+  "create <n:int> <s:string> create a string with n times s";
+  "add <s1:string> <s2:string> s1 ^ s2";
+  "access <n:int> <s1:string> s1.[n]";
+  "split <s1:string> <s2:string> split s1 with s2";
+  "toarray <s1:string> convert s1 to an array of chars (string chars)";
+  "fromarray <arr:array> convert arr to a string from the chars";
+  "tostring <el> convert el to a string";
+  "ifs <s:string> convert s to a string";
+  "dfs <s:string> convert s to a float";
+  "bfs <s:string> convert s to a boolean";
+  "[";
+  "]"
  ]) |> (fun (a,b) -> List.combine a b) |> (List.iter (fun (a,b) -> Hashtbl.add hash_table a b))
   
 let usage_message = "baguette-sharp --input <filename>";;
