@@ -2,8 +2,41 @@ module Parser = struct
   include Token
 
 
+  class bag_exception message = 
+    object 
+      val name = "Exception"
+      method to_string = (name ^ " : " ^ message)
+      method get_name = name
+    end
+
+  class outofbound message = 
+    object
+      inherit bag_exception message
+      val! name = "Array Out of Bound Exception"
+    end
+
+  class arg message = 
+    object
+      inherit bag_exception message
+      val! name = "Argument Exception"
+    end
+
+  class type_error message = 
+    object 
+      inherit bag_exception message
+      val! name = "Type Error"
+    end 
+  
+  class syntax_error message =
+    object 
+      inherit bag_exception message
+      val! name = "Syntax Error"
+    end
+
+
+
   type arguments = Str of string | I of int | Nul of unit | D of float | Bool of bool;;
-  type parameters = CallExpression of string | Argument of arguments | GOTO of string | Exception of string | Label of string | IF | COND | Array | TBL of parameters array;;
+  type parameters = CallExpression of string | Argument of arguments | GOTO of string | Exception of bag_exception | Label of string | IF | COND | Array | TBL of parameters array;;
   type 'a ast = Nil | Node of 'a * ('a ast) list;;
 
   let parse_string_rec lst = 
@@ -43,11 +76,11 @@ module Parser = struct
           | (Token.KEYWORD k)::q when String.equal k "BEGIN" -> 
             (match last_token with 
               | Token.KEYWORD k -> aux (Token.KEYWORD k) acc q
-              | _ -> q,[Node(Exception "error syntax", [Nil])])
+              | _ -> q,[Node(Exception (new syntax_error "begin should be preceded by a keyword"), [Nil])])
           
           | (Token.KEYWORD k)::q when String.equal k "THEN" -> 
             (match last_token with 
-              | (Token.KEYWORD k) when String.equal k "IF" -> q,[Node(Exception "error syntax",[Nil])] 
+              | (Token.KEYWORD k) when String.equal k "IF" -> q,[Node(Exception (new syntax_error "then should be preceded by a if keyword"),[Nil])] 
               | _ -> aux (Token.KEYWORD k) [Node(COND, acc)] q)
           
             
@@ -89,7 +122,7 @@ module Parser = struct
         | Argument(Str s),Argument(D d) -> create_string_argument (s ^ (string_of_float d))
         | Argument(I i),Argument(Str s) -> create_string_argument ((string_of_int i) ^ s)
         | Argument(D d),Argument(Str s) -> create_string_argument ((string_of_float d) ^ s)
-        | _ -> Exception "non summable" 
+        | _ -> Exception (new type_error "types non summable")
    
    let equality a b = 
       let aux a b =
@@ -172,7 +205,7 @@ module Parser = struct
         | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) *. d)
         | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) *. d)
         | Argument(D(d)),Argument(D(d')) -> create_float_argument (d *. d')
-        | _ -> Exception "not numbers"
+        | _ -> Exception (new type_error "multiplication needs numbers")
 
     
     let expn a b = 
@@ -181,7 +214,7 @@ module Parser = struct
         | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) ** d)
         | Argument(D(d)),Argument(I(i)) -> create_float_argument (d ** (float_of_int i))
         | Argument(D(d)),Argument(D(d')) -> create_float_argument (d ** d')
-        | _ -> Exception "not numbers"
+        | _ -> Exception (new type_error "exponentiation needs numbers")
 
 
     let divide_numbers a b = 
@@ -190,7 +223,7 @@ module Parser = struct
         | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) /. d)
         | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) /. d)
         | Argument(D(d)),Argument(D(d')) -> create_float_argument (d /. d')
-        | _ -> Exception "not numbers"
+        | _ -> Exception (new type_error "dividing needs numbers")
 
     let substract_numbers a b = 
       match a,b with
@@ -198,17 +231,17 @@ module Parser = struct
         | Argument(I(i)),Argument(D(d)) -> create_float_argument ((float_of_int i) -. d)
         | Argument(D(d)),Argument(I(i)) -> create_float_argument ((float_of_int i) -. d)
         | Argument(D(d)),Argument(D(d')) -> create_float_argument (d -. d')
-        | _ -> Exception "not numbers"
+        | _ -> Exception (new type_error "substract needs numbers")
   
     let apply_binary_operator operator a b = 
       match a,b with 
         | Argument(Bool b),Argument(Bool b') -> create_bool_argument (operator b b')
-        | _ -> Exception "not booleans";;
+        | _ -> Exception (new type_error "you must apply operators to booleans");;
     
     let apply_unary_operator operator a = 
       match a with 
         | Argument(Bool b) -> create_bool_argument (operator b)
-        | _ -> Exception "not boolean"
+        | _ -> Exception (new type_error "you must apply operators to booleans")
       
     let parse_file list_of_tokens = 
       let rec aux acc lst = 
@@ -251,7 +284,7 @@ module Parser = struct
           | Array -> "Array: "
           | Argument s -> "" ^ if fortbl then print_lit_argument s else print_argument s
           | GOTO i -> "GOTO: " ^ i
-          | Exception s -> "Exception " ^ s 
+          | Exception s -> "Exception " ^ (s#get_name)
           | Label i -> "LABEL: " ^ i
           | IF -> "IF"
           | COND -> "COND"

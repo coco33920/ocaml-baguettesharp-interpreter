@@ -139,7 +139,7 @@ let parse_file file =
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
-    | Exception s -> print_string s
+    | Exception s -> print_string (s#to_string)
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
 let parse_line line repl = 
@@ -147,7 +147,7 @@ let parse_line line repl =
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
-    | Exception s -> print_string s; Hashtbl.create 1
+    | Exception s -> print_string (s#to_string); Hashtbl.create 1
     | _ -> Parser.parse_file token_list |> Interpreter.runtime ~repl:repl;;
 
 let fuse_hash_tbl original new_one = 

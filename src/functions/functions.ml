@@ -21,34 +21,34 @@ let rec boucle regex str list =
 
 let rec print list_of_arguments =
   match list_of_arguments with 
-    | [] -> Parser.Argument(Parser.Nul(print_newline ()))
-    | Parser.CallExpression _::_ -> Parser.Exception "callexpressions are illegal"
-    | Parser.GOTO _::_ -> Parser.Exception "goto are illegals"
+    | [] -> Parser.Argument(Parser.Nul(()))
+    | Parser.CallExpression _::_ -> Parser.Exception (new Parser.syntax_error "callexpressions are illegal while printing")
+    | Parser.GOTO _::_ -> Parser.Exception (new Parser.syntax_error "goto are illegal while printing")
     | Parser.Argument Parser.Str s::q -> print_string (s^" "); print q
     | Parser.Argument Parser.I i::q -> print_string((string_of_int i) ^ " "); print q
     | Parser.Argument Parser.D d::q -> print_string((string_of_float d) ^ " "); print q
     | Parser.Argument Parser.Bool f::q -> print_string((string_of_bool f) ^ " "); print q
     | Parser.Argument Parser.Nul ()::q -> print q
-    | _ -> Parser.Exception "error";;
+    | _ -> Parser.Exception (new Parser.type_error "the supplied type is not printable");;
 
 
 (*printf, replace % with arguments*)
 let printf list_of_arguments = 
   let regexp_d = Str.regexp "%d" in
-  if List.length list_of_arguments < 1 then Parser.Exception "not enough arguments"
+  if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires one arguments and you supplied none"))
   else let hd,tl = List.hd list_of_arguments,List.tl list_of_arguments in 
-  match hd with Parser.Argument(Parser.Str s) -> print_string (boucle regexp_d s tl); Parser.Argument(Parser.Nul(print_newline ())) | _ -> Parser.Exception "first argument must be int"
+  match hd with Parser.Argument(Parser.Str s) -> print_string (boucle regexp_d s tl); Parser.Argument(Parser.Nul(print_newline ())) | _ -> Parser.Exception (new Parser.type_error "first argument must be an integer")
     
 let add_variable list_of_arguments = 
-  if List.length list_of_arguments < 2 then Parser.Exception "not enough arguments"
+  if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires one arguments and you supplied none"))
   else let head,tail = List.hd list_of_arguments, List.tl list_of_arguments
-  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> Hashtbl.add main_ram s head2; Parser.Argument(Parser.Nul ()) | _ -> Parser.Exception "first argument must be a string"
+  in let head2 = List.hd tail in match head with | Parser.Argument (Parser.Str (s)) -> Hashtbl.add main_ram s head2; Parser.Argument(Parser.Nul ()) | _ -> Parser.Exception (new Parser.type_error "first argument must be an integer")
 
 let read_variable list_of_arguments = 
-  if List.length list_of_arguments < 1 then Parser.Exception "not enough arguments"
+  if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires one arguments and you supplied none"))
   else let head = List.hd list_of_arguments in 
-  match head with | Parser.Argument (Parser.Str s) -> (try (Hashtbl.find main_ram s) with Not_found -> Parser.Exception "This variable does not exists")
-    | _ -> Parser.Exception "first argument must be a string"
+  match head with | Parser.Argument (Parser.Str s) -> (try (Hashtbl.find main_ram s) with Not_found -> Parser.Exception (new Parser.syntax_error "the variable do not exists"))
+    | _ -> Parser.Exception ((new Parser.type_error "first argument must be a string"))
 
  let read_entry list_of_args =
   match list_of_args with 
@@ -107,7 +107,7 @@ match (String.trim name) with
   | "GALETTEDESROIS" -> StringManipulation.double_from_string list_of_args (*DFS*)
   | "FRANGIPANE" -> StringManipulation.bool_from_string list_of_args (*BFS*)
 
-  | _ -> Exception "unknown function";;
+  | _ -> Exception (new Parser.bag_exception "unknown function");;
 
 
 

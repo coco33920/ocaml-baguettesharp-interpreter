@@ -43,56 +43,56 @@ include Parser
       in aux (Parser.create_int_argument 1) list_of_arguments
 
     let fibonacci list_of_arguments = 
-      if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
-      else let a = List.hd list_of_arguments in match a with (Parser.Argument(Parser.I(i))) -> Parser.create_int_argument (fibo i) | _ -> Parser.Exception "argument must be an integer";;
+      if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires one arguments and you supplied none"))
+      else let a = List.hd list_of_arguments in match a with (Parser.Argument(Parser.I(i))) -> Parser.create_int_argument (fibo i) | _ -> Parser.Exception (new Parser.type_error "argument must be an integer");;
 
     let power list_of_arguments = 
-      if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg "This function requires an argument and you supplied none")
       else let a,b = List.hd list_of_arguments, List.tl list_of_arguments in let c = List.hd b in Parser.expn a c;;
 
     
     let sqrt list_of_arguments = 
-      if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires one arguments and you supplied none"))
       else let a = List.hd list_of_arguments in
         match a with 
           | Parser.Argument(Parser.I(i)) -> Parser.Argument (Parser.D (sqrt (float_of_int i)))
           | Parser.Argument(Parser.D(d)) -> Parser.Argument (Parser.D (sqrt (d)))
-          | _ -> Parser.Exception "argument must be a number";;
+          | _ -> Parser.Exception (new Parser.type_error "argument must be a number");;
 
 
     let substract list_of_arguments = 
-      if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
       let head2 = List.hd tail in Parser.substract_numbers head head2;;
 
 
     let divide list_of_arguments = 
-      if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
       let head2 = List.hd tail in Parser.divide_numbers head head2;;
 
 
     let randint list_of_arguments = 
-      if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
       let head2 = List.hd tail in let a,b = (arguments_to_float head head2) in Parser.Argument (Parser.I((Random.int (int_of_float (b-.a))) + int_of_float a));;
 
     let logb list_of_arguments = 
-      if List.length list_of_arguments < 2 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
       let head2 = List.hd tail in let a,b = (arguments_to_float head head2) in Parser.Argument (Parser.D ((log a) /. (log b)));;
   
     
     let opposite list_of_arguments = 
-      if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head = List.hd list_of_arguments in Parser.mult_numbers (Parser.create_int_argument (-1)) head;;
   
     let floor list_of_arguments = 
-      if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head = List.hd list_of_arguments in let a = argument_to_float head in Parser.Argument (Parser.I (int_of_float (floor a)));;
   
     let ceil list_of_arguments = 
-      if List.length list_of_arguments < 1 then Parser.Exception "not enough args"
+      if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head = List.hd list_of_arguments in let a = argument_to_float head in Parser.Argument (Parser.I (int_of_float (ceil a)));;
 
   end

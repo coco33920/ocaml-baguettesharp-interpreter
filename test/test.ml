@@ -36,7 +36,7 @@ let () = print_string "Affichage de la liste de token après le tokenizer"; prin
 let () = print_string "Vérification du parenthésage et des quote"; print_newline ()
 let () = 
    match (Lexer.validate_parenthesis_and_quote token_list) with 
-  | Exception s -> print_string s 
+  | Exception s -> print_string (s#to_string)
   | _ -> print_string "parenthésage valide"
 let new_ast = (Parser.parse_file token_list)
 
