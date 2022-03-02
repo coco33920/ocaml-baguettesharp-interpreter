@@ -117,10 +117,12 @@ let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
 let print_about () = print_endline "Baguette# Version 1.0 by Charlotte THOMAS"
 let output_file = ref "";;
+let verbose = ref false;;
 
 let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");
 ("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)");
-("--version", Arg.Unit print_about, "print version and about the software")]
+("--version", Arg.Unit print_about, "print version and about the software");
+("--verbose", Arg.Set verbose, "show test version")]
 
 
 let read_file filename = 
@@ -134,21 +136,62 @@ let read_file filename =
     close_in chan;
     List.rev !lines ;;
 
-let parse_file file = 
-  let str = read_file file |> List.map String.trim |> String.concat " " in
+
+let parse_file_verbosely file =
+  let src = read_file file |> List.map String.trim |> String.concat " " in
+  print_endline "Input code : ";
+  print_newline ();
+  print_endline src;
+  print_newline ();
+  let token_list = Lexer.generate_token src in
+  print_newline ();
+  print_endline "Lexed code : ";
+  print_newline ();
+  Token.print_token_list token_list;
+  let a = Lexer.validate_parenthesis_and_quote token_list in 
+    match a with
+      | Exception s -> print_endline (s#to_string)
+      | _ -> (
+        let ast = Parser.parse_file token_list in
+        print_newline ();
+        print_endline "Parsed code : ";
+        print_newline ();
+        (List.iter (fun s -> print_endline (Parser.print_pretty_node s))) ast;
+        print_newline ();
+        print_endline "Interpreter : ";
+        print_newline (); 
+        Interpreter.runtime ast |> ignore
+      );;
+    
+let parse_file ?(verbose=false) file =
+  if verbose then parse_file_verbosely file 
+  else let str = read_file file |> List.map String.trim |> String.concat " " in
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
     | Exception s -> print_endline (s#to_string)
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
-let parse_line line repl = 
+let parse_line ?(verbose=false) line repl =
   let str = String.trim line in
+  (if verbose then 
+    print_endline "Read code : ";
+    print_endline str);
   let token_list = Lexer.generate_token str in
+  (if verbose then 
+    print_endline "Lexed code : ";
+    Token.print_token_list token_list);
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
     | Exception s -> print_endline (s#to_string); Hashtbl.create 1
-    | _ -> Parser.parse_file token_list |> Interpreter.runtime ~repl:repl;;
+    | _ -> let ast = Parser.parse_file token_list in
+    if verbose then
+      (print_endline "Parsed code : ";
+      List.iter (fun s -> print_endline (Parser.print_pretty_node s)) ast;
+      print_endline "Runtime : ";
+      print_newline ();
+      );
+    Interpreter.runtime ~repl:repl ast;;
 
 let fuse_hash_tbl original new_one = 
   Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
@@ -160,13 +203,45 @@ let display_help () =
   print_endline "~ exit: exit the REPL";
   print_endline "~ save <file>: save the history in file";;
 
-let load_file lst = 
+
+  let read_all_file_in_dir_recursively (dir : string) = 
+    if Sys.is_directory dir = false || Array.length (Sys.readdir dir) = 0 then []
+    else 
+      let rec aux acc lst =
+        match lst with  
+          | [] -> acc
+          | f::fs when Sys.is_directory f ->
+              if (String.starts_with ~prefix:".git" (Filename.basename f)) || (String.starts_with ~prefix:"_" (Filename.basename f)) then aux acc fs
+              else Sys.readdir f |> Array.to_list |> List.map (Filename.concat f) |> List.append fs |> aux acc
+          | f::fs -> aux (f::acc) fs
+      in aux [] [dir];;
+  let possible_completion_file word =
+    let word = if word = "" then "./" else word in
+    let array = 
+      if Sys.file_exists word && Sys.is_directory word then Sys.readdir word
+      else Sys.readdir (Filename.dirname word) in
+    let file_list = Array.to_list array in 
+    let file_list_with_name = 
+      if Sys.file_exists word && Sys.is_directory word
+        then List.map (String.cat ((Filename.basename word) ^ (Filename.dir_sep))) file_list
+      else List.map (String.cat ((Filename.dirname word) ^ Filename.dir_sep)) (List.filter (String.starts_with ~prefix:(Filename.basename word)) file_list) 
+    in
+    let filtered_list = List.map (fun str -> 
+      if String.starts_with ~prefix:"./" str then Str.replace_first (Str.regexp "./") "" str
+      else str) file_list_with_name
+    in
+    let double_filtered_list = List.map (fun str -> 
+      if Sys.file_exists str && Sys.is_directory str then (str ^ Filename.dir_sep)
+      else str) filtered_list
+    in double_filtered_list;;
+
+let load_file ?(verbose=false) lst = 
   if List.length lst < 2 then print_endline "not enough args"
   else (
     let tl = List.tl lst in let file = List.hd tl in 
-      try parse_file file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
+      try parse_file ~verbose:verbose file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
   );;
-let rec new_repl_funct () = 
+let rec new_repl_funct ?(verbose=false) () = 
   let rec user_input prompt cb =
     match LNoise.linenoise prompt with 
       | None -> new_repl_funct ()
@@ -182,26 +257,28 @@ let rec new_repl_funct () =
   LNoise.set_completion_callback (fun line_so_far in_completion ->
     let line = line_so_far |> String.split_on_char ' ' |> Array.of_list |> (fun arr -> arr.(Array.length arr - 1) <- ""; arr) |> Array.to_list |> String.concat " " in
     let current_word = List.hd @@ List.rev @@ String.split_on_char ' ' @@ line_so_far in
-    if line_so_far <> ""
-      then list_of_funct |> List.filter (String.starts_with ~prefix:current_word) |> List.map (String.cat line) |> List.iter (LNoise.add_completion in_completion)
+    if line_so_far <> "" && not (String.starts_with ~prefix:"load" line_so_far) && not (String.starts_with ~prefix:"exit" line_so_far) && not (String.starts_with ~prefix:"save" line_so_far) && not (String.starts_with ~prefix:"help" line_so_far)
+      then list_of_funct |> List.filter (String.starts_with ~prefix:current_word) |> List.map (String.cat line) |> List.iter (LNoise.add_completion in_completion);
+    if current_word <> "" && (String.starts_with ~prefix:"load" line_so_far)
+      then 
+      possible_completion_file current_word
+      |> List.map (String.cat "load ")
+      |> List.iter (LNoise.add_completion in_completion)
   );
-
   (
     fun from_user ->
       let lst = String.split_on_char ' ' from_user in
       match String.trim(List.hd lst) with 
         | "help" -> display_help ()
-        | "load" -> load_file lst
+        | "load" -> load_file ~verbose:verbose lst
         | "exit" -> exit 0
         | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
-        | _ -> let ram = parse_line from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
+        | _ -> let ram = parse_line ~verbose:verbose from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
     ) |> user_input "~> "
   ;;
-
 
 let anon_fun (_ : string) = ();;
 
 let () = 
-  if Array.length (Sys.argv) = 1 then new_repl_funct () else
   Arg.parse spec anon_fun usage_message;
-  try parse_file !input_file with _ -> ();;
+  try parse_file ~verbose:!verbose !input_file with _ -> new_repl_funct ~verbose:!verbose ()
