@@ -174,11 +174,11 @@ let parse_file ?(verbose=false) file =
 
 let parse_line ?(verbose=false) line repl =
   let str = String.trim line in
-  (if verbose then 
+  if verbose then(
     print_endline "Read code : ";
     print_endline str);
   let token_list = Lexer.generate_token str in
-  (if verbose then 
+  if verbose then(
     print_endline "Lexed code : ";
     Token.print_token_list token_list);
   let a = Lexer.validate_parenthesis_and_quote token_list in 
@@ -201,20 +201,9 @@ let display_help () =
   print_endline "~ help: show this help";
   print_endline "~ load <file>: load and execute a baguette file";
   print_endline "~ exit: exit the REPL";
-  print_endline "~ save <file>: save the history in file";;
+  print_endline "~ save <file>: save the history in file";
+  print_endline "~ verbose: toggle the verbose (default:false)";;
 
-
-  let read_all_file_in_dir_recursively (dir : string) = 
-    if Sys.is_directory dir = false || Array.length (Sys.readdir dir) = 0 then []
-    else 
-      let rec aux acc lst =
-        match lst with  
-          | [] -> acc
-          | f::fs when Sys.is_directory f ->
-              if (String.starts_with ~prefix:".git" (Filename.basename f)) || (String.starts_with ~prefix:"_" (Filename.basename f)) then aux acc fs
-              else Sys.readdir f |> Array.to_list |> List.map (Filename.concat f) |> List.append fs |> aux acc
-          | f::fs -> aux (f::acc) fs
-      in aux [] [dir];;
   let possible_completion_file word =
     let word = if word = "" then "./" else word in
     let array = 
@@ -241,7 +230,7 @@ let load_file ?(verbose=false) lst =
     let tl = List.tl lst in let file = List.hd tl in 
       try parse_file ~verbose:verbose file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
   );;
-let rec new_repl_funct ?(verbose=false) () = 
+let rec new_repl_funct () = 
   let rec user_input prompt cb =
     match LNoise.linenoise prompt with 
       | None -> new_repl_funct ()
@@ -270,10 +259,11 @@ let rec new_repl_funct ?(verbose=false) () =
       let lst = String.split_on_char ' ' from_user in
       match String.trim(List.hd lst) with 
         | "help" -> display_help ()
-        | "load" -> load_file ~verbose:verbose lst
+        | "load" -> load_file ~verbose:!verbose lst
+        | "verbose" -> verbose := not !verbose; print_endline ("Verbose set to " ^ string_of_bool !verbose)
         | "exit" -> exit 0
         | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
-        | _ -> let ram = parse_line ~verbose:verbose from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
+        | _ -> let ram = parse_line ~verbose:!verbose from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
     ) |> user_input "~> "
   ;;
 
@@ -281,4 +271,4 @@ let anon_fun (_ : string) = ();;
 
 let () = 
   Arg.parse spec anon_fun usage_message;
-  try parse_file ~verbose:!verbose !input_file with _ -> new_repl_funct ~verbose:!verbose ()
+  try parse_file ~verbose:!verbose !input_file with _ -> new_repl_funct ()
