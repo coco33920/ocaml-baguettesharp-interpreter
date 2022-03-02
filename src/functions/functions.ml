@@ -21,7 +21,7 @@ let rec boucle regex str list =
 
 let rec print list_of_arguments =
   match list_of_arguments with 
-    | [] -> Parser.Argument(Parser.Nul(()))
+    | [] -> Parser.Argument(Parser.Nul((print_newline ())))
     | Parser.CallExpression _::_ -> Parser.Exception (new Parser.syntax_error "callexpressions are illegal while printing")
     | Parser.GOTO _::_ -> Parser.Exception (new Parser.syntax_error "goto are illegal while printing")
     | Parser.Argument Parser.Str s::q -> print_string (s^" "); print q

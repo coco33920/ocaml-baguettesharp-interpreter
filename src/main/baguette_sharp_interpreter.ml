@@ -115,7 +115,7 @@ let fill = (list_of_funct,[
   
 let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
-let print_about () = print_string "Baguette# Version 1.0 by Charlotte THOMAS"
+let print_about () = print_endline "Baguette# Version 1.0 by Charlotte THOMAS"
 let output_file = ref "";;
 
 let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");
@@ -139,7 +139,7 @@ let parse_file file =
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
-    | Exception s -> print_string (s#to_string)
+    | Exception s -> print_endline (s#to_string)
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
 let parse_line line repl = 
@@ -147,7 +147,7 @@ let parse_line line repl =
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
-    | Exception s -> print_string (s#to_string); Hashtbl.create 1
+    | Exception s -> print_endline (s#to_string); Hashtbl.create 1
     | _ -> Parser.parse_file token_list |> Interpreter.runtime ~repl:repl;;
 
 let fuse_hash_tbl original new_one = 
@@ -163,7 +163,8 @@ let display_help () =
 let load_file lst = 
   if List.length lst < 2 then print_endline "not enough args"
   else (
-    let tl = List.tl lst in let file = List.hd tl in parse_file file
+    let tl = List.tl lst in let file = List.hd tl in 
+      try parse_file file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
   );;
 let rec new_repl_funct () = 
   let rec user_input prompt cb =
@@ -194,7 +195,7 @@ let rec new_repl_funct () =
         | "exit" -> exit 0
         | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
         | _ -> let ram = parse_line from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
-    ) |> user_input "> "
+    ) |> user_input "~> "
   ;;
 
 
