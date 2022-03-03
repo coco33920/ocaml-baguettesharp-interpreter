@@ -115,7 +115,7 @@ let fill = (list_of_funct,[
   
 let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
-let print_about () = print_endline "Baguette# Version 1.0 by Charlotte THOMAS"
+let print_about () = print_endline "Baguette# Version 2.0 by Charlotte THOMAS"
 let output_file = ref "";;
 let verbose = ref false;;
 

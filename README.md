@@ -1,10 +1,13 @@
 <h1 align="center">The Baguette# OCaml Interpreter</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-1.2-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-2.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="s" src="https://wakatime.com/badge/github/coco33920/ocaml-baguettesharp-interpreter.svg" />
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
-  <a href="README_en.md">EN</a>
+  <a href="README_en.md">
+    <img alt="GB" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" width="30px">
+  </a>
 </p>
 
 <h1 align="center">
