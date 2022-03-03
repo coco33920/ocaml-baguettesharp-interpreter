@@ -5,7 +5,7 @@ module Parser = struct
   class bag_exception message = 
     object 
       val name = "Exception"
-      method to_string = (name ^ " : " ^ message)
+      method to_string = ("\027[38;2;244;113;116m" ^ name ^ " : " ^ message ^ "\027[m")
       method get_name = name
     end
 

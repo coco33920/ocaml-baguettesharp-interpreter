@@ -9,7 +9,7 @@ module Interpreter = struct
 
 
   let creating_stack_trace line name except  =
-    ["Error at line";string_of_int line;"while evaluating the";name;"funtion:";except#to_string] |> String.concat " ";;
+    ["\027[1;38;02;244;113;116mError:\027[m at line";string_of_int line;"while evaluating\027[38;2;50;175;255m";name;"\027[m=>";except#to_string] |> String.concat " ";;
 
 
   (*Called when a node is a call expression and we need the list of arguments*)

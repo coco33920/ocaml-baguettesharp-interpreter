@@ -197,12 +197,12 @@ let fuse_hash_tbl original new_one =
   Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
 
 let display_help () =
-  print_endline "### Baguette# Interpreter REPL Command Help ###";
-  print_endline "~ help: show this help";
+  print_endline "\027[1;38;2;195;239;195m### Baguette# Interpreter REPL Command Help ###\027[m";
+  print_endline "\027[2;38;2;195;239;195m~ help: show this help";
   print_endline "~ load <file>: load and execute a baguette file";
   print_endline "~ exit: exit the REPL";
   print_endline "~ save <file>: save the history in file";
-  print_endline "~ verbose: toggle the verbose (default:false)";;
+  print_endline "~ verbose: toggle the verbose (default:false)\027[m";;
 
   let possible_completion_file word =
     let word = if word = "" then "./" else word in
@@ -236,7 +236,7 @@ let rec new_repl_funct () =
       | None -> new_repl_funct ()
       | Some v -> cb v; user_input prompt cb
   in LNoise.history_set ~max_length:100 |> ignore;
-  print_endline "### Welcome to Baguette# REPL; type help for help ###"; print_newline ();
+  print_endline "\027[38;2;195;239;195m### Welcome to Baguette# REPL; type help for help ###\027[m"; print_newline ();
     
   LNoise.set_hints_callback (fun line ->
     let a =  String.trim @@ List.hd @@ List.rev @@ (String.split_on_char ' ') @@ line in 
@@ -260,11 +260,11 @@ let rec new_repl_funct () =
       match String.trim(List.hd lst) with 
         | "help" -> display_help ()
         | "load" -> load_file ~verbose:!verbose lst
-        | "verbose" -> verbose := not !verbose; print_endline ("Verbose set to " ^ string_of_bool !verbose)
+        | "verbose" -> verbose := not !verbose; print_endline ("\027[2;38;2;195;239;195mVerbose set to " ^ string_of_bool !verbose ^ "\027[0m")
         | "exit" -> exit 0
         | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
         | _ -> let ram = parse_line ~verbose:!verbose from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
-    ) |> user_input "~> "
+    ) |> user_input "\027[38;2;244;113;116m~>\027[m "
   ;;
 
 let anon_fun (_ : string) = ();;
