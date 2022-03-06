@@ -5,7 +5,6 @@ include Token
 include Parser
 include Interpreter
 
-(**)
 
 let read_file filename = 
   let lines = ref [] in

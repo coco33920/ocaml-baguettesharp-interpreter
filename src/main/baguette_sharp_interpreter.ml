@@ -249,10 +249,11 @@ let rec new_repl_funct () =
     if line_so_far <> "" && not (String.starts_with ~prefix:"load" line_so_far) && not (String.starts_with ~prefix:"exit" line_so_far) && not (String.starts_with ~prefix:"save" line_so_far) && not (String.starts_with ~prefix:"help" line_so_far)
       then list_of_funct |> List.filter (String.starts_with ~prefix:current_word) |> List.map (String.cat line) |> List.iter (LNoise.add_completion in_completion);
     if current_word <> "" && (String.starts_with ~prefix:"load" line_so_far)
-      then 
+      then
       possible_completion_file current_word
       |> List.map (String.cat "load ")
-      |> List.iter (LNoise.add_completion in_completion)
+      |> List.iter (LNoise.add_completion in_completion);
+    if line_so_far = "" then (["help";"load";"verbose";"exit";"save"] |> List.iter (LNoise.add_completion in_completion))
   );
   (
     fun from_user ->

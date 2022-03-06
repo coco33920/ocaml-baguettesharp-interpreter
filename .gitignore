@@ -1,5 +1,5 @@
 baguette_sharp
-install.sh
+web.sh
 validate.sh
 _build/*
 .vscode/*
