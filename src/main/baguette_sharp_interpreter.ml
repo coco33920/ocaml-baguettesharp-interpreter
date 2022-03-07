@@ -118,11 +118,13 @@ let input_file = ref "";;
 let print_about () = print_endline "Baguette# Version 2.0 by Charlotte THOMAS"
 let output_file = ref "";;
 let verbose = ref false;;
+let lexer = ref false;;
 
 let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");
 ("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)");
 ("--version", Arg.Unit print_about, "print version and about the software");
-("--verbose", Arg.Set verbose, "show test version")]
+("--verbose", Arg.Set verbose, "show test version");
+("--lexer", Arg.Set lexer, "change the lexer to the char version" )]
 
 
 let read_file filename = 
@@ -137,13 +139,13 @@ let read_file filename =
     List.rev !lines ;;
 
 
-let parse_file_verbosely file =
+let parse_file_verbosely ?(lexer=false) file =
   let src = read_file file |> List.map String.trim |> String.concat " " in
   print_endline "Input code : ";
   print_newline ();
   print_endline src;
   print_newline ();
-  let token_list = Lexer.generate_token src in
+  let token_list = if not lexer then Lexer.generate_token src else Lexer.generate_token_with_chars src in
   print_newline ();
   print_endline "Lexed code : ";
   print_newline ();
@@ -163,21 +165,21 @@ let parse_file_verbosely file =
         Interpreter.runtime ast |> ignore
       );;
     
-let parse_file ?(verbose=false) file =
-  if verbose then parse_file_verbosely file 
+let parse_file ?(verbose=false) ?(lexer=false) file =
+  if verbose then parse_file_verbosely ~lexer:lexer file 
   else let str = read_file file |> List.map String.trim |> String.concat " " in
-  let token_list = Lexer.generate_token str in
+  let token_list = if not lexer then Lexer.generate_token str else Lexer.generate_token_with_chars str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
     | Exception s -> print_endline (s#to_string)
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
-let parse_line ?(verbose=false) line repl =
+let parse_line ?(verbose=false) ?(lexer=false) line repl =
   let str = String.trim line in
   if verbose then(
     print_endline "Read code : ";
     print_endline str);
-  let token_list = Lexer.generate_token str in
+  let token_list = if not lexer then Lexer.generate_token str else Lexer.generate_token_with_chars str in
   if verbose then(
     print_endline "Lexed code : ";
     Token.print_token_list token_list);
@@ -202,7 +204,9 @@ let display_help () =
   print_endline "~ load <file>: load and execute a baguette file";
   print_endline "~ exit: exit the REPL";
   print_endline "~ save <file>: save the history in file";
+  print_endline "~ lexer: toggle the char or default version of the lexer";
   print_endline "~ verbose: toggle the verbose (default:false)\027[m";;
+
 
   let possible_completion_file word =
     let word = if word = "" then "./" else word in
@@ -224,11 +228,11 @@ let display_help () =
       else str) filtered_list
     in double_filtered_list;;
 
-let load_file ?(verbose=false) lst = 
+let load_file ?(verbose=false) ?(lexer=false) lst = 
   if List.length lst < 2 then print_endline "not enough args"
   else (
     let tl = List.tl lst in let file = List.hd tl in 
-      try parse_file ~verbose:verbose file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
+      try parse_file ~verbose:verbose ~lexer:lexer file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
   );;
 let rec new_repl_funct () = 
   let rec user_input prompt cb =
@@ -249,21 +253,23 @@ let rec new_repl_funct () =
     if line_so_far <> "" && not (String.starts_with ~prefix:"load" line_so_far) && not (String.starts_with ~prefix:"exit" line_so_far) && not (String.starts_with ~prefix:"save" line_so_far) && not (String.starts_with ~prefix:"help" line_so_far)
       then list_of_funct |> List.filter (String.starts_with ~prefix:current_word) |> List.map (String.cat line) |> List.iter (LNoise.add_completion in_completion);
     if current_word <> "" && (String.starts_with ~prefix:"load" line_so_far)
-      then 
+      then
       possible_completion_file current_word
       |> List.map (String.cat "load ")
-      |> List.iter (LNoise.add_completion in_completion)
+      |> List.iter (LNoise.add_completion in_completion);
+    if line_so_far = "" then (["help";"load";"verbose";"exit";"save";"lexer"] |> List.iter (LNoise.add_completion in_completion))
   );
   (
     fun from_user ->
       let lst = String.split_on_char ' ' from_user in
       match String.trim(List.hd lst) with 
         | "help" -> display_help ()
-        | "load" -> load_file ~verbose:!verbose lst
+        | "load" -> load_file ~verbose:!verbose ~lexer:!lexer lst
         | "verbose" -> verbose := not !verbose; print_endline ("\027[2;38;2;195;239;195mVerbose set to " ^ string_of_bool !verbose ^ "\027[0m")
         | "exit" -> exit 0
+        | "lexer" -> lexer := not !lexer; print_endline ("\027[2;38;2;195;239;195mLexer (char:true,normal:false) set to " ^ string_of_bool !lexer ^ "\027[0m")
         | "save" -> if List.length lst < 2 then print_endline "not enough args" else let file = List.hd (List.tl lst) in LNoise.history_save ~filename:file |> ignore
-        | _ -> let ram = parse_line ~verbose:!verbose from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
+        | _ -> let ram = parse_line ~lexer:!lexer ~verbose:!verbose from_user true in (fuse_hash_tbl shared_ram ram); LNoise.history_add from_user |> ignore;
     ) |> user_input "\027[38;2;244;113;116m~>\027[m "
   ;;
 
@@ -271,4 +277,4 @@ let anon_fun (_ : string) = ();;
 
 let () = 
   Arg.parse spec anon_fun usage_message;
-  try parse_file ~verbose:!verbose !input_file with _ -> new_repl_funct ()
+  try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ -> new_repl_funct ()

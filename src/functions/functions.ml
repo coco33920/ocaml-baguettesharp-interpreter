@@ -71,7 +71,7 @@ match (String.trim name) with
   | "PAINAURAISIN" -> Math.substract list_of_args
   | "CHOCOLATINE" -> Math.divide list_of_args
   | "BRETZEL" -> Math.randint list_of_args
-  | "BAGUETTEVIENNOISE" -> Math.logb list_of_args
+  | "JOCONDE" -> Math.logb list_of_args
   | "OPERA" -> Math.opposite list_of_args
   | "MILLEFEUILLE" -> Math.floor list_of_args
   | "FRAISIER" -> Math.ceil list_of_args

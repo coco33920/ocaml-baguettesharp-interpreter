@@ -1,0 +1,4 @@
+(executable
+ (name bench_lexer)
+ (modes exe)
+ (libraries baguette_base baguette_functions baguette_sharp fmt str))
