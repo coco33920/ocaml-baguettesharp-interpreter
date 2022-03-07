@@ -59,7 +59,7 @@ module Parser = struct
           | Token.RIGHT_PARENTHESIS::q -> q,List.rev acc
           | Token.ARRAY_END::q -> q,List.rev acc
           | Token.SEMI_COLON::_ -> lst,List.rev acc
-          
+          | Token.COMMA::q -> aux Token.COMMA acc q
           (*KEYWORD and Quote handling*)
           | (Token.KEYWORD k)::q when String.equal k "IF" -> let rest,accs = aux (Token.KEYWORD k) [] q in
              (aux Token.NULL_TOKEN (Node(IF, accs)::acc) rest)

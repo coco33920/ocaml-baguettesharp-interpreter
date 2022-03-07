@@ -7,59 +7,71 @@ module Lexer = struct
       | QUOTE -> (QUOTE,1)
       | token -> if in_quote then (Token.STRING_TOKEN(word),0) else (token,0);;
 
+    let recognized_token = Token.recognized_token;;
 
-  (*
-  Algorithm to recognize token with char
-  We read a char, store our CURRENT string
-  => We add the char to the storage
-  => If a token is a suffix of the string => we add the Token and the string token and continue with an empty storage string
-  => If not => we continue
-  => the end => List.rev acc
-  *)
-  
-  (*check if the incoming string has a token as suffix*)
+  (*O(n)*)
+  let rec max_lst acc lst = 
+    match lst with 
+      | [] -> acc
+      | i::q when i>= acc -> max_lst i q
+      | _::q -> max_lst acc q;;
+
+    
+  (*O(t*len(s))*)
   let is_a_token_a_keyword input_string =
-    List.mapi (fun i s -> try (Str.search_forward (Str.regexp s) input_string 0 |> ignore; i,true)
-    with _ -> i,false) Token.recognized_token
+    let a = List.map (fun s -> try (let v = Str.search_forward (Str.regexp s) input_string 0 in v)
+    with _ -> -1) recognized_token
+  in max_lst (-1) a;;
 
-    |> (fun l -> 
-        let s = 
-          try List.find (fun (_,b) -> b=true) l 
-          with _ -> (0,false)
-      in s);;
-
-
-  let extract_token input_string i = 
-    let aux s =
+  let type_inference_algorithm input_string = 
+    try 
+      let a = int_of_string input_string in Token.INT_TOKEN a
+    with Failure _ ->
       try 
-        let a = Str.search_forward (Str.regexp s) input_string 0
+        let a = float_of_string input_string in Token.FLOAT_TOKEN a
+    with Failure _ ->
+      Token.STRING_TOKEN input_string;;
+
+  let extract_token input_string index = 
+    let aux =
+      try 
+        let a = index
         in let s1 = String.sub input_string 0 a and s2 = String.sub input_string a (String.length input_string - a)
-        in match (s1,s2) with
+        in match (String.trim s1,String.trim s2) with
           | "","" -> (Token.NULL_TOKEN,Token.NULL_TOKEN)
-          | s1,"" -> (Token.STRING_TOKEN s1,Token.NULL_TOKEN)
+          | s1,"" -> (type_inference_algorithm s1,Token.NULL_TOKEN)
           | "",s2 -> (Token.NULL_TOKEN, Token.string_to_token s2)
-          | s1,s2 -> (Token.STRING_TOKEN s1,Token.string_to_token s2)
+          | s1,s2 -> (type_inference_algorithm s1,Token.string_to_token s2)
       with _ ->
-        (Token.STRING_TOKEN input_string, Token.NULL_TOKEN)
-    in aux (List.nth Token.recognized_token i);;
+        (type_inference_algorithm input_string, Token.NULL_TOKEN)
+    in aux;;
 
 
   let generate_token_with_chars input_string =
     let lst = List.of_seq (String.to_seq input_string)
-  in let rec aux acc storage lst = match lst with
-    | [] -> List.rev acc
-    | t::q when t = ' ' -> aux acc storage q
-    | t::q -> let storage = storage ^ (String.make 1 t) in 
-      let c,s = is_a_token_a_keyword storage in
-      if s=true then 
-        let s,token = extract_token storage c in
-        match s,token with
-          | Token.NULL_TOKEN,Token.NULL_TOKEN -> aux acc storage q
-          | s,Token.NULL_TOKEN -> aux (s::acc) "" q
-          | Token.NULL_TOKEN,t -> aux (t::acc) "" q
-          | s,t -> aux (t::s::acc) "" q
-    else aux acc storage q
-  in aux [] "" lst;;
+    in let rec aux acc storage lst quote_count = match lst with
+      | [] -> List.rev acc
+      | t::q when t = ' ' -> aux acc (storage^" ") q quote_count
+      | t::q -> let storage = storage ^ (String.make 1 t) in 
+        let i = is_a_token_a_keyword storage in
+        let s=(i>=0) in
+        if s=true && (quote_count mod 2)=0 then
+          let s,token = extract_token storage i in
+            match s,token with
+              | Token.NULL_TOKEN,Token.NULL_TOKEN -> aux acc storage q quote_count
+              | Token.NULL_TOKEN,Token.QUOTE -> aux (Token.QUOTE::acc) "" q (quote_count+1)
+              | Token.NULL_TOKEN,t -> aux (t::acc) "" q quote_count
+              | s,Token.NULL_TOKEN -> aux (s::acc) "" q quote_count
+              | s,Token.QUOTE -> aux (Token.QUOTE::s::acc) "" q (quote_count+1)
+              | s,t -> aux (t::s::acc) "" q (quote_count)
+        else if s=true && (quote_count mod 2)=1 then
+          let s,token = extract_token storage i in
+            match s,token with
+              | Token.NULL_TOKEN,Token.QUOTE -> aux (Token.QUOTE::acc) "" q (quote_count+1)
+              | s,Token.QUOTE -> aux (Token.QUOTE::s::acc) "" q (quote_count+1)
+              | _,_ -> aux acc storage q quote_count
+        else aux acc storage q quote_count
+    in aux [] "" lst 0;;
 
   let generate_token input_string = 
     let lst = String.split_on_char ' ' input_string in
