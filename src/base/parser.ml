@@ -46,16 +46,7 @@ module Parser = struct
         | Token.QUOTE::q -> (String.trim acc,q)
         | token::q -> parse (acc ^ " " ^ (Token.token_to_litteral_string token)) q
     in parse "" lst;;    
-    (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
-     (*syntax of a label
-  LABEL 0
-  BEGIN
-  LIGNE1
-  LIGNE2
-  LIGNE3
-  END
-  *)
-  (*syntax of a IF: IF <cond> THEN BEGIN .... ... ... END -> Node(IF, [cond, label-like])*)
+  
     let parse_line lst = 
       let rec aux last_token acc lst =
         match lst with
