@@ -33,10 +33,12 @@ module Token = struct
     | "CHARLOTTEAUXFRAISES" -> ARRAY_END
     | "//" -> COMMENT
     | "," -> COMMA
-    | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
+    | str -> try INT_TOKEN(int_of_string str) with Failure _ -> 
+      (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
 
-  let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE";"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"]
+  let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE"
+            ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"]
 
   let token_to_string = function
     | LEFT_PARENTHESIS -> "{(}"

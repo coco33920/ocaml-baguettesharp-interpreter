@@ -78,7 +78,8 @@ let () =
   Printf.printf "Char parsing is \027[1;38;2;244;0;0m%f times faster\027[m\n" (total_time_3 /. total_time_4);
   Printf.printf "Normal total time is \027[38;2;114;113;0m%fms\027[m\n" (1000. *. (total_time_1 +. total_time_3));
   Printf.printf "Char total time is \027[38;2;114;113;0m%fms\027[m\n" (1000. *. (total_time_4 +. total_time_2));
-  Printf.printf "Normal is \027[1;38;2;244;0;0m%f times faster\027[m\n" ((total_time_2 +. total_time_4) /. (total_time_1 +. total_time_3));
+  Printf.printf "Normal is \027[1;38;2;244;0;0m%f times faster\027[m\n" 
+                ((total_time_2 +. total_time_4) /. (total_time_1 +. total_time_3));
 
 
 
