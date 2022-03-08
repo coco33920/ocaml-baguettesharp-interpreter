@@ -1,3 +1,4 @@
-theme: jekyll-theme-architect
+theme: jekyll-theme-cayman
 title: OCaml Baguette# Interpreter
+show_downloads: true
 description: An OCaml Implementation of Baguette#

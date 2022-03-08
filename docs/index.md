@@ -2,6 +2,11 @@
 Welcome to the website of the Interpreter of OCaml.
 The content here is for the moment the README.md of the repo.
 
+## Next Pages
+An index of page is available here:
+* [Command line and REPL](repl.md)
+* [Basics](basics.md)
+* [Advance usage](advanced.md)
 
 ## Requirements
 Ocaml version >= 4.13.1, modules fmt,str and linenoise ( REPL )
