@@ -1,4 +1,6 @@
 # Command Line and REPL
+## Links
+[Next Page : Basic Usage](basic.md) 
 ## Prerequisite
 The executable of baguette-sharp, either from the precompiled binaries downloadable in the header
 or from compiling/installing the project with 

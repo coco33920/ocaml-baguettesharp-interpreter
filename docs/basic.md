@@ -1,4 +1,7 @@
 # Basic Usage
+## Links
+[Next Page : Advanced Usage](advanced.md) 
+[Previous Page](repl.md)
 ## Support
 The language currently supports 
 * Basic IO on standard IO
