@@ -1,9 +1,10 @@
 <h1 align="center">The Baguette# OCaml Interpreter</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-2.0-blue.svg?cacheSeconds=2592000" />
-  <img alt="s" src="https://wakatime.com/badge/github/coco33920/ocaml-baguettesharp-interpreter.svg" />
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github" alt="coco33920 - ocaml-baguettesharp-interpreter"></a>
+  <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/"><img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc" alt="GitHub release"></a>
+<a href="#license"><img src="https://img.shields.io/badge/License-MIT-55cdfc" alt="License"></a>
+<a href="https://www.baguettesharp.fr">
+    <img alt="b#" src="https://img.shields.io/badge/Website-Baguette%23-f7a8d8">
   </a>
   <a href="README.md">
     <img alt="FR" src="https://flagicons.lipis.dev/flags/4x3/fr.svg" width="30px">
@@ -17,6 +18,14 @@
     Baguette#
     <br>
 </h1>
+<div align="center">
+<a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki">
+<img src="https://img.shields.io/badge/view-Documentation-f7a8d8?style=for-the-badge">
+</a>
+<a href="https://www.baguettesharp.fr">
+<img src="https://img.shields.io/badge/View_site-GH_Pages-55cdfc?style=for-the-badge">
+</a>
+</div>
 <h4 align="center">Baguette# is back!</h4>
 
 ## Requirements
