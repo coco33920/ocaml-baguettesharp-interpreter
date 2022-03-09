@@ -1,4 +1,19 @@
 # Basic Usage
+## Table of Contents
+  - [Links](#links)
+  - [Support](#support)
+  - [IO](#io)
+  - [Mathematics](#mathematics)
+  - [Boolean algebra](#boolean-algebra)
+    - [Booleans](#booleans)
+    - [Algebra](#algebra)
+  - [Array Manipulations](#array-manipulations)
+  - [String Manipulations](#string-manipulations)
+    - [Conversion from string](#conversion-from-string)
+    - [Conversion to string](#conversion-to-string)
+  - [Variables](#variables)
+
+
 ## Links
 [Next Page : Advanced Usage](advanced.md) 
 

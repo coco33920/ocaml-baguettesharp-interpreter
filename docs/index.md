@@ -2,12 +2,43 @@
 Welcome to the website of the Interpreter of OCaml.
 The content here is for the moment the README.md of the repo.
 
-## Next Pages
-An index of page is available here:
-* [Command line and REPL](repl.md)
-* [Basics](basic.md)
-* [Advanced usage](advanced.md)
-* [Turing Machine](turing.md)
+## Table of Contents
+- [Index](#)
+  - [Requirements](#requirements)
+  - [History](#history)
+  - [Support](#support)
+  - [Building](#building)
+  - [Install](#install)
+  - [Usage](#usage)
+  - [Test](#test)
+- [REPL](repl.md#repl)
+  - [Links](repl.md#links)
+  - [Prerequisite](repl.md#prerequisite)
+  - [General command line](repl.md#general-command-line)
+    - [REPL Commands](repl.md#repl-commands)
+  - [REPL](repl.md#repl-1)
+    - [Variable](repl.md#variable)
+    - [Hinting](repl.md#hinting)
+    - [Auto-completion](repl.md#auto-completion)
+  - [Command Line](repl.md#command-line)
+  - [Errors](repl.md#errors)
+    - [Wrong Type](repl.md#wrong-type)
+    - [Syntax](repl.md#syntax)
+    - [List of errors](repl.md#list-of-errors)
+- [Basic Usage](basic.md/#basic-usage)
+  - [Links](basic.md/#links)
+  - [Support](basic.md#support)
+  - [IO](basic.md#io)
+  - [Mathematics](basic.md#mathematics)
+  - [Boolean algebra](basic.md#boolean-algebra)
+    - [Booleans](basic.md#booleans)
+    - [Algebra](basic.md#algebra)
+  - [Array Manipulations](basic.md#array-manipulations)
+  - [String Manipulations](basic.md#string-manipulations)
+    - [Conversion from string](basic.md#conversion-from-string)
+    - [Conversion to string](basic.md#conversion-to-string)
+  - [Variables](basic.md#variables)
+
 
 ## Requirements
 Ocaml version >= 4.13.1, modules fmt,str and linenoise ( REPL )

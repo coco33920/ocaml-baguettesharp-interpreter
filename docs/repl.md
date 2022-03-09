@@ -1,4 +1,21 @@
-# Command Line and REPL
+# REPL
+## Table of Contents
+- [REPL](#repl)
+  - [Table of Contents](#table-of-contents)
+  - [Links](#links)
+  - [Prerequisite](#prerequisite)
+  - [General command line](#general-command-line)
+    - [REPL Commands](#repl-commands)
+  - [REPL](#repl-1)
+    - [Variable](#variable)
+    - [Hinting](#hinting)
+    - [Auto-completion](#auto-completion)
+  - [Command Line](#command-line)
+  - [Errors](#errors)
+    - [Wrong Type](#wrong-type)
+    - [Syntax](#syntax)
+    - [List of errors](#list-of-errors)
+
 ## Links
 [Next Page : Basic Usage](basic.md) 
 ## Prerequisite
