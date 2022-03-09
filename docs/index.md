@@ -3,11 +3,16 @@ Welcome to the website of the Interpreter of OCaml.
 The content here is for the moment the README.md of the repo.
 
 <div align="center">
-
-[![d](https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github)](https://github.com/coco33920/ocaml-baguettesharp-interpreter)
-[![e](https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc)](https://github.com/ocaml-baguettesharp-interpreter/releases)
-[![l](https://img.shields.io/badge/License-MIT-55cdfc)](https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/LICENCE)
-
+<a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter">
+<img src="https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github&style=for-the-badge">
+</a>
+<a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases">
+<img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc&style=for-the-badge">
+</a>
+<a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/LICENCE">
+<img src="https://img.shields.io/badge/License-MIT-55cdfc?style=for-the-badge">
+</a>
+<br>
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki">
 <img src="https://img.shields.io/badge/view-Wiki-f7a8d8?style=for-the-badge">
 </a>
