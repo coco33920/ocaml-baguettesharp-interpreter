@@ -1,0 +1,5 @@
+(lang dune 2.0)
+
+(name baguette_base)
+
+(formatting disabled)
