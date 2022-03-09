@@ -5,8 +5,8 @@ The content here is for the moment the README.md of the repo.
 ## Next Pages
 An index of page is available here:
 * [Command line and REPL](repl.md)
-* [Basics](basics.md)
-* [Advance usage](advanced.md)
+* [Basics](basic.md)
+* [Advanced usage](advanced.md)
 * [Turing Machine](turing.md)
 
 ## Requirements
