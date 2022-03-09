@@ -1,7 +1,7 @@
 # Advanced Usage
 [Skip To Content](#introduction)
 ## Table of Contents
-- [Index](index.md#)
+- [Main Page](index.md#)
   - [Requirements](index.md#requirements)
   - [History](index.md#history)
   - [Support](index.md#support)
@@ -44,7 +44,15 @@
   - [Errors](#errors)
   - [Variables and Labels](#variables-and-labels)
   - [IFs](#ifs)
-
+- [Random Guessing Game](random.md#random-guessing-game)
+  - [Specifications](random.md#specifications)
+  - [Initialization of the game](random.md#initialization-of-the-game)
+    - [Welcome](random.md#welcome)
+    - [Generation of the number to guess](random.md#generation-of-the-number-to-guess)
+    - [Declarations](random.md#declarations)
+  - [The Game Loop](random.md#the-game-loop)
+    - [A Step](random.md#a-step)
+    - [The Loop](random.md#the-loop)
 
 ## Introduction
 In this page we will introduce the `LABELS`; 
@@ -79,6 +87,7 @@ COOKIES BAGUETTE
 we can execute the file with
 `baguette_sharp --input test.bag`, 
 and we have... the following output
+
 ![nothing](img/nothing.png)
 which is nothing.
 
@@ -98,6 +107,7 @@ COOKIES BAGUETTE
 PAINVIENNOIS PARISBREST test PARISBREST
 ```
 Executing it now outputs : 
+
 ![output](img/output.png)
 
 ### Order of execution
@@ -114,6 +124,7 @@ CROISSANT CHOUQUETTE PARISBREST Hello ! PARISBREST CLAFOUTIS
 PAINVIENNOIS PARISBREST test PARISBREST
 ```
 And executing it outputs,
+
 ![order](img/order.png)
 
 The order is respected
@@ -131,6 +142,7 @@ COOKIES BAGUETTE
 
 PAINVIENNOIS PARISBREST test PARISBREST
 ```
+
 ![error](img/error.png)
 The error line count is counting from the *first line of the label* (the count starts at 0, the first line is the 0th). And not from the file entirely.
 It counts even if you call another line *before* goto the label

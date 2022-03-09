@@ -1,7 +1,7 @@
 # Basic Usage
 [Skip to Content](#support)
 ## Table of Contents
-- [Index](index.md#)
+- [Main Page](index.md#)
   - [Requirements](index.md#requirements)
   - [History](index.md#history)
   - [Support](index.md#support)
@@ -44,6 +44,15 @@
   - [Errors](advanced.md#errors)
   - [Variables and Labels](advanced.md#variables-and-labels)
   - [IFs](advanced.md#ifs)
+- [Random Guessing Game](random.md#random-guessing-game)
+  - [Specifications](random.md#specifications)
+  - [Initialization of the game](random.md#initialization-of-the-game)
+    - [Welcome](random.md#welcome)
+    - [Generation of the number to guess](random.md#generation-of-the-number-to-guess)
+    - [Declarations](random.md#declarations)
+  - [The Game Loop](random.md#the-game-loop)
+    - [A Step](random.md#a-step)
+    - [The Loop](random.md#the-loop)
 
 
 ## Support

@@ -1,6 +1,6 @@
 # REPL
 ## Table of Contents
-- [Index](index.md#)
+- [Main Page](index.md#)
   - [Requirements](index.md#requirements)
   - [History](index.md#history)
   - [Support](index.md#support)
@@ -35,6 +35,15 @@
     - [Conversion from string](basic.md#conversion-from-string)
     - [Conversion to string](basic.md#conversion-to-string)
   - [Variables](basic.md#variables)
+- [Random Guessing Game](random.md#random-guessing-game)
+  - [Specifications](random.md#specifications)
+  - [Initialization of the game](random.md#initialization-of-the-game)
+    - [Welcome](random.md#welcome)
+    - [Generation of the number to guess](random.md#generation-of-the-number-to-guess)
+    - [Declarations](random.md#declarations)
+  - [The Game Loop](random.md#the-game-loop)
+    - [A Step](random.md#a-step)
+    - [The Loop](random.md#the-loop)
 
 ## Links
 [Next Page : Basic Usage](basic.md) 
