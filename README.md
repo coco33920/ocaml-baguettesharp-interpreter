@@ -55,7 +55,7 @@ Les keywords sont simple (voir le WIKI) et ne sont pas suivi de parenthèse ( co
 ## Installation
 
 ```sh
-dune build .
+dune install
 ```
 
 ## Utilisation

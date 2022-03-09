@@ -17,7 +17,7 @@ let read_file filename =
     close_in chan;
     List.rev !lines ;;
 
-let str = read_file "/home/charlotte/Documents/ocaml-baguettesharp-interpreter/examples/if.baguette";;
+let str = ["CROISSANT CHOUQUETTE PARISBREST test PARISBREST CLAFOUTIS"]
 let str = str |> List.map String.trim |> String.concat " ";;
 
 let () = print_string "Affichage de la ligne de code"; print_newline (); print_string str; print_newline (); print_newline ()
@@ -28,9 +28,9 @@ let print_token_list list =
       | t::q -> str (acc ^ (Token.token_to_string t) ^ " ") q
   in let s = str "[" list in print_string (s ^ "]");;
 
-let token_list = Lexer.generate_token str
-
-let () = print_string "Affichage de la liste de token après le tokenizer"; print_newline (); print_token_list (token_list); print_newline (); print_newline ()
+let token_list = Lexer.generate_token_with_chars str;;
+print_token_list token_list;;
+(*let () = print_string "Affichage de la liste de token après le tokenizer"; print_newline (); print_token_list (token_list); print_newline (); print_newline ()
 
 let () = print_string "Vérification du parenthésage et des quote"; print_newline ()
 let () = 
@@ -47,5 +47,5 @@ let _ = List.map funct new_ast;;
 
 let () = print_string "Test de l'interpréteur"; print_newline ()
 
-let _ = Interpreter.runtime new_ast
+let _ = Interpreter.runtime new_ast*)
 

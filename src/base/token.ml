@@ -12,7 +12,8 @@ module Token = struct
     | BOOL_TOKEN of bool
     | ARRAY_BEGIN 
     | ARRAY_END
- 
+    | COMMENT
+    | COMMA
 
   let string_to_token str = 
     match (String.trim str) with
@@ -30,8 +31,14 @@ module Token = struct
     | "FRAMBOISIER" -> KEYWORD "THEN"
     | "BABAAURHUM" -> ARRAY_BEGIN
     | "CHARLOTTEAUXFRAISES" -> ARRAY_END
-    | str -> try INT_TOKEN(int_of_string str) with Failure _ -> (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
+    | "//" -> COMMENT
+    | "," -> COMMA
+    | str -> try INT_TOKEN(int_of_string str) with Failure _ -> 
+      (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
     | _ -> NULL_TOKEN
+
+  let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE"
+            ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"]
 
   let token_to_string = function
     | LEFT_PARENTHESIS -> "{(}"
@@ -45,7 +52,9 @@ module Token = struct
     | KEYWORD k -> "{KEYWORD: " ^ k ^ "}"
     | ARRAY_BEGIN -> "{[}"
     | ARRAY_END -> "{]}"
-    | _ -> ""
+    | COMMENT -> "{//}"
+    | COMMA -> "{,}"
+    | NULL_TOKEN -> "NULL"
   
   let token_to_litteral_string = function
     | LEFT_PARENTHESIS -> "("
@@ -58,6 +67,8 @@ module Token = struct
     | KEYWORD k -> k ^ " "
     | ARRAY_BEGIN -> "["
     | ARRAY_END -> "]"
+    | COMMENT -> "//"
+    | COMMA -> ","
     | _ -> ""
 
     

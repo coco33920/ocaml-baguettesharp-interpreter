@@ -46,29 +46,23 @@ module Parser = struct
         | Token.QUOTE::q -> (String.trim acc,q)
         | token::q -> parse (acc ^ " " ^ (Token.token_to_litteral_string token)) q
     in parse "" lst;;    
-    (*Only parse a callexpression and not a line ? => not important right now multiline is more important*)
-     (*syntax of a label
-  LABEL 0
-  BEGIN
-  LIGNE1
-  LIGNE2
-  LIGNE3
-  END
-  *)
-  (*syntax of a IF: IF <cond> THEN BEGIN .... ... ... END -> Node(IF, [cond, label-like])*)
+  
     let parse_line lst = 
       let rec aux last_token acc lst =
         match lst with
           | [] -> lst,List.rev acc
           (*basic handling*)
           | Token.LEFT_PARENTHESIS::q -> (match last_token with 
-            | Token.STRING_TOKEN s -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in let acc' = if List.length acc > 0 then List.tl acc else [] in (aux Token.NULL_TOKEN (Node(CallExpression s, accs)::acc') rest)
+            | Token.STRING_TOKEN s -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in 
+              let acc' = if List.length acc > 0 then List.tl acc else [] in 
+                (aux Token.NULL_TOKEN (Node(CallExpression s, accs)::acc') rest)
             | _ -> aux Token.LEFT_PARENTHESIS acc q)
-          | Token.ARRAY_BEGIN::q -> let rest,accs = aux Token.ARRAY_BEGIN [] q in (aux Token.NULL_TOKEN (Node(Array, accs)::acc) rest)
+          | Token.ARRAY_BEGIN::q -> let rest,accs = aux Token.ARRAY_BEGIN [] q in 
+                (aux Token.NULL_TOKEN (Node(Array, accs)::acc) rest)
           | Token.RIGHT_PARENTHESIS::q -> q,List.rev acc
           | Token.ARRAY_END::q -> q,List.rev acc
           | Token.SEMI_COLON::_ -> lst,List.rev acc
-          
+          | Token.COMMA::q -> aux Token.COMMA acc q
           (*KEYWORD and Quote handling*)
           | (Token.KEYWORD k)::q when String.equal k "IF" -> let rest,accs = aux (Token.KEYWORD k) [] q in
              (aux Token.NULL_TOKEN (Node(IF, accs)::acc) rest)
@@ -98,7 +92,8 @@ module Parser = struct
           
           
           (*Arguments handling*)
-          | (Token.STRING_TOKEN s)::q -> if String.equal "" (String.trim s) then aux Token.NULL_TOKEN acc q else aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
+          | (Token.STRING_TOKEN s)::q -> if String.equal "" (String.trim s) then aux Token.NULL_TOKEN acc q 
+              else aux (Token.STRING_TOKEN s) (Node(Argument (Str s), [Nil])::acc) q
           | (Token.INT_TOKEN i)::q  -> aux (Token.INT_TOKEN i) (Node(Argument (I i), [Nil])::acc) q
           | (Token.FLOAT_TOKEN d)::q -> aux (Token.FLOAT_TOKEN d) (Node(Argument (D d), [Nil])::acc) q
           | (Token.BOOL_TOKEN f)::q -> aux (Token.BOOL_TOKEN f) (Node(Argument (Bool f), [Nil])::acc) q
@@ -295,7 +290,8 @@ module Parser = struct
       let rec print_pretty_node node =
           match node with 
             | Nil -> ""
-            | Node (parameter, arguments) -> "(" ^ print_parameter parameter ^ ") [" ^ (String.concat " " (List.map print_pretty_node arguments)) ^ "]"
+            | Node (parameter, arguments) -> "(" ^ print_parameter parameter ^ ") 
+            [" ^ (String.concat " " (List.map print_pretty_node arguments)) ^ "]"
 
     
 
