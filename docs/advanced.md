@@ -176,6 +176,7 @@ which outputs
 
 ![true](img/true.png)
 
-The `CUPCAKE` is meant to be replaced by any condition seen in basic
-
-
+The `CUPCAKE` is meant to be replaced by any condition seen in basic.
+That is all for the Advanced Usage, in the next page we will learn how to do a basic loop and program a 
+plus/minus integer game! 
+The code for the labels can be downloaded [here](test.baguette) and for the if [here](if.baguette)
