@@ -1,14 +1,13 @@
 <h1 align="center">The Baguette# OCaml Interpreter</h1>
 <p>
-  <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github" alt="coco33920 - ocaml-baguettesharp-interpreter"></a>
-  <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/"><img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc" alt="GitHub release"></a>
-<a href="#license"><img src="https://img.shields.io/badge/License-MIT-55cdfc" alt="License"></a>
-<a href="https://www.baguettesharp.fr">
-    <img alt="b#" src="https://img.shields.io/badge/Website-Baguette%23-f7a8d8">
-  </a>
+  <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github&style=for-the-badge" alt="coco33920 - ocaml-baguettesharp-interpreter"></a>
+  <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/"><img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc&style=for-the-badge" alt="GitHub release"></a>
+<a href="#license"><img src="https://img.shields.io/badge/License-MIT-55cdfc?style=for-the-badge" alt="License"></a>
+  <div align="center">
   <a href="README_en.md">
-    <img alt="GB" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" width="30px">
+    <img alt="GB" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" width="30px" title="english-readme">
   </a>
+  </div>
 </p>
 
 <h1 align="center">
@@ -23,8 +22,8 @@
 <img src="https://img.shields.io/badge/view-Documentation-f7a8d8?style=for-the-badge">
 </a>
 <a href="https://www.baguettesharp.fr">
-<img src="https://img.shields.io/badge/View_site-GH_Pages-55cdfc?style=for-the-badge">
-</a>
+    <img alt="b#" src="https://img.shields.io/badge/Website-Baguette%23-f7a8d8?style=for-the-badge">
+  </a>
 </div>
 <h4 align="center">Baguette# est de retour..... En OCaml !</h4>
 
