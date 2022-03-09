@@ -1,4 +1,5 @@
 # Basic Usage
+[Skip to Content](#support)
 ## Table of Contents
 - [Index](index.md#)
   - [Requirements](index.md#requirements)
@@ -35,12 +36,16 @@
     - [Conversion from string](#conversion-from-string)
     - [Conversion to string](#conversion-to-string)
   - [Variables](#variables)
+- [Advanced Usage](advanced.md#advanced-usage)
+  - [Introduction](advanced.md#introduction)
+  - [Labels](advanced.md#labels)
+  - [GOTOs](advanced.md#gotos)
+    - [Order of execution](advanced.md#order-of-execution)
+  - [Errors](advanced.md#errors)
+  - [Variables and Labels](advanced.md#variables-and-labels)
+  - [IFs](advanced.md#ifs)
 
 
-## Links
-[Next Page : Advanced Usage](advanced.md) 
-
-[Previous Page : REPL](repl.md)
 ## Support
 The language currently supports 
 * Basic IO on standard IO

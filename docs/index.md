@@ -57,6 +57,15 @@ The content here is for the moment the README.md of the repo.
     - [Conversion from string](basic.md#conversion-from-string)
     - [Conversion to string](basic.md#conversion-to-string)
   - [Variables](basic.md#variables)
+- [Advanced Usage](advanced.md#advanced-usage)
+  - [Introduction](advanced.md#introduction)
+  - [Labels](advanced.md#labels)
+  - [GOTOs](advanced.md#gotos)
+    - [Order of execution](advanced.md#order-of-execution)
+  - [Errors](advanced.md#errors)
+  - [Variables and Labels](advanced.md#variables-and-labels)
+  - [IFs](advanced.md#ifs)
+
 
 
 ## Requirements
