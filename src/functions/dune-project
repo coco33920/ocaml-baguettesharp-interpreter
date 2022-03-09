@@ -1,6 +1,6 @@
 (lang dune 2.0)
 
-(name baguette-sharp)
+(name baguette_functions)
 (version 2.0.0)
 (generate_opam_files true)
 
@@ -16,9 +16,10 @@
 (documentation https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki)
 
 (package
- (name baguette-sharp)
+ (name baguette_functions)
  (homepage https://baguettesharp.fr)
- (synopsis "The Baguette# Interpreter Binary")
- (description "The REPL binaries for Baguette#")
- (depends ocaml dune fmt str linenoise baguette_sharp)
+ (synopsis "The Baguette# Functions")
+ (description "Functions for Baguette#. Uses Baguette_base and implements a lot of the actual functions themselves. And the 
+ recognize_function command itself to call them in the interpreter")
+ (depends ocaml dune fmt str baguette_base)
  )

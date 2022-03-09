@@ -1,8 +1,0 @@
-opam-version: "2.0.0"
-maintainer: "contact@nwa2coco.fr"
-authors: ["Charlotte Thomas"]
-license: "MIT"
-version: "2.0.0"
-build: [
-  ["dune" "build" "--only" "baguette-sharp" "--root" "." "-j" jobs "@install"]
-]
