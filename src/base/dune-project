@@ -1,5 +1,25 @@
 (lang dune 2.0)
 
 (name baguette_base)
+(version 2.0.0)
+(generate_opam_files true)
 
-(formatting disabled)
+(source
+ (github coco33920/ocaml-baguettesharp-interpreter))
+
+(authors "Charlotte Thomas")
+
+(maintainers "Charlotte Thomas")
+
+(license MIT)
+
+(documentation https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki)
+
+(package
+ (name baguette_base)
+ (homepage https://baguettesharp.fr)
+ (synopsis "The Baguette# Base")
+ (description "Create the basis for the language. The Tokens are defined here, the Tokenizers (also called lexers) are 
+ both implemented here too. Finally the parser is also in this package. Used in baguette_functions, baguette_sharp, and baguette-sharp")
+ (depends ocaml dune fmt str)
+ )

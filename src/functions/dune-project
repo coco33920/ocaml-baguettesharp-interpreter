@@ -1,5 +1,25 @@
 (lang dune 2.0)
 
 (name baguette_functions)
+(version 2.0.0)
+(generate_opam_files true)
 
-(formatting disabled)
+(source
+ (github coco33920/ocaml-baguettesharp-interpreter))
+
+(authors "Charlotte Thomas")
+
+(maintainers "Charlotte Thomas")
+
+(license MIT)
+
+(documentation https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki)
+
+(package
+ (name baguette_functions)
+ (homepage https://baguettesharp.fr)
+ (synopsis "The Baguette# Functions")
+ (description "Functions for Baguette#. Uses Baguette_base and implements a lot of the actual functions themselves. And the 
+ recognize_function command itself to call them in the interpreter")
+ (depends ocaml dune fmt str baguette_base)
+ )
