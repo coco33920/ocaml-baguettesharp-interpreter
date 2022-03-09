@@ -37,6 +37,12 @@ Keywords are simple and are the only instances when you don't need parenthesis, 
 dune build .
 ```
 
+## Install
+```sh
+dune install
+baguette_sharp
+```
+
 ## Usage
 
 ```sh
