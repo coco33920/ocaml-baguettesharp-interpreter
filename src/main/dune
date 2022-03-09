@@ -1,5 +1,5 @@
 (executable
  (modes exe)
  (name baguette_sharp_interpreter)
- (public_name baguette_sharp)
+ (public_name baguette-sharp)
  (libraries baguette_base baguette_functions baguette_sharp fmt str linenoise))
