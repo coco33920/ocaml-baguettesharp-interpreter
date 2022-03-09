@@ -75,7 +75,7 @@ include Parser
     let randint list_of_arguments = 
       if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head,tail = List.hd list_of_arguments,List.tl list_of_arguments in 
-      let head2 = List.hd tail in let a,b = (arguments_to_float head head2) in Parser.Argument (Parser.I((Random.int (int_of_float (b-.a))) + int_of_float a));;
+      let head2 = List.hd tail in let a,b = (arguments_to_float head head2) in Random.self_init (); Parser.Argument (Parser.I((Random.int (int_of_float (b-.a))) + int_of_float a));;
 
     let logb list_of_arguments = 
       if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
