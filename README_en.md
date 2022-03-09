@@ -1,4 +1,5 @@
 <h1 align="center">The Baguette# OCaml Interpreter</h1>
+<div align="center">
 <p>
   <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github&style=for-the-badge" alt="coco33920 - ocaml-baguettesharp-interpreter"></a>
   <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/"><img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc&style=for-the-badge" alt="GitHub release"></a>
@@ -17,7 +18,6 @@
     Baguette#
     <br>
 </h1>
-<div align="center">
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki">
 <img src="https://img.shields.io/badge/view-Documentation-f7a8d8?style=for-the-badge">
 </a>
