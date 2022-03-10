@@ -18,6 +18,9 @@
     Baguette#
     <br>
 </h1>
+
+<a href="mailto:contact@baguettesharp.fr"><img src="https://img.shields.io/badge/Contact-Mail-f7a8d8?style=for-the-badge&logo=thunderbird&logoColor=55cdfc" alt="Contact - Mail"></a>
+
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki">
 <img src="https://img.shields.io/badge/view-Wiki-f7a8d8?style=for-the-badge">
 </a>
