@@ -19,6 +19,7 @@ The content here is for the moment the README.md of the repo.
 <a href="https://www.baguettesharp.fr">
     <img alt="b#" src="https://img.shields.io/badge/Website-Baguette%23-f7a8d8?style=for-the-badge">
   </a>
+<a href="mailto:contact@baguettesharp.fr"><img src="https://img.shields.io/badge/Contact-Mail-f7a8d8?style=for-the-badge&logo=thunderbird&logoColor=f7a8d8" alt="Contact - Mail"></a>
 </div>
 
 ## Table of Contents
