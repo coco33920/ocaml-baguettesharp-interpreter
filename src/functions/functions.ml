@@ -65,7 +65,7 @@ match (String.trim name) with
   
   | "CANELE" -> Math.add list_of_args (*MATH*)
   | "STHONORE" -> Math.mult list_of_args
-  | "KOUGNAMANN" -> Math.power list_of_args
+  | "KOUIGNAMANN" -> Math.power list_of_args
   | "PROFITEROLE" -> Math.sqrt list_of_args
   | "FINANCIER" -> Math.fibonacci list_of_args
   | "PAINAURAISIN" -> Math.substract list_of_args
