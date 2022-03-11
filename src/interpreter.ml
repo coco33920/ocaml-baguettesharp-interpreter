@@ -1,6 +1,4 @@
 module Interpreter = struct
-  open Baguette_base
-  open Baguette_functions
   include Token
   include Parser
   include Functions

@@ -1,5 +1,4 @@
 open Baguette_sharp
-open Baguette_base
 open Js_of_ocaml
 include Token
 include Parser
@@ -25,7 +24,7 @@ let parse_file file =
     | Exception s -> print_string (s#to_string)
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
-let parse_line line = 
+(*let parse_line line = 
   let str = String.trim line in
   let token_list = Lexer.generate_token str in
   let a = Lexer.validate_parenthesis_and_quote token_list in 
@@ -40,7 +39,7 @@ let load_file lst =
   if List.length lst < 2 then print_endline "not enough args"
   else (
     let tl = List.tl lst in let file = List.hd tl in parse_file file
-  );;
+  );;*)
 
 let execute_line str = 
   let str = String.trim str in 

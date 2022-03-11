@@ -1,5 +1,4 @@
 open Baguette_sharp
-open Baguette_base
 include Token 
 include Parser
 include Lexer
@@ -60,7 +59,7 @@ let list_of_funct = [
 
 let hash_table = Hashtbl.create 100;;
 let shared_ram = Hashtbl.create 1000;;
-let fill = (list_of_funct,[
+let _ = (list_of_funct,[
   "printf <message> [args...]";
   "goto <line:int>";
   "print [messages...]";
@@ -115,7 +114,7 @@ let fill = (list_of_funct,[
   
 let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
-let print_about () = print_endline "Baguette# Version 2.0.1 by Charlotte THOMAS"
+let print_about () = print_endline "Baguette# Version 2.0.3 by Charlotte THOMAS"
 let output_file = ref "";;
 let verbose = ref false;;
 let lexer = ref false;;
@@ -277,4 +276,5 @@ let anon_fun (_ : string) = ();;
 
 let () = 
   Arg.parse spec anon_fun usage_message;
-  try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ -> new_repl_funct ()
+  try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ ->
+    new_repl_funct ()

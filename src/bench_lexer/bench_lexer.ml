@@ -1,4 +1,3 @@
-open Baguette_base
 open Baguette_sharp
 include Lexer
 include Token

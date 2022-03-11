@@ -1,8 +1,8 @@
-(lang dune 2.0)
+(lang dune 3.0)
 
 (name baguette_sharp)
 (version 2.0.2)
-(generate_opam_files true)
+(generate_opam_files false)
 
 (source
  (github coco33920/ocaml-baguettesharp-interpreter))
@@ -19,6 +19,5 @@
  (name baguette_sharp)
  (homepage https://baguettesharp.fr)
  (synopsis "The Baguette# Interpreter")
- (description "The Interpreter for Baguette#, uses baguette_base and baguette_functions to do much of the work itself")
- (depends ocaml dune fmt str baguette_base baguette_functions)
- )
+ (description "The Interpreter for Baguette#. Defines the lexer,parser the functions themselves and the Interpreter")
+ (depends ocaml>=4.02 dune>=3.0 fmt>=0.7.0))

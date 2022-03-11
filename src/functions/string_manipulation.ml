@@ -1,5 +1,4 @@
 module StringManipulation = struct
-open Baguette_base
 include Parser
 
 

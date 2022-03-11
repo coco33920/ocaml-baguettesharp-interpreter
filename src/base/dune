@@ -1,4 +1,0 @@
-(library
- (name baguette_base)
- (public_name baguette_base)
- (libraries fmt str))

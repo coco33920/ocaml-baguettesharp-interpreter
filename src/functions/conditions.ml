@@ -1,5 +1,4 @@
 module Condition = struct
-    open Baguette_base
     include Token
     include Parser
 

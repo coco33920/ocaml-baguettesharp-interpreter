@@ -1,5 +1,4 @@
 module Functions = struct 
-open Baguette_base
 include Token
 include Parser
 include Math

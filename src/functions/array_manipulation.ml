@@ -1,5 +1,4 @@
 module ArrayManipulation = struct
-  open Baguette_base
   include Parser
   include Token
 
