@@ -1,6 +1,6 @@
 module Lexer = struct
-  include Token
-  open Parser 
+  module Parser = Parser.Parser
+  module Token = Token.Token
   let read_token word in_quote = 
     match (Token.string_to_token word) with
       | NULL_TOKEN -> (Token.STRING_TOKEN(word),0)

@@ -1,11 +1,9 @@
 module Functions = struct 
-include Token
-include Parser
-include Math
-include Array_manipulation
-include Conditions
-include String_manipulation
-
+module Parser = Parser.Parser
+module Math = Math.Math
+module Condition = Conditions.Condition
+module ArrayManipulation = Array_manipulation.ArrayManipulation
+module StringManipulation = String_manipulation.StringManipulation
 let main_ram = Hashtbl.create 1000
 
 let rec boucle regex str list = 

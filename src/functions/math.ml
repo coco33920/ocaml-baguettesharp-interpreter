@@ -1,6 +1,6 @@
 module Math = struct
-include Token
-include Parser
+module Token = Token.Token
+module Parser = Parser.Parser
     let argument_to_float a =
       match a with
         | Parser.Argument (Parser.I(i)) -> float_of_int i

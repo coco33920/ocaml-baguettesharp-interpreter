@@ -1,6 +1,5 @@
 module Parser = struct
-  include Token
-
+  module Token = Token.Token
 
   class bag_exception message = 
     object 

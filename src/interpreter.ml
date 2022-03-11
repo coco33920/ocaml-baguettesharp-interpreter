@@ -1,7 +1,9 @@
 module Interpreter = struct
-  include Token
-  include Parser
-  include Functions
+
+  module Token = Token.Token
+  module Parser = Parser.Parser
+  module Functions = Functions.Functions
+  
 
   let labels = Hashtbl.create 100;;
 

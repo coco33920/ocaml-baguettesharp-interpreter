@@ -1,6 +1,6 @@
 module ArrayManipulation = struct
-  include Parser
-  include Token
+  module Parser = Parser.Parser 
+  module Token = Token.Token
 
 
   let two_argument_func func list_of_arguments = 

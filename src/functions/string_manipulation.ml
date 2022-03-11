@@ -1,6 +1,5 @@
 module StringManipulation = struct
-include Parser
-
+module Parser = Parser.Parser
 
 
   let two_argument_func func list_of_arguments = 

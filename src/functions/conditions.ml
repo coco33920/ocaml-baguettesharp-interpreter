@@ -1,6 +1,6 @@
 module Condition = struct
-    include Token
-    include Parser
+    module Parser = Parser.Parser
+    
 
     let two_argument_func list_of_arguments func = 
       if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg 
