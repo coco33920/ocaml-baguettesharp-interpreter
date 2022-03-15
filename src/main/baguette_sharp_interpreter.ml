@@ -1,6 +1,4 @@
 (**The REPL of B#*)
-
-
 open Baguette_sharp
 
 (**List of all functions*)
