@@ -7,14 +7,14 @@ maintainer: ["Charlotte Thomas"]
 authors: ["Charlotte Thomas"]
 license: "MIT"
 homepage: "https://baguettesharp.fr"
-doc: "https://baguettesharp.fr/doc"
+doc: "https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki"
 bug-reports:
   "https://github.com/coco33920/ocaml-baguettesharp-interpreter/issues"
 depends: [
   "dune" {>= "3.0"}
-  "ocaml" {>= "4.13.1"}
-  "fmt" {>= "0.7.0"}
-  "baguette_sharp" {>= "2.0.3"}
+  "ocaml" {>="4.13.1"}
+  "fmt" {>="0.7.0"}
+  "odoc" {with-doc}
 ]
 build: [
   ["dune" "subst"] {dev}
