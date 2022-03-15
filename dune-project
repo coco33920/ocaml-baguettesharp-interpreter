@@ -1,6 +1,6 @@
 (lang dune 3.0)
-(name baguette-sharp)
-(version 2.0.3)
+(name baguette_sharp)
+(version 2.0.4)
 (generate_opam_files false)
 
 (source
@@ -14,7 +14,7 @@
 
 (documentation https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki)
 (package
- (name baguette-sharp)
+ (name baguette_sharp)
  (allow_empty)
  (homepage https://baguettesharp.fr)
  (synopsis "The Baguette# Interpreter REPL")

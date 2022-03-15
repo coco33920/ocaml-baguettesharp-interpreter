@@ -1,5 +1,4 @@
   (**The Interpreter Module of B#*)
-  
 
   (**The Hashtbl storing the labels AST*)
   let labels = Hashtbl.create 100;;
