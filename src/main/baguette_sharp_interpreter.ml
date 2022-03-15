@@ -1,6 +1,4 @@
 (**The REPL of B#*)
-
-
 open Baguette_sharp
 
 (**List of all functions*)
@@ -114,7 +112,7 @@ let _ = (list_of_funct,[
   
 let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
-let print_about () = print_endline "Baguette# Version 2.0.3 by Charlotte THOMAS"
+let print_about () = print_endline "Baguette# Version 2.0.4 by Charlotte THOMAS"
 let output_file = ref "";;
 let verbose = ref false;;
 let lexer = ref false;;
