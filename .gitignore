@@ -1,6 +1,4 @@
-baguette_sharp
 web.sh
 validate.sh
 _build/*
 .vscode/*
-*.html
