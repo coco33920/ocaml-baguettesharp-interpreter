@@ -2,6 +2,7 @@
 
 
 open Baguette_sharp
+
 (**List of all functions*)
 let list_of_funct = [
   "PAINAUCHOCOLAT";
