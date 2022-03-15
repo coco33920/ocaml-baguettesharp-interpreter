@@ -1,4 +1,0 @@
-(library
- (name baguette_functions)
- (public_name baguette_functions)
- (libraries fmt str baguette_base))

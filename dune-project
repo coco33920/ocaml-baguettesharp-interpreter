@@ -1,8 +1,7 @@
-(lang dune 2.0)
-
+(lang dune 3.0)
 (name baguette-sharp)
-(version 2.0.2)
-(generate_opam_files true)
+(version 2.0.3)
+(generate_opam_files false)
 
 (source
  (github coco33920/ocaml-baguettesharp-interpreter))
@@ -14,11 +13,12 @@
 (license MIT)
 
 (documentation https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki)
-
 (package
  (name baguette-sharp)
+ (allow_empty)
  (homepage https://baguettesharp.fr)
- (synopsis "The Baguette# Interpreter Binary")
- (description "The REPL binaries for Baguette#")
- (depends ocaml dune fmt str linenoise baguette_sharp)
+ (synopsis "The Baguette# Interpreter REPL")
+ (description "The REPL for Baguette#")
+ (depends
+ {"ocaml">=4.13.1})
  )

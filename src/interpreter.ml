@@ -1,17 +1,14 @@
-module Interpreter = struct
-  open Baguette_base
-  open Baguette_functions
-  include Token
-  include Parser
-  include Functions
+  (**The Interpreter Module of B#*)
+  
 
+  (**The Hashtbl storing the labels AST*)
   let labels = Hashtbl.create 100;;
 
-
+(**A function to generate a stack trace from an error object*)
   let creating_stack_trace line name except  =
     ["\027[1;38;02;244;113;116mError:\027[m at line";string_of_int line;"while evaluating\027[38;2;50;175;255m";name;"\027[m=>";except#to_string] |> String.concat " ";;
 
-
+  (**Interpretation of a single Node*)
   (*Called when a node is a call expression and we need the list of arguments*)
   let rec exec_node ?(line = -1) node  = 
     match node with 
@@ -31,6 +28,8 @@ module Interpreter = struct
       | Parser.Node(Parser.Argument a, _) -> Parser.Argument a
       | _ -> Parser.Argument (Parser.Nul ())
 
+
+  (**Runtime of the program runs the list of Node and update the RAM. It also returns the RAM*)
   let rec runtime ?(repl = false) list_of_node = 
     let array_of_node = Array.of_list list_of_node in 
     let n = Array.length array_of_node in
@@ -47,6 +46,3 @@ module Interpreter = struct
         | _ -> i := !i + 1
     done;
     Functions.main_ram;;
-
-
-end

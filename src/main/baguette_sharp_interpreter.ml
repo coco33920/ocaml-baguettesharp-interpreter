@@ -1,10 +1,8 @@
-open Baguette_sharp
-open Baguette_base
-include Token 
-include Parser
-include Lexer
-include Interpreter
+(**The REPL of B#*)
 
+
+open Baguette_sharp
+(**List of all functions*)
 let list_of_funct = [
   "PAINAUCHOCOLAT";
   "PAINVIENNOIS";
@@ -56,11 +54,11 @@ let list_of_funct = [
   "FRANGIPANE";
   "BABAAURHUM";
   "CHARLOTTEAUXFRAISES"
-  ]
+  ];;
 
 let hash_table = Hashtbl.create 100;;
 let shared_ram = Hashtbl.create 1000;;
-let fill = (list_of_funct,[
+let _ = (list_of_funct,[
   "printf <message> [args...]";
   "goto <line:int>";
   "print [messages...]";
@@ -111,11 +109,11 @@ let fill = (list_of_funct,[
   "bfs <s:string> convert s to a boolean";
   "[";
   "]"
- ]) |> (fun (a,b) -> List.combine a b) |> (List.iter (fun (a,b) -> Hashtbl.add hash_table a b))
+ ]) |> (fun (a,b) -> List.combine a b) |> (List.iter (fun (a,b) -> Hashtbl.add hash_table a b));;
   
 let usage_message = "baguette-sharp --input <filename>";;
 let input_file = ref "";;
-let print_about () = print_endline "Baguette# Version 2.0.1 by Charlotte THOMAS"
+let print_about () = print_endline "Baguette# Version 2.0.3 by Charlotte THOMAS"
 let output_file = ref "";;
 let verbose = ref false;;
 let lexer = ref false;;
@@ -124,9 +122,9 @@ let spec = [("--input", Arg.Set_string input_file, "precise where is the file to
 ("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)");
 ("--version", Arg.Unit print_about, "print version and about the software");
 ("--verbose", Arg.Set verbose, "show test version");
-("--lexer", Arg.Set lexer, "change the lexer to the char version" )]
+("--lexer", Arg.Set lexer, "change the lexer to the char version" )];;
 
-
+(**Take a filename and returns a list of the lines of the file*)
 let read_file filename = 
   let lines = ref [] in
   let chan = open_in filename in
@@ -136,9 +134,9 @@ let read_file filename =
     done; !lines
   with End_of_file ->
     close_in chan;
-    List.rev !lines ;;
+    List.rev !lines;;
 
-
+(**Parsing a file and outputting all of the different steps*)
 let parse_file_verbosely ?(lexer=false) file =
   let src = read_file file |> List.map String.trim |> String.concat " " in
   print_endline "Input code : ";
@@ -164,7 +162,8 @@ let parse_file_verbosely ?(lexer=false) file =
         print_newline (); 
         Interpreter.runtime ast |> ignore
       );;
-    
+
+(**Parse a file and execute the runtime*)
 let parse_file ?(verbose=false) ?(lexer=false) file =
   if verbose then parse_file_verbosely ~lexer:lexer file 
   else let str = read_file file |> List.map String.trim |> String.concat " " in
@@ -174,6 +173,7 @@ let parse_file ?(verbose=false) ?(lexer=false) file =
     | Exception s -> print_endline (s#to_string)
     | _ -> Parser.parse_file token_list |> Interpreter.runtime |> ignore;;
 
+(**Parse a line and execute it through the runtime*)
 let parse_line ?(verbose=false) ?(lexer=false) line repl =
   let str = String.trim line in
   if verbose then(
@@ -195,9 +195,11 @@ let parse_line ?(verbose=false) ?(lexer=false) line repl =
       );
     Interpreter.runtime ~repl:repl ast;;
 
+(**Takes two Hahstbl and fuse them together*)
 let fuse_hash_tbl original new_one = 
   Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
 
+(**Display the REPL Help*)
 let display_help () =
   print_endline "\027[1;38;2;195;239;195m### Baguette# Interpreter REPL Command Help ###\027[m";
   print_endline "\027[2;38;2;195;239;195m~ help: show this help";
@@ -207,7 +209,7 @@ let display_help () =
   print_endline "~ lexer: toggle the char or default version of the lexer";
   print_endline "~ verbose: toggle the verbose (default:false)\027[m";;
 
-
+(**List all of possible file in directory for autocompletion*)
   let possible_completion_file word =
     let word = if word = "" then "./" else word in
     let array = 
@@ -228,12 +230,15 @@ let display_help () =
       else str) filtered_list
     in double_filtered_list;;
 
+(**Load a file*)
 let load_file ?(verbose=false) ?(lexer=false) lst = 
   if List.length lst < 2 then print_endline "not enough args"
   else (
     let tl = List.tl lst in let file = List.hd tl in 
       try parse_file ~verbose:verbose ~lexer:lexer file with _ -> print_endline ("The file " ^ file ^ " do not exists.")
   );;
+
+(**Main REPL Function using Linenoise*)
 let rec new_repl_funct () = 
   let rec user_input prompt cb =
     match LNoise.linenoise prompt with 
@@ -277,4 +282,5 @@ let anon_fun (_ : string) = ();;
 
 let () = 
   Arg.parse spec anon_fun usage_message;
-  try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ -> new_repl_funct ()
+  try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ ->
+    new_repl_funct ()

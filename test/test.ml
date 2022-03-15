@@ -1,12 +1,6 @@
-open Baguette_base
 open Baguette_sharp
-include Lexer
-include Token
-include Parser
-include Interpreter
 
-
-let read_file filename = 
+(*let read_file filename = 
   let lines = ref [] in
   let chan = open_in filename in
   try
@@ -15,7 +9,7 @@ let read_file filename =
     done; !lines
   with End_of_file ->
     close_in chan;
-    List.rev !lines ;;
+    List.rev !lines ;;*)
 
 let str = ["CROISSANT CHOUQUETTE PARISBREST test PARISBREST CLAFOUTIS"]
 let str = str |> List.map String.trim |> String.concat " ";;

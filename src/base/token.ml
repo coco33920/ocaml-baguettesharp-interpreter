@@ -1,4 +1,7 @@
-module Token = struct
+  (**The Token Module*)
+
+
+  (**Type of tokens*)
   type token_type = 
     | LEFT_PARENTHESIS
     | RIGHT_PARENTHESIS
@@ -13,8 +16,9 @@ module Token = struct
     | ARRAY_BEGIN 
     | ARRAY_END
     | COMMENT
-    | COMMA
+    | COMMA;;
 
+  (**Parses a string into a token*)
   let string_to_token str = 
     match (String.trim str) with
     | "CHOUQUETTE" -> LEFT_PARENTHESIS
@@ -35,11 +39,13 @@ module Token = struct
     | "," -> COMMA
     | str -> try INT_TOKEN(int_of_string str) with Failure _ -> 
       (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
-    | _ -> NULL_TOKEN
+    | _ -> NULL_TOKEN;;
 
+  (**A list of token recognized by the lexer*)
   let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE"
-            ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"]
-
+            ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"];;
+  
+  (**Transforms a token into a string*)
   let token_to_string = function
     | LEFT_PARENTHESIS -> "{(}"
     | RIGHT_PARENTHESIS -> "{)}"
@@ -54,8 +60,9 @@ module Token = struct
     | ARRAY_END -> "{]}"
     | COMMENT -> "{//}"
     | COMMA -> "{,}"
-    | NULL_TOKEN -> "NULL"
+    | NULL_TOKEN -> "NULL";;
   
+  (**Transforms the value of a token into a string*)
   let token_to_litteral_string = function
     | LEFT_PARENTHESIS -> "("
     | RIGHT_PARENTHESIS -> ")"
@@ -69,12 +76,12 @@ module Token = struct
     | ARRAY_END -> "]"
     | COMMENT -> "//"
     | COMMA -> ","
-    | _ -> ""
+    | _ -> "";;
 
-    
-    let pretty_print ppf tok = Fmt.pf ppf "Token %s" (token_to_string tok)
+    (**Pretty print a token*)
+    let pretty_print ppf tok = Fmt.pf ppf "Token %s" (token_to_string tok);;
 
-
+(**Prints a list of token*)
 let print_token_list list =
   let rec str acc list = 
     match list with
@@ -82,5 +89,3 @@ let print_token_list list =
       | t::q -> str (acc ^ (token_to_string t) ^ " ") q
   in let s = str "[" list in print_string (s ^ "]");;
     
-
-  end
