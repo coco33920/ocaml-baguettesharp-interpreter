@@ -7,7 +7,7 @@ maintainer: ["Charlotte Thomas"]
 authors: ["Charlotte Thomas"]
 license: "MIT"
 homepage: "https://baguettesharp.fr"
-doc: "https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki"
+doc: "https://baguettesharp.fr/doc"
 bug-reports:
   "https://github.com/coco33920/ocaml-baguettesharp-interpreter/issues"
 depends: [
