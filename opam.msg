@@ -1,7 +1,5 @@
-Sorry for the doubly quadruple PR - i'm new to publishing on OPAM
-Baguette# is an exotic programming language based on french pastries
-Baguette_base contains the Lexer/Parser
-Baguette_functions contains the Conditions/Math/Array/String modules and manipulation of the language (the Baguette# Standard Library) 
-and the function modules who's job is to match function from their pastry name to real name
-Baguette_sharp is the interpreter while
-Baguette-sharp is the executable file for the REPL
+Okay I *think* I get it now. I just can't get the library AND the executable to install at the 
+same time. So here is only the library. Primarly to see if I fixed all the issue and this ***should*** pass the 
+OPAM CI.
+Thank you,
+Charlotte.
