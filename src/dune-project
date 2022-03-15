@@ -20,4 +20,4 @@
  (homepage https://baguettesharp.fr)
  (synopsis "The Baguette# Interpreter")
  (description "The Interpreter for Baguette#. Defines the lexer,parser the functions themselves and the Interpreter")
- (depends ocaml>=4.02 dune>=3.0 fmt>=0.7.0))
+ (depends ocaml>=4.13.1 dune>=3.0 fmt>=0.7.0))
