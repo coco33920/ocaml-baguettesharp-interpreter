@@ -22,10 +22,13 @@
 <a href="mailto:contact@baguettesharp.fr"><img src="https://img.shields.io/badge/Contact-Mail-f7a8d8?style=for-the-badge&logo=thunderbird&logoColor=55cdfc" alt="Contact - Mail"></a>
 
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki">
-<img src="https://img.shields.io/badge/view-Wiki-f7a8d8?style=for-the-badge">
+<img src="https://img.shields.io/badge/Usage-Wiki-f7a8d8?style=for-the-badge">
 </a>
 <a href="https://www.baguettesharp.fr">
     <img alt="b#" src="https://img.shields.io/badge/Website-Baguette%23-f7a8d8?style=for-the-badge">
+  </a>
+<a href="https://doc.baguettesharp.fr">
+    <img alt="b#" src="https://img.shields.io/badge/API-Documentation-f7a8d8?style=for-the-badge">
   </a>
 </div>
 <h4 align="center">Baguette# est de retour..... En OCaml !</h4>
