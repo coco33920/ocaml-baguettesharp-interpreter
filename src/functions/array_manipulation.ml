@@ -1,8 +1,3 @@
-module ArrayManipulation = struct
-  module Parser = Parser.Parser 
-  module Token = Token.Token
-
-
   let two_argument_func func list_of_arguments = 
     if List.length list_of_arguments < 2 then Parser.Exception 
       (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int 
@@ -82,5 +77,3 @@ module ArrayManipulation = struct
       | [] -> Parser.Exception (new Parser.arg 
         ("This function requires one arguments and you supplied none"))
       | hd::_ -> Parser.Argument (Parser.Str (Parser.print_parameter hd));;
-
-end

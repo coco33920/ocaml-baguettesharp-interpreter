@@ -1,6 +1,3 @@
-module StringManipulation = struct
-module Parser = Parser.Parser
-
 
   let two_argument_func func list_of_arguments = 
     if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
@@ -98,5 +95,3 @@ module Parser = Parser.Parser
     | _ -> Parser.Exception (new Parser.type_error "the argument must be a string");;
 
 
-
-end

@@ -1,5 +1,3 @@
-module Parser = struct
-  module Token = Token.Token
 
   class bag_exception message = 
     object 
@@ -292,6 +290,4 @@ module Parser = struct
             | Node (parameter, arguments) -> "(" ^ print_parameter parameter ^ ") 
             [" ^ (String.concat " " (List.map print_pretty_node arguments)) ^ "]"
 
-    
-
-end
+  

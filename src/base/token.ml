@@ -1,4 +1,3 @@
-module Token = struct
   type token_type = 
     | LEFT_PARENTHESIS
     | RIGHT_PARENTHESIS
@@ -82,5 +81,3 @@ let print_token_list list =
       | t::q -> str (acc ^ (token_to_string t) ^ " ") q
   in let s = str "[" list in print_string (s ^ "]");;
     
-
-  end

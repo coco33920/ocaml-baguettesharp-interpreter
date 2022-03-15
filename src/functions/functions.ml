@@ -1,9 +1,3 @@
-module Functions = struct 
-module Parser = Parser.Parser
-module Math = Math.Math
-module Condition = Conditions.Condition
-module ArrayManipulation = Array_manipulation.ArrayManipulation
-module StringManipulation = String_manipulation.StringManipulation
 let main_ram = Hashtbl.create 1000
 
 let rec boucle regex str list = 
@@ -74,38 +68,34 @@ match (String.trim name) with
   | "FRAISIER" -> Math.ceil list_of_args
   | "QUATREQUART" -> add_variable list_of_args
 
-  | "TIRAMISU" -> Condition.equality list_of_args (*operateur de conditions & binaire*)
-  | "MERINGUE" -> Condition.inferior_large list_of_args
-  | "MERVEILLE" -> Condition.inferior_strict list_of_args
-  | "BRIOCHE" -> Condition.superior_large list_of_args
-  | "TARTE" -> Condition.superior_strict list_of_args
-  | "FLAN" -> Condition.binary_and list_of_args
-  | "PAINDEPICE" -> Condition.binary_or list_of_args
-  | "CREPE" -> Condition.binary_xor list_of_args
-  | "CHAUSSONAUXPOMMES" -> Condition.binary_not list_of_args
+  | "TIRAMISU" -> Conditions.equality list_of_args (*operateur de conditions & binaire*)
+  | "MERINGUE" -> Conditions.inferior_large list_of_args
+  | "MERVEILLE" -> Conditions.inferior_strict list_of_args
+  | "BRIOCHE" -> Conditions.superior_large list_of_args
+  | "TARTE" -> Conditions.superior_strict list_of_args
+  | "FLAN" -> Conditions.binary_and list_of_args
+  | "PAINDEPICE" -> Conditions.binary_or list_of_args
+  | "CREPE" -> Conditions.binary_xor list_of_args
+  | "CHAUSSONAUXPOMMES" -> Conditions.binary_not list_of_args
 
-  | "TARTEAUXFRAISES" -> ArrayManipulation.access list_of_args (*ACCESS*)
-  | "TARTEAUXFRAMBOISES" -> ArrayManipulation.replace list_of_args (*REPLACE*)
-  | "TARTEAUXPOMMES" -> ArrayManipulation.create_array list_of_args (*CREATE*)
-  | "TARTEALARHUBARBE" -> ArrayManipulation.create_matrix list_of_args (*MCREATE*)
-  | "GLACE" -> ArrayManipulation.display_array list_of_args (*DISPLAY*)
-  | "BEIGNET" -> ArrayManipulation.populate list_of_args (*POPULATE*)
+  | "TARTEAUXFRAISES" -> Array_manipulation.access list_of_args (*ACCESS*)
+  | "TARTEAUXFRAMBOISES" -> Array_manipulation.replace list_of_args (*REPLACE*)
+  | "TARTEAUXPOMMES" -> Array_manipulation.create_array list_of_args (*CREATE*)
+  | "TARTEALARHUBARBE" -> Array_manipulation.create_matrix list_of_args (*MCREATE*)
+  | "GLACE" -> Array_manipulation.display_array list_of_args (*DISPLAY*)
+  | "BEIGNET" -> Array_manipulation.populate list_of_args (*POPULATE*)
 
-  | "DOUGHNUT" -> StringManipulation.replace list_of_args (*SREPLACE*)
-  | "BUCHE" -> StringManipulation.create list_of_args (*SCREATE*)
-  | "GAUFFREDELIEGE" -> StringManipulation.concat list_of_args (*SADD*)
-  | "GAUFFREDEBRUXELLES" -> StringManipulation.access list_of_args (*SACCESS*)
-  | "GAUFFRE" -> StringManipulation.split list_of_args (*SPLIT*)
-  | "PANCAKE" -> StringManipulation.transform_to_array list_of_args (*TOARR*)
-  | "SIROPDERABLE" -> StringManipulation.transform_from_array list_of_args (*FROMARR*)
+  | "DOUGHNUT" -> String_manipulation.replace list_of_args (*SREPLACE*)
+  | "BUCHE" -> String_manipulation.create list_of_args (*SCREATE*)
+  | "GAUFFREDELIEGE" -> String_manipulation.concat list_of_args (*SADD*)
+  | "GAUFFREDEBRUXELLES" -> String_manipulation.access list_of_args (*SACCESS*)
+  | "GAUFFRE" -> String_manipulation.split list_of_args (*SPLIT*)
+  | "PANCAKE" -> String_manipulation.transform_to_array list_of_args (*TOARR*)
+  | "SIROPDERABLE" -> String_manipulation.transform_from_array list_of_args (*FROMARR*)
 
-  | "FROSTING" -> StringManipulation.convert_to_string list_of_args (*TOSTRING*)
-  | "CARROTCAKE" -> StringManipulation.int_from_string list_of_args (*IFS*)
-  | "GALETTEDESROIS" -> StringManipulation.double_from_string list_of_args (*DFS*)
-  | "FRANGIPANE" -> StringManipulation.bool_from_string list_of_args (*BFS*)
+  | "FROSTING" -> String_manipulation.convert_to_string list_of_args (*TOSTRING*)
+  | "CARROTCAKE" -> String_manipulation.int_from_string list_of_args (*IFS*)
+  | "GALETTEDESROIS" -> String_manipulation.double_from_string list_of_args (*DFS*)
+  | "FRANGIPANE" -> String_manipulation.bool_from_string list_of_args (*BFS*)
 
-  | _ -> Exception (new Parser.bag_exception "unknown function");;
-
-
-
-end
+  | _ -> Parser.Exception (new Parser.bag_exception "unknown function");;

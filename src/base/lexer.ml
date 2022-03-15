@@ -1,28 +1,31 @@
-module Lexer = struct
-  module Parser = Parser.Parser
-  module Token = Token.Token
+(**
+General lexer module : generate lexers char by char or word by word (default)
+*)
+
+
+  (**Take a word and if the lexer is between quotes and returns the corresponding token with Token#string_to_token*)
   let read_token word in_quote = 
     match (Token.string_to_token word) with
       | NULL_TOKEN -> (Token.STRING_TOKEN(word),0)
       | QUOTE -> (QUOTE,1)
       | token -> if in_quote then (Token.STRING_TOKEN(word),0) else (token,0);;
 
-    let recognized_token = Token.recognized_token;;
+  let recognized_token = Token.recognized_token;;
 
-  (*O(n)*)
+  (**Returns the maximum of a list*)
   let rec max_lst acc lst = 
     match lst with 
       | [] -> acc
       | i::q when i>= acc -> max_lst i q
       | _::q -> max_lst acc q;;
 
-    
-  (*O(t*len(s))*)
+  (**Take a string and returns the biggest token matching the keyword*)
   let is_a_token_a_keyword input_string =
     let a = List.map (fun s -> try (let v = Str.search_forward (Str.regexp s) input_string 0 in v)
     with _ -> -1) recognized_token
   in max_lst (-1) a;;
 
+  (**Runs the type inference algorithm*)
   let type_inference_algorithm input_string = 
     try 
       let a = int_of_string input_string in Token.INT_TOKEN a
@@ -32,6 +35,7 @@ module Lexer = struct
     with Failure _ ->
       Token.STRING_TOKEN input_string;;
 
+  (**Take a string with a token in it and returns a couple of Tokens*)
   let extract_token input_string index = 
     let aux =
       try 
@@ -48,6 +52,7 @@ module Lexer = struct
     in aux;;
 
 
+  (**The char by char lexer*)
   let generate_token_with_chars input_string =
     let lst = List.of_seq (String.to_seq input_string)
     in let rec aux acc storage lst quote_count = match lst with
@@ -74,6 +79,7 @@ module Lexer = struct
         else aux acc storage q quote_count
     in aux [] "" lst 0;;
 
+  (**The word by word lexers*)
   let generate_token input_string = 
     let lst = String.split_on_char ' ' input_string in
     let rec aux acc quotes lst = match lst with
@@ -82,6 +88,8 @@ module Lexer = struct
         in aux (token::acc) (quotes+add) q
   in aux [] 0 lst;;
 
+
+  (**A function to count the parenthesis and validate if every parenthesis are closed and every quotes are doubled*)
   let validate_parenthesis_and_quote input_token_list = 
     let stack = Stack.create () in
     let rec aux stack acc lst = match lst with 
@@ -93,4 +101,3 @@ module Lexer = struct
       | Token.QUOTE::q -> aux stack (acc+1) q
       | _::q -> aux stack acc q
   in aux stack 0 input_token_list;;
-end

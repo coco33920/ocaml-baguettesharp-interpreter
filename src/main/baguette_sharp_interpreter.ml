@@ -1,9 +1,4 @@
 open Baguette_sharp
-include Token 
-include Parser
-include Lexer
-include Interpreter
-
 let list_of_funct = [
   "PAINAUCHOCOLAT";
   "PAINVIENNOIS";

@@ -1,9 +1,5 @@
 open Baguette_sharp
 open Js_of_ocaml
-include Token
-include Parser
-include Lexer
-include Interpreter
 
 let read_file filename = 
   let lines = ref [] in

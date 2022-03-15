@@ -1,10 +1,3 @@
-module Interpreter = struct
-
-  module Token = Token.Token
-  module Parser = Parser.Parser
-  module Functions = Functions.Functions
-  
-
   let labels = Hashtbl.create 100;;
 
 
@@ -47,6 +40,3 @@ module Interpreter = struct
         | _ -> i := !i + 1
     done;
     Functions.main_ram;;
-
-
-end

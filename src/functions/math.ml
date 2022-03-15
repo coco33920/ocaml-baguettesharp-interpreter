@@ -1,6 +1,4 @@
-module Math = struct
-module Token = Token.Token
-module Parser = Parser.Parser
+
     let argument_to_float a =
       match a with
         | Parser.Argument (Parser.I(i)) -> float_of_int i
@@ -93,6 +91,3 @@ module Parser = Parser.Parser
     let ceil list_of_arguments = 
       if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg ("This function requires two arguments and you supplied " ^ string_of_int (List.length list_of_arguments) ^ "arguments"))
       else let head = List.hd list_of_arguments in let a = argument_to_float head in Parser.Argument (Parser.I (int_of_float (ceil a)));;
-
-  end
-

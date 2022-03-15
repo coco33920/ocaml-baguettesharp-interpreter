@@ -1,6 +1,3 @@
-module Condition = struct
-    module Parser = Parser.Parser
-    
 
     let two_argument_func list_of_arguments func = 
       if List.length list_of_arguments < 2 then Parser.Exception (new Parser.arg 
@@ -29,6 +26,3 @@ module Condition = struct
       if List.length list_of_arguments < 1 then Parser.Exception (new Parser.arg 
         ("This function requires one arguments and you supplied none"))
       else let head = List.hd list_of_arguments in Parser.apply_unary_operator (not) head
-
-
-end
