@@ -1,6 +1,6 @@
 (include_subdirs no)
-(executable
- (modes exe)
- (name baguette_sharp_interpreter)
- (public_name baguette_sharp.repl)
- (libraries baguette_sharp fmt str linenoise))
+  (executable
+     (modes exe)
+     (name baguette_sharp_interpreter)
+     (public_name baguette_sharp.repl)
+     (libraries baguette_sharp fmt str linenoise))

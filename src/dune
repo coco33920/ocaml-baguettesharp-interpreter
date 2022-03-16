@@ -1,6 +1,6 @@
 (include_subdirs unqualified)
 
-(library
- (name baguette_sharp)
- (public_name baguette_sharp)
- (libraries fmt str))
+  (library
+     (name baguette_sharp)
+     (public_name baguette_sharp)
+     (libraries fmt str))
