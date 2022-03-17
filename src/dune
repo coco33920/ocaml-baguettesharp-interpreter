@@ -3,4 +3,4 @@
   (library
      (name baguette_sharp)
      (public_name baguette_sharp)
-     (libraries fmt str))
+     (libraries llvm llvm.target core fmt str))
