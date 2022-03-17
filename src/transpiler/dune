@@ -1,0 +1,5 @@
+(include_subdirs no)
+(executable
+ (name transpiler)
+ (public_name baguette_sharp.transpiler)
+ (libraries baguette_sharp))
