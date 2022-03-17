@@ -41,13 +41,33 @@ opam install fmt str linenoise
 ```
 
 ## Installation
-### Binaires pré-compilées
-Téléchargement des binaire pour linux x86_64 (dernière version).
 
+### Binaires pré-compilées
+**Téléchargement automatique** des binaire pour linux x86_64 (dernière version).
+```bash
+curl https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/download.sh | sh
+```
+le script télécharge la dernière version, l'installe sous `~/.local/bin/baguette_sharp` et le rend éxecutable
+alternativement vous pouvez faire
+```bash
+wget https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/download.sh
+sh download.sh
+```
+ou encore juste éxecuter le script
 ```bash
 wget https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/latest/download/baguette.linux64
 mv baguette.linux64 ~/.local/bin/baguette_sharp #par exemple pour l'avoir dans $PATH 
 chmod +x ~/.local/bin/baguette_sharp #pour être executable
+```
+
+### OPAM
+Build la dernière version stable depuis OPAM `opam install baguette_sharp` compile et installe la dernière version OPAM
+de baguette_sharp sous `baguette_sharp.repl`
+
+### Source
+Pour installer depuis les sources il faut installer d'abord les dépendances `opam install fmt linenoise` et avoir OCaml >= 4.13.1
+Installation depuis les sources automatiques (avec installations de dépendances) :
+```curl
 ```
 
 ## Histoire 
