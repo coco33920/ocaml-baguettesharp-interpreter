@@ -118,6 +118,20 @@ The execution for the addition of 10 and 8 (in binary 1010 and 1000) gives 10010
 <img src="img/turing/adder.png">
 </div>
 
+## Infinite loop
+Let the following program
+```
+0-0-0-*-1
+1-0-0-*-0
+```
+It writes nothing, stays on the same cell, and alternate between state $0$ and $1$, thus never passing to state $H$ and never finishing.  
+Executing it makes the interpreter print a lot of error codes until it stops executing the program and loop back to the REPL.
+
+
+<div style="margin:auto; text-align: center">
+<img src="img/turing/error.png">
+</div>
+
 
 
 
