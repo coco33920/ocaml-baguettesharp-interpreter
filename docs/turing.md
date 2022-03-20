@@ -100,3 +100,24 @@ Executing it gives
 </div>
 
 
+## Binary Add
+A binary adder is way more complex, the program adapted for the turing machine is seventeen lines long (and will not be properly explained here), in short, it uses the second number as a counter to add one by one to the first number until the counter is at 0.  
+
+The automata representation gives this  :
+
+<div style="margin:auto; text-align: center">
+<img src="img/turing/automata2.png">
+</div>
+
+The whole program is available on the [GitHub](https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/examples/turing_programs.txt#L5).
+
+The execution for the addition of 10 and 8 (in binary 1010 and 1000) gives 10010 which is 16+2 = 18. 
+
+
+<div style="margin:auto; text-align: center">
+<img src="img/turing/adder.png">
+</div>
+
+
+
+
