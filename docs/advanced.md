@@ -53,6 +53,17 @@
   - [The Game Loop](random.md#the-game-loop)
     - [A Step](random.md#a-step)
     - [The Loop](random.md#the-loop)
+-  [Binary Turing Machine](turing.md#binary-turing-machine)
+   - [Introduction](turing.md#introduction)
+   - [Specification](turing.md#specification)
+   - [Initialization](turing.md#initialization)
+   - [Program reading](turing.md#program-reading)
+   - [One Step](turing.md#one-step)
+   - [The Main Loop](turing.md#the-main-loop)
+- [Binary Turing Machine Examples](turing.md#examples)
+  - [Left Bit Shift](turing.md#left-bit-shift)
+  - [Binary Add](turing.md#binary-add)
+  - [Infinite loop](turing.md#infinite-loop)
 
 ## Introduction
 In this page we will introduce the `LABELS`; 
