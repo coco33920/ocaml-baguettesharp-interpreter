@@ -48,4 +48,22 @@ A step should do these steps
 * Translates the head according to if we read $r$, $l$ or $*$
 * Prints the tapes (without the 2s) and the state of the machine
   
-The implementation in Baguette# of this code is available on [GitHub](https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/examples/turing.baguette#L26), until the 58th line. This piece of code is only performing *one* step. We now need to implement the loop.
+The implementation in Baguette# of this code is available on [GitHub](https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/examples/turing.baguette#L26), until the 58th line. This piece of code is only performing *one* step. We now need to implement the main loop.
+
+## The Main Loop
+
+Now we have a step of the machine, we need to repeat the steps until the machine state is $H$.
+We will see in the examples what happens what the program do when it is confronted to a never ending program/input for a program which does not always end.  
+
+Here again we have a conditional loop to implement. We will again use a **LABEL** and a conditional test **IF**.
+
+<div style="margin:auto; text-align: center">
+<img src="img/turing/runtime.png">
+</div>
+
+Which can translates to "while machine state is not "H", call step".  
+Finally, we need to add a **JUMP** to "run" just after the initialization, to launch the program : 
+
+```b#
+PAINVIENNOIS PARISBREST run PARISBREST
+```
