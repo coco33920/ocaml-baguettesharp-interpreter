@@ -67,3 +67,36 @@ Finally, we need to add a **JUMP** to "run" just after the initialization, to la
 ```b#
 PAINVIENNOIS PARISBREST run PARISBREST
 ```
+
+# Examples
+## Left Bit Shift
+
+The left bit shift is a binary multiplication by two, it's "translating the bits" of one rank towards the left, effectively adding a $0$ at the end of the binary input.
+
+We can do it with the following algorithm:
+* If we're in the machine state $0$ and reads a $0$ we write a $0$, moves the head to the right, and we stay in the state $0$
+* If we're in the machine state $0$ and reads a $1$ we write a $1$, moves the head to the right, and we stay in the state $0$
+* If we're in the machine state $0$ and reads a $2$ we write a $0$, do not move the head, and we pass to the state $H$  
+
+In an automata (transition are from machine state to machine state labelled by tape reading) it gives that  
+
+
+<div style="margin:auto; text-align: center">
+<img src="img/turing/automata1.png">
+</div>
+
+and in form of a program readable by the Turing Machine we have
+```turing
+0-0-0-r-0
+0-1-1-r-0
+0-2-0-*-H
+```
+
+Executing it gives
+
+
+<div style="margin:auto; text-align: center">
+<img src="img/turing/bitshift.png">
+</div>
+
+
