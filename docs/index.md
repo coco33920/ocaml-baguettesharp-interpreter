@@ -24,7 +24,7 @@ The content here is for the moment the README.md of the repo.
 
 ## Table of Contents
 
-<details><summary>Main Page</summary>
+<details><summary>Table Of Content</summary>
 
 
 - [Main Page](#)
@@ -35,13 +35,6 @@ The content here is for the moment the README.md of the repo.
   - [Install](#install)
   - [Usage](#usage)
   - [Test](#test)
-
-
-</details>
-
-
-<details><summary>REPL</summary>
-
 
 - [REPL](repl.md#repl)
   - [Links](repl.md#links)
@@ -57,14 +50,6 @@ The content here is for the moment the README.md of the repo.
     - [Wrong Type](repl.md#wrong-type)
     - [Syntax](repl.md#syntax)
     - [List of errors](repl.md#list-of-errors)
-
-
-</details>
-
-
-<details><summary>Basic Usage</summary>
-
-
 - [Basic Usage](basic.md/#basic-usage)
   - [Links](basic.md/#links)
   - [Support](basic.md#support)
@@ -78,12 +63,6 @@ The content here is for the moment the README.md of the repo.
     - [Conversion from string](basic.md#conversion-from-string)
     - [Conversion to string](basic.md#conversion-to-string)
   - [Variables](basic.md#variables)
-
-
-</details>
-<details><summary>Advanced Usage</summary>
-
-
 - [Advanced Usage](advanced.md#advanced-usage)
   - [Introduction](advanced.md#introduction)
   - [Labels](advanced.md#labels)
@@ -92,12 +71,6 @@ The content here is for the moment the README.md of the repo.
   - [Errors](advanced.md#errors)
   - [Variables and Labels](advanced.md#variables-and-labels)
   - [IFs](advanced.md#ifs)
-
-
-</details>
-<details><summary>Random Guessing Game</summary>
-
-
 - [Random Guessing Game](random.md#random-guessing-game)
   - [Specifications](random.md#specifications)
   - [Initialization of the game](random.md#initialization-of-the-game)
@@ -107,12 +80,6 @@ The content here is for the moment the README.md of the repo.
   - [The Game Loop](random.md#the-game-loop)
     - [A Step](random.md#a-step)
     - [The Loop](random.md#the-loop)
-
-
-</details>
-<details><summary>Binary Turing Machine</summary>
-
-
 -  [Binary Turing Machine](turing.md#binary-turing-machine)
    - [Introduction](turing.md#introduction)
    - [Specification](turing.md#specification)
