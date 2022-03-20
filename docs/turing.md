@@ -17,4 +17,19 @@ move right, and we transfer to machine state 1 we will write 0-1-2-r-1
 The code of the initialization is shown bellow  
 ![init](img/turing/init.png)      
 In the first line we init the initial state of the machine to "0", we then ask the input tape to the user (the input of the program). The next line is not entirely shown, it initialize the tape as a 500 length "22..." string then the input then a 500 length "22..." string.  
-The most important thing here is the *TARTEALARHUBARBE* instruction call, it constructs a matrix of size *n* by *p* (here 100 by 3) initialized with 0 everywhere. These three matrices will store the program. Two other variable *n* and *i* are there to control the program loop, *n* is the number of line of the program and *i* is init at 0 (this will be the variable of looping)
+The most important thing here is the *TARTEALARHUBARBE* instruction call, it constructs a matrix of size *n* by *p* (here 100 by 3) initialized with 0 everywhere. These three matrices will store the program. Two other variable *n* and *i* are there to control the program loop, *n* is the number of line of the program and *i* is init at 0 (this will be the variable of looping)  
+
+## Program reading
+To read on the standard input, we must emulate a conditional loop, the Baguette# do not implement loops natively. We will use for that goal the two predefined variable *n* and *i*, the instruction *ICECREAM \<string>* to construct **LABELS**, the *PAINVIENNOIS \<string>* instruction to **JUMP** to the designed *label*, and finally a conditional test, **SABLE \<condition> \<label>**  
+
+Here is the algorithm of the program reading loop  
+* Read STDIN
+* Split the line at each `-` character 
+* Fill the three defined matrices with corresponding part of the program (see [here](#initialization))
+* Increment **i**
+* Check if **i** is superior or equal to **n**
+* If **i >= n** then it quit the loop
+* If **i < n** it **JUMP** to itself
+
+This algorithm implemented gives twenty-three lines of code available on [GitHub](https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/examples/turing.baguette#L3)  
+Once this algorithm is completed we have read the whole program
