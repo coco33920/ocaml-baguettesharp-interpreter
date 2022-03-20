@@ -23,10 +23,6 @@ The content here is for the moment the README.md of the repo.
 </div>
 
 ## Table of Contents
-
-<details><summary>Table Of Content</summary>
-
-
 - [Main Page](#)
   - [Requirements](#requirements)
   - [History](#history)
@@ -35,7 +31,6 @@ The content here is for the moment the README.md of the repo.
   - [Install](#install)
   - [Usage](#usage)
   - [Test](#test)
-
 - [REPL](repl.md#repl)
   - [Links](repl.md#links)
   - [Prerequisite](repl.md#prerequisite)
@@ -91,10 +86,6 @@ The content here is for the moment the README.md of the repo.
   - [Left Bit Shift](turing.md#left-bit-shift)
   - [Binary Add](turing.md#binary-add)
   - [Infinite loop](turing.md#infinite-loop)
-
-
-</details>
-
 
 ## Requirements
 Ocaml version >= 4.13.1, modules fmt,str and linenoise ( REPL )
