@@ -26,6 +26,7 @@ The content here is for the moment the README.md of the repo.
 
 <details><summary>Main Page</summary>
 
+
 - [Main Page](#)
   - [Requirements](#requirements)
   - [History](#history)
@@ -35,9 +36,12 @@ The content here is for the moment the README.md of the repo.
   - [Usage](#usage)
   - [Test](#test)
 
+
 </details>
 
+
 <details><summary>REPL</summary>
+
 
 - [REPL](repl.md#repl)
   - [Links](repl.md#links)
@@ -54,8 +58,12 @@ The content here is for the moment the README.md of the repo.
     - [Syntax](repl.md#syntax)
     - [List of errors](repl.md#list-of-errors)
 
+
 </details>
+
+
 <details><summary>Basic Usage</summary>
+
 
 - [Basic Usage](basic.md/#basic-usage)
   - [Links](basic.md/#links)
@@ -71,8 +79,10 @@ The content here is for the moment the README.md of the repo.
     - [Conversion to string](basic.md#conversion-to-string)
   - [Variables](basic.md#variables)
 
+
 </details>
 <details><summary>Advanced Usage</summary>
+
 
 - [Advanced Usage](advanced.md#advanced-usage)
   - [Introduction](advanced.md#introduction)
@@ -83,8 +93,10 @@ The content here is for the moment the README.md of the repo.
   - [Variables and Labels](advanced.md#variables-and-labels)
   - [IFs](advanced.md#ifs)
 
+
 </details>
 <details><summary>Random Guessing Game</summary>
+
 
 - [Random Guessing Game](random.md#random-guessing-game)
   - [Specifications](random.md#specifications)
@@ -95,8 +107,11 @@ The content here is for the moment the README.md of the repo.
   - [The Game Loop](random.md#the-game-loop)
     - [A Step](random.md#a-step)
     - [The Loop](random.md#the-loop)
+
+
 </details>
 <details><summary>Binary Turing Machine</summary>
+
 
 -  [Binary Turing Machine](turing.md#binary-turing-machine)
    - [Introduction](turing.md#introduction)
@@ -110,7 +125,9 @@ The content here is for the moment the README.md of the repo.
   - [Binary Add](turing.md#binary-add)
   - [Infinite loop](turing.md#infinite-loop)
 
+
 </details>
+
 
 ## Requirements
 Ocaml version >= 4.13.1, modules fmt,str and linenoise ( REPL )
