@@ -4,12 +4,16 @@ We will here develop a random guessing game.
 [Skip To Content](#specifications)
 
 ## Table of Contents
-- [Main Page](index.md)
+- [OCaml Baguette# Interpreter](index.md#ocaml-baguette-interpreter)
+  - [Table of Contents](index.md#table-of-contents)
   - [Requirements](index.md#requirements)
+  - [Installation](index.md#installation)
+    - [Pre-compiled binaries](index.md#pre-compiled-binaries)
+    - [OPAM](index.md#opam)
+    - [Source](index.md#source)
   - [History](index.md#history)
   - [Support](index.md#support)
   - [Building](index.md#building)
-  - [Install](index.md#install)
   - [Usage](index.md#usage)
   - [Test](index.md#test)
 - [REPL](repl.md#repl)

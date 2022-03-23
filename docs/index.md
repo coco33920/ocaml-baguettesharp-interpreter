@@ -23,12 +23,16 @@ The content here is for the moment the README.md of the repo.
 </div>
 
 ## Table of Contents
-- [Main Page](#)
+- [OCaml Baguette# Interpreter](#ocaml-baguette-interpreter)
+  - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
+  - [Installation](#installation)
+    - [Pre-compiled binaries](#pre-compiled-binaries)
+    - [OPAM](#opam)
+    - [Source](#source)
   - [History](#history)
   - [Support](#support)
   - [Building](#building)
-  - [Install](#install)
   - [Usage](#usage)
   - [Test](#test)
 - [REPL](repl.md#repl)
@@ -93,7 +97,45 @@ Ocaml version >= 4.13.1, modules fmt,str and linenoise ( REPL )
 ```sh
 opam install fmt str linenoise
 ```
+## Installation
 
+### Pre-compiled binaries
+**Automatic download** of the linux x86_64 binaries
+```bash
+curl https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/download.sh | sh
+```
+the script downloads the latest binaries (which was tagged on the releases), install it as `~/.local/bin/baguette_sharp` 
+and flag it as executable. You can also do
+```bash
+wget https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/download.sh
+sh download.sh
+```
+Or just executing the script itself
+```bash
+wget https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/latest/download/baguette.linux64
+mv baguette.linux64 ~/.local/bin/baguette_sharp
+chmod +x ~/.local/bin/baguette_sharp
+```
+
+### OPAM
+Build the latest stable version in OPAM repositories `opam install baguette_sharp` it compile and install the latest
+baguette_sharp version under `baguette_sharp.repl` in OPAM files (which are in `$PATH`)
+
+### Source
+You must install the dependencies to build from sources, which are `fmt` and `linenoise`. And an OCaml version of at least 4.13.1.
+An automatic script to download sources, install dependencies and build from source is available here :
+```bash
+curl https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/automatic.sh | sh
+```
+Which is exactly :
+```bash
+opam install -y linenoise fmt
+git clone https://github.com/coco33920/ocaml-baguettesharp-interpreter
+cd ocaml-baguettesharp-interpreter
+dune build @install
+dune install
+```
+The script, same as OPAM, install the repl under `baguette_sharp.repl` in the OPAM files.
 
 ## History 
 
@@ -113,12 +155,6 @@ Keywords are simple and are the only instances when you don't need parenthesis, 
 
 ```sh
 dune build .
-```
-
-## Install
-```sh
-dune install
-baguette_sharp
 ```
 
 ## Usage
