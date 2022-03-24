@@ -51,6 +51,8 @@ We will here develop a random guessing game.
   - [Errors](advanced.md#errors)
   - [Variables and Labels](advanced.md#variables-and-labels)
   - [IFs](advanced.md#ifs)
+  - [Functions](advanced.md#functions)
+  - [Load](advanced.md#load)
 - [Random Guessing Game](#random-guessing-game)
   - [Specifications](#specifications)
   - [Initialization of the game](#initialization-of-the-game)

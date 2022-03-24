@@ -49,6 +49,8 @@
   - [Errors](advanced.md#errors)
   - [Variables and Labels](advanced.md#variables-and-labels)
   - [IFs](advanced.md#ifs)
+  - [Functions](advanced.md#functions)
+  - [Load](advanced.md#load)
 - [Random Guessing Game](random.md#random-guessing-game)
   - [Specifications](random.md#specifications)
   - [Initialization of the game](random.md#initialization-of-the-game)

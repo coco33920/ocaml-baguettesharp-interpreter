@@ -48,6 +48,8 @@
   - [Errors](#errors)
   - [Variables and Labels](#variables-and-labels)
   - [IFs](#ifs)
+  - [Functions](#functions)
+  - [Load](#load)
 - [Random Guessing Game](random.md#random-guessing-game)
   - [Specifications](random.md#specifications)
   - [Initialization of the game](random.md#initialization-of-the-game)
@@ -227,3 +229,7 @@ CLAFOUTIS BAGUETTE
 ```
 Calling it is simple, as if a TEST function existed, do not hesitate to role-play and add your own country's or your favourite's
 pastries :).
+
+## Load
+You can load a B# file (containing for example functions) into another with the LOAD call (yet to be baguetified)
+`LOAD "path/to/file";` in B# `LOAD PARISBREST path/to/file PARISBREST BAGUETTE`
