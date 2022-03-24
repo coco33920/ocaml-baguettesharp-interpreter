@@ -54,6 +54,11 @@ let read_entry list_of_args =
            try Parser.create_float_argument (float_of_string (String.trim a)) with Failure _ -> (try (Parser.create_int_argument (int_of_string (String.trim a)) ) with Failure _ -> Parser.create_string_argument a))
   | _ -> let a = read_line () in Parser.create_string_argument a;;
 
+let return list_of_args = 
+  match list_of_args with
+  | [] -> Parser.Argument (Parser.Nul ())
+  | t::_ -> Hashtbl.add main_ram "result" t; Parser.Argument (Parser.Nul ());;
+
 (**Takes a string and a list of argument and dispatch the called instruction*)
 let recognize_function name list_of_args =
   match (String.trim name) with
@@ -105,5 +110,7 @@ let recognize_function name list_of_args =
   | "CARROTCAKE" -> String_manipulation.int_from_string list_of_args (*IFS*)
   | "GALETTEDESROIS" -> String_manipulation.double_from_string list_of_args (*DFS*)
   | "FRANGIPANE" -> String_manipulation.bool_from_string list_of_args (*BFS*)
+
+  | "RETURN" -> return list_of_args
 
   | _ -> Parser.Exception (new Parser.bag_exception "unknown function");;

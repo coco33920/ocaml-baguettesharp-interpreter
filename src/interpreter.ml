@@ -8,25 +8,6 @@ let functions = Hashtbl.create 100;;
 let creating_stack_trace line name except  =
   ["\027[1;38;02;244;113;116mError:\027[m at line";string_of_int line;"while evaluating\027[38;2;50;175;255m";name;"\027[m=>";except#to_string] |> String.concat " ";;
 
-let try_injection name list_of_arguments = 
-  let inject_arguments args list_of_arguments l =
-    let arr1,arr2 = Array.of_list args,Array.of_list list_of_arguments
-    in if Array.length arr1 > Array.length arr2 then
-      Parser.Exception (new Parser.bag_exception "not enough errors") 
-    else
-      (for i=0 to (Array.length arr1 -1) do 
-        let a1,a2 = arr1.(i),arr2.(i)
-        in Hashtbl.add (Functions.main_ram) a1 a2
-      done;
-      (*arguments are injected => execution*)
-      Hashtbl.add labels name l;
-      Parser.GOTO name;)
-
-  in let a = Hashtbl.find_opt functions name in 
-  match a with
-    | Some (s,l) -> inject_arguments s list_of_arguments l
-    | None -> Parser.Exception (new Parser.bag_exception "unknown function")
-
 (**Interpretation of a single Node*)
 (*Called when a node is a call expression and we need the list of arguments*)
 let rec exec_node ?(line = -1) node  = 
@@ -52,10 +33,29 @@ let rec exec_node ?(line = -1) node  =
   | Parser.Node(Parser.Function (name,args),list_of_arguments)
     -> Hashtbl.add functions name (args,list_of_arguments); Parser.Argument (Parser.Nul ())
   | _ -> Parser.Argument (Parser.Nul ())
+and try_injection name list_of_arguments = 
+  let inject_arguments args list_of_arguments l =
+    let arr1,arr2 = Array.of_list args,Array.of_list list_of_arguments
+    in if Array.length arr1 > Array.length arr2 then
+      Parser.Exception (new Parser.bag_exception "not enough errors") 
+    else
+      (for i=0 to (Array.length arr1 -1) do 
+        let a1,a2 = arr1.(i),arr2.(i)
+        in Hashtbl.add (Functions.main_ram) a1 a2
+      done;
+      (*arguments are injected => execution*)
+      runtime l |> ignore; 
+      let p = Hashtbl.find_opt (Functions.main_ram) "result"
+      in match p with
+      | None -> Parser.Argument (Parser.Nul ())
+      | Some v -> v
+      )
 
-
-(**Runtime of the program runs the list of Node and update the RAM. It also returns the RAM*)
-let rec runtime ?(repl = false) list_of_node = 
+  in let a = Hashtbl.find_opt functions name in 
+  match a with
+    | Some (s,l) -> inject_arguments s list_of_arguments l
+    | None -> Parser.Exception (new Parser.bag_exception "unknown function")
+and runtime ?(repl = false) list_of_node = 
   let array_of_node = Array.of_list list_of_node in 
   let n = Array.length array_of_node in
   let i = ref 0 in
@@ -63,7 +63,7 @@ let rec runtime ?(repl = false) list_of_node =
     let exec = exec_node ~line:!i array_of_node.(!i) in match exec with 
     | Parser.Exception s -> print_endline (creating_stack_trace !i "" s); i := n+1;
     | Parser.GOTO s -> i := !i+1; if not (String.equal s "else") then
-        (try let a = Hashtbl.find labels s in runtime a |> ignore with _ -> print_string "label do not exist")
+        (try let a = Hashtbl.find labels s in runtime a |> ignore; with _ -> print_string "label do not exist")
     | Parser.TBL c -> if repl then (print_endline (Parser.print_parameter (Parser.TBL(c)))); i := n+1;
     | Parser.Argument a -> (match a with
         | Nul () -> ()
