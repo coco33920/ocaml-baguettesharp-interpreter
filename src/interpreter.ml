@@ -1,5 +1,20 @@
 (**The Interpreter Module of B#*)
 
+let read_file filename = 
+  let lines = ref [] in
+  let chan = open_in filename in
+  try
+    while true; do
+      let a = input_line chan in if not (String.starts_with ~prefix:"//" a) then lines := a :: !lines
+    done; !lines
+  with End_of_file ->
+    close_in chan;
+    List.rev !lines;;
+
+let fuse_hash_tbl original new_one = 
+  Hashtbl.iter (fun a b -> Hashtbl.add original a b) new_one;;
+
+
 (**The Hashtbl storing the labels AST*)
 let labels = Hashtbl.create 100;;
 let functions = Hashtbl.create 100;;
@@ -25,6 +40,7 @@ let rec exec_node ?(line = -1) node  =
      | s -> s)
   | Parser.Node(Parser.Array, list_of_arguments) -> let new_list = List.map exec_node list_of_arguments in Parser.TBL (Array.of_list new_list)
   | Parser.Node(Parser.GOTO s, _) -> Parser.GOTO s
+  | Parser.Node(Parser.LOAD s,_) -> Parser.LOAD s
   | Parser.Node(Parser.IF, (Parser.Node(Parser.COND, args))::q) -> let arg = List.hd args in let b = exec_node arg in
     (match b with (Parser.Argument(Parser.Bool b)) -> let i' = string_of_int((Random.int 230)*(Random.int 70)) in Hashtbl.add labels ("if_in_use_"^i') q; if b then Parser.GOTO ("if_in_use_"^i') else Parser.GOTO "else" | _ -> Parser.Exception 
                                                                                                                                                                                                                                    (new Parser.syntax_error "wrong if"))
@@ -62,6 +78,13 @@ and runtime ?(repl = false) list_of_node =
   while !i <= (n-1) do
     let exec = exec_node ~line:!i array_of_node.(!i) in match exec with 
     | Parser.Exception s -> print_endline (creating_stack_trace !i "" s); i := n+1;
+    | Parser.LOAD s -> i := !i +1; if not @@ Sys.file_exists s then print_endline "file do not exist" else
+      let str = read_file s |> List.map (String.trim) |> String.concat " " in
+      let token_list = Lexer.generate_token str in
+      let a = Lexer.validate_parenthesis_and_quote token_list in
+      (match a with
+      | Parser.Exception s -> print_endline (creating_stack_trace !i "" s)
+      | _ -> let ram = Parser.parse_file token_list |> runtime in fuse_hash_tbl ram (Functions.main_ram))
     | Parser.GOTO s -> i := !i+1; if not (String.equal s "else") then
         (try let a = Hashtbl.find labels s in runtime a |> ignore; with _ -> print_string "label do not exist")
     | Parser.TBL c -> if repl then (print_endline (Parser.print_parameter (Parser.TBL(c)))); i := n+1;

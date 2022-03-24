@@ -35,6 +35,7 @@ let string_to_token str =
   | "PAINVIENNOIS" -> KEYWORD "GOTO"
   | "SABLE" -> KEYWORD "IF"
   | "FRAMBOISIER" -> KEYWORD "THEN"
+  | "LOAD" -> KEYWORD "LOAD"
   | "BABAAURHUM" -> ARRAY_BEGIN
   | "CHARLOTTEAUXFRAISES" -> ARRAY_END
   | "SCHNECKENKUCHEN" -> PARAM_END
@@ -46,8 +47,8 @@ let string_to_token str =
                                                | _ -> NULL_TOKEN;;
 
 (**A list of token recognized by the lexer*)
-let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE";"SCHNECKENKUCHEN";""
-                       ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"];;
+let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE";"SCHNECKENKUCHEN";"CRUMBLE"
+                       ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//";"LOAD"];;
 
 (**Transforms a token into a string*)
 let token_to_string = function
