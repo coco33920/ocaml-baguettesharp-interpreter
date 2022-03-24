@@ -45,7 +45,7 @@ and try_injection name list_of_arguments =
       done;
       (*arguments are injected => execution*)
       runtime l |> ignore; 
-      let p = Hashtbl.find_opt (Functions.main_ram) "result"
+      let p = Stack.pop_opt (Functions.result)
       in match p with
       | None -> Parser.Argument (Parser.Nul ())
       | Some v -> v

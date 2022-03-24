@@ -3,6 +3,7 @@
 
 (**The main Hashtbl for variable storage*)
 let main_ram = Hashtbl.create 1000
+let result = Stack.create ();;
 
 (**Replaces all occurence of a string by another*)
 let rec boucle regex str list = 
@@ -57,7 +58,7 @@ let read_entry list_of_args =
 let return list_of_args = 
   match list_of_args with
   | [] -> Parser.Argument (Parser.Nul ())
-  | t::_ -> Hashtbl.add main_ram "result" t; Parser.Argument (Parser.Nul ());;
+  | t::_ -> Stack.push t result; Parser.Argument (Parser.Nul ());;
 
 (**Takes a string and a list of argument and dispatch the called instruction*)
 let recognize_function name list_of_args =
