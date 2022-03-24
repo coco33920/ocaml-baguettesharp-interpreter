@@ -37,8 +37,8 @@ let string_to_token str =
   | "FRAMBOISIER" -> KEYWORD "THEN"
   | "BABAAURHUM" -> ARRAY_BEGIN
   | "CHARLOTTEAUXFRAISES" -> ARRAY_END
-  | "}" -> PARAM_END
-  | "{" -> PARAM_BEGIN
+  | "SCHNECKENKUCHEN" -> PARAM_END
+  | "CRUMBLE" -> PARAM_BEGIN
   | "//" -> COMMENT
   | "," -> COMMA
   | str -> try INT_TOKEN(int_of_string str) with Failure _ -> 
@@ -46,7 +46,7 @@ let string_to_token str =
                                                | _ -> NULL_TOKEN;;
 
 (**A list of token recognized by the lexer*)
-let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE"
+let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE";"SCHNECKENKUCHEN";""
                        ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"];;
 
 (**Transforms a token into a string*)

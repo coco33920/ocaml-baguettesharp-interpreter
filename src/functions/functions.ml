@@ -112,6 +112,6 @@ let recognize_function name list_of_args =
   | "GALETTEDESROIS" -> String_manipulation.double_from_string list_of_args (*DFS*)
   | "FRANGIPANE" -> String_manipulation.bool_from_string list_of_args (*BFS*)
 
-  | "RETURN" -> return list_of_args
+  | "APFELSTRUDEL" -> return list_of_args
 
   | _ -> Parser.Exception (new Parser.bag_exception "unknown function");;
