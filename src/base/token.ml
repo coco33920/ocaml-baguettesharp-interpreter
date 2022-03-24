@@ -14,7 +14,9 @@ type token_type =
   | STRING_TOKEN of string
   | BOOL_TOKEN of bool
   | ARRAY_BEGIN 
+  | PARAM_BEGIN
   | ARRAY_END
+  | PARAM_END
   | COMMENT
   | COMMA;;
 
@@ -35,6 +37,8 @@ let string_to_token str =
   | "FRAMBOISIER" -> KEYWORD "THEN"
   | "BABAAURHUM" -> ARRAY_BEGIN
   | "CHARLOTTEAUXFRAISES" -> ARRAY_END
+  | "SCHNECKENKUCHEN" -> PARAM_END
+  | "CRUMBLE" -> PARAM_BEGIN
   | "//" -> COMMENT
   | "," -> COMMA
   | str -> try INT_TOKEN(int_of_string str) with Failure _ -> 
@@ -42,7 +46,7 @@ let string_to_token str =
                                                | _ -> NULL_TOKEN;;
 
 (**A list of token recognized by the lexer*)
-let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE"
+let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE";"SCHNECKENKUCHEN";""
                        ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//"];;
 
 (**Transforms a token into a string*)
@@ -58,6 +62,8 @@ let token_to_string = function
   | KEYWORD k -> "{KEYWORD: " ^ k ^ "}"
   | ARRAY_BEGIN -> "{[}"
   | ARRAY_END -> "{]}"
+  | PARAM_BEGIN -> "{ { }"
+  | PARAM_END -> "{ } }"
   | COMMENT -> "{//}"
   | COMMA -> "{,}"
   | NULL_TOKEN -> "NULL";;
@@ -74,6 +80,8 @@ let token_to_litteral_string = function
   | KEYWORD k -> k ^ " "
   | ARRAY_BEGIN -> "["
   | ARRAY_END -> "]"
+  | PARAM_BEGIN -> "{"
+  | PARAM_END -> "}"
   | COMMENT -> "//"
   | COMMA -> ","
   | _ -> "";;
