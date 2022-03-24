@@ -207,3 +207,23 @@ The `CUPCAKE` is meant to be replaced by any condition seen in basic.
 That is all for the Advanced Usage, in the next page we will learn how to do a basic loop and program a 
 plus/minus integer game! 
 The code for the labels can be downloaded [here](test.baguette) and for the if [here](if.baguette)
+
+## Functions
+The language supports function definition and using them as if they were native functions, the functions are read *after* the 
+main one of the standard library. They are defined with this syntax.
+```baguette
+NAME { "PARAM_1" "PARAM_2" ... "PARAM_N" } (
+  ..code..
+);
+```
+The Baguette names are `CRUMBLE` for `{`; `SCHNECKENKUCHEN` for `}` and finally the `return` statements is 
+a *function* it must be called with parenthesis, `RETURN` is `APFELSTRUDEL`.  
+Furthermore, arguments must be called through the `MADELEINE` function.  
+Finally, a function that take one argument and prints it like `"Argument: <argument>"` is like this  
+```baguette
+TEST CRUMBLE PARISBREST arg1 PARISBREST SCHNECKENKUCHEN CHOUQUETTE 
+    PAINAUCHOCOLAT CHOUQUETTE PARISBREST Argument %d PARISBREST MADELEINE CHOUQUETTE PARISBREST arg1 PARISBREST CLAFOUTIS CLAFOUTIS 
+CLAFOUTIS BAGUETTE
+```
+Calling it is simple, as if a TEST function existed, do not hesitate to role-play and add your own country's or your favourite's
+pastries :).
