@@ -14,7 +14,7 @@ class bag_exception message =
   end
 
 class outofbound message = 
-  object
+  object 
     inherit bag_exception message
     val! name = "Array Out of Bound Exception"
   end
