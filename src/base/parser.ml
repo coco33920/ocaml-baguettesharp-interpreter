@@ -45,6 +45,7 @@ type arguments = Str of string | I of int | Nul of unit | D of float | Bool of b
 type parameters = CallExpression of string 
                   | Argument of arguments 
                   | GOTO of string 
+                  | LOAD of string
                   | Exception of bag_exception 
                   | Label of string 
                   | IF | COND | Array 
@@ -96,6 +97,7 @@ let rec print_parameter ?(fortbl=false) param =
   | Label i -> "LABEL: " ^ i
   | IF -> "IF"
   | COND -> "COND"
+  | LOAD str -> Printf.sprintf "Load: " ^ str
   | Function (s,scc) -> Printf.sprintf "FUN %s Args : %s" (s) (String.concat "," scc)
   | TBL narr -> "[|" ^ String.concat " " (Array.to_list (Array.map (print_parameter ~fortbl:true) narr)) ^ "|]";;
 
@@ -149,6 +151,7 @@ let parse_line lst =
         | Token.PARAM_END -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in rest,accs
         (*remaining*)
         | _ -> aux Token.LEFT_PARENTHESIS acc q)
+
     | Token.PARAM_BEGIN::q 
         -> (match last_token with
           | Token.STRING_TOKEN s -> let rest,accs = aux Token.PARAM_BEGIN [] q in
@@ -156,6 +159,7 @@ let parse_line lst =
           let acc' = if List.length acc > 0 then List.tl acc else [] in
           (aux Token.NULL_TOKEN (Node(Function (s,ast_list_to_string_list accs),acc2)::acc') rest2)
           | _ -> aux Token.PARAM_BEGIN acc q)
+
     | Token.PARAM_END::q -> q,List.rev acc
     | Token.ARRAY_BEGIN::q -> let rest,accs = aux Token.ARRAY_BEGIN [] q in 
       (aux Token.NULL_TOKEN (Node(Array, accs)::acc) rest)
@@ -184,9 +188,11 @@ let parse_line lst =
          let acc' = if List.length acc > 0 then List.tl acc else [] in 
          (aux Token.NULL_TOKEN (Node(Label str, accs)::acc') rest)
        | Token.KEYWORD k when k="GOTO" -> aux (Token.KEYWORD k) (Node(GOTO str, [Nil])::acc) q2
+       | Token.KEYWORD k when k="LOAD" -> aux (Token.KEYWORD k) (Node(LOAD str, [Nil])::acc) q2
        | _ -> aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2)
 
     | (Token.KEYWORD k)::q when k="GOTO" -> aux (Token.KEYWORD k) acc q
+    | (Token.KEYWORD k)::q when k="LOAD" -> aux (Token.KEYWORD k) acc q
     | (Token.KEYWORD k)::q when String.equal k "LABEL" -> aux (Token.KEYWORD k) acc q
     | (Token.KEYWORD k)::q when String.equal k "END" -> q,List.rev acc
 
