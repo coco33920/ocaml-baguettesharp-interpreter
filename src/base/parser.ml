@@ -2,6 +2,7 @@
    Parser module
 *)
 
+
 (**Exceptions*)
 
 
@@ -13,7 +14,7 @@ class bag_exception message =
   end
 
 class outofbound message = 
-  object
+  object 
     inherit bag_exception message
     val! name = "Array Out of Bound Exception"
   end
@@ -41,10 +42,76 @@ class syntax_error message =
 type arguments = Str of string | I of int | Nul of unit | D of float | Bool of bool;;
 
 (**Type parameters: every structure the language recognize*)
-type parameters = CallExpression of string | Argument of arguments | GOTO of string | Exception of bag_exception | Label of string | IF | COND | Array | TBL of parameters array;;
+type parameters = CallExpression of string 
+                  | Argument of arguments 
+                  | GOTO of string 
+                  | LOAD of string
+                  | Exception of bag_exception 
+                  | Label of string 
+                  | IF | COND | Array 
+                  | TBL of parameters array
+                  | Function of string * string list;;
 
 (**Type AST*)
 type 'a ast = Nil | Node of 'a * ('a ast) list;;
+
+(**Printing utility*)
+
+
+(**Transforms an argument into a string {Type: value}*)
+let print_argument arg = 
+  match arg with 
+  | Str s -> "String: " ^ s
+  | I i -> "Int: " ^ string_of_int i
+  | D d -> "Float: " ^ string_of_float d
+  | Bool b -> "Bool: " ^ string_of_bool b
+  | Nul () -> "Nil"
+
+(**Transforms only the value of an argument*)
+let print_lit_argument arg = 
+  match arg with 
+  | Str s ->  s
+  | I i -> string_of_int i
+  | D d -> string_of_float d
+  | Bool b -> string_of_bool b
+  | Nul () -> "Nil"
+
+(**Transform an argument into a string for the REPL*)
+let print_argument_for_repl arg = 
+  match arg with 
+  | Str s -> "String{" ^ s ^ "}"
+  | I i -> "Int{" ^ string_of_int i ^ "}"
+  | D d -> "Float{" ^ string_of_float d ^ "}"
+  | Bool b -> "Bool{" ^ string_of_bool b ^ "}"
+  | Nul () -> "Unit{}"
+
+(**Transforms a parameter into a string
+   @param fortbl specify if we are printing an array to simplify the output*)
+let rec print_parameter ?(fortbl=false) param = 
+  match param with 
+  | CallExpression s -> "Fonction: " ^ s
+  | Array -> "Array: "
+  | Argument s -> "" ^ if fortbl then print_lit_argument s else print_argument s
+  | GOTO i -> "GOTO: " ^ i
+  | Exception s -> "Exception " ^ (s#get_name)
+  | Label i -> "LABEL: " ^ i
+  | IF -> "IF"
+  | COND -> "COND"
+  | LOAD str -> Printf.sprintf "Load: " ^ str
+  | Function (s,scc) -> Printf.sprintf "FUN %s Args : %s" (s) (String.concat "," scc)
+  | TBL narr -> "[|" ^ String.concat " " (Array.to_list (Array.map (print_parameter ~fortbl:true) narr)) ^ "|]";;
+
+(**Transform a list of parameters into a string representation*)
+let print_pretty_arguments param = 
+  String.concat " " (List.map print_parameter param);;
+
+(**Pretty-print (transforms into a string) an AST*)
+let rec print_pretty_node node =
+  match node with 
+  | Nil -> ""
+  | Node (parameter, arguments) -> "(" ^ print_parameter parameter ^ ") 
+            [" ^ (String.concat " " (List.map print_pretty_node arguments)) ^ "]"
+
 
 
 (**Parsing methods*)
@@ -59,17 +126,41 @@ let parse_string_rec lst =
     | token::q -> parse (acc ^ " " ^ (Token.token_to_litteral_string token)) q
   in parse "" lst;;    
 
+let ast_list_to_string_list ast = 
+  let rec aux acc ast = 
+    match ast with
+      | [] -> acc
+      | Nil::q -> aux acc q
+      | Node(Argument(Str(s)),_)::q -> aux (s::acc) q
+      | _::q -> aux acc q
+  in List.rev(aux [] ast);;
+
 (**Parse a line (a list of tokens) into a a list of ASTs*)
 let parse_line lst = 
   let rec aux last_token acc lst =
     match lst with
     | [] -> lst,List.rev acc
     (*basic handling*)
-    | Token.LEFT_PARENTHESIS::q -> (match last_token with 
+    | Token.LEFT_PARENTHESIS::q -> 
+        (match last_token with 
+        (*call expression*)
         | Token.STRING_TOKEN s -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in 
           let acc' = if List.length acc > 0 then List.tl acc else [] in 
           (aux Token.NULL_TOKEN (Node(CallExpression s, accs)::acc') rest)
+
+        | Token.PARAM_END -> let rest,accs = aux Token.LEFT_PARENTHESIS [] q in rest,accs
+        (*remaining*)
         | _ -> aux Token.LEFT_PARENTHESIS acc q)
+
+    | Token.PARAM_BEGIN::q 
+        -> (match last_token with
+          | Token.STRING_TOKEN s -> let rest,accs = aux Token.PARAM_BEGIN [] q in
+          let rest2,acc2 = (aux Token.PARAM_END [] rest) in
+          let acc' = if List.length acc > 0 then List.tl acc else [] in
+          (aux Token.NULL_TOKEN (Node(Function (s,ast_list_to_string_list accs),acc2)::acc') rest2)
+          | _ -> aux Token.PARAM_BEGIN acc q)
+
+    | Token.PARAM_END::q -> q,List.rev acc
     | Token.ARRAY_BEGIN::q -> let rest,accs = aux Token.ARRAY_BEGIN [] q in 
       (aux Token.NULL_TOKEN (Node(Array, accs)::acc) rest)
     | Token.RIGHT_PARENTHESIS::q -> q,List.rev acc
@@ -97,9 +188,11 @@ let parse_line lst =
          let acc' = if List.length acc > 0 then List.tl acc else [] in 
          (aux Token.NULL_TOKEN (Node(Label str, accs)::acc') rest)
        | Token.KEYWORD k when k="GOTO" -> aux (Token.KEYWORD k) (Node(GOTO str, [Nil])::acc) q2
+       | Token.KEYWORD k when k="LOAD" -> aux (Token.KEYWORD k) (Node(LOAD str, [Nil])::acc) q2
        | _ -> aux Token.QUOTE (Node(Argument (Str str), [Nil])::acc) q2)
 
     | (Token.KEYWORD k)::q when k="GOTO" -> aux (Token.KEYWORD k) acc q
+    | (Token.KEYWORD k)::q when k="LOAD" -> aux (Token.KEYWORD k) acc q
     | (Token.KEYWORD k)::q when String.equal k "LABEL" -> aux (Token.KEYWORD k) acc q
     | (Token.KEYWORD k)::q when String.equal k "END" -> q,List.rev acc
 
@@ -291,60 +384,3 @@ let apply_unary_operator operator a =
   match a with 
   | Argument(Bool b) -> create_bool_argument (operator b)
   | _ -> Exception (new type_error "you must apply operators to booleans")
-
-
-(**Printing utility*)
-
-
-(**Transforms an argument into a string {Type: value}*)
-let print_argument arg = 
-  match arg with 
-  | Str s -> "String: " ^ s
-  | I i -> "Int: " ^ string_of_int i
-  | D d -> "Float: " ^ string_of_float d
-  | Bool b -> "Bool: " ^ string_of_bool b
-  | Nul () -> "Nil"
-
-(**Transforms only the value of an argument*)
-let print_lit_argument arg = 
-  match arg with 
-  | Str s ->  s
-  | I i -> string_of_int i
-  | D d -> string_of_float d
-  | Bool b -> string_of_bool b
-  | Nul () -> "Nil"
-
-(**Transform an argument into a string for the REPL*)
-let print_argument_for_repl arg = 
-  match arg with 
-  | Str s -> "String{" ^ s ^ "}"
-  | I i -> "Int{" ^ string_of_int i ^ "}"
-  | D d -> "Float{" ^ string_of_float d ^ "}"
-  | Bool b -> "Bool{" ^ string_of_bool b ^ "}"
-  | Nul () -> "Unit{}"
-
-(**Transforms a parameter into a string
-   @param fortbl specify if we are printing an array to simplify the output*)
-let rec print_parameter ?(fortbl=false) param = 
-  match param with 
-  | CallExpression s -> "Fonction: " ^ s
-  | Array -> "Array: "
-  | Argument s -> "" ^ if fortbl then print_lit_argument s else print_argument s
-  | GOTO i -> "GOTO: " ^ i
-  | Exception s -> "Exception " ^ (s#get_name)
-  | Label i -> "LABEL: " ^ i
-  | IF -> "IF"
-  | COND -> "COND"
-  | TBL narr -> "[|" ^ String.concat " " (Array.to_list (Array.map (print_parameter ~fortbl:true) narr)) ^ "|]";;
-
-(**Transform a list of parameters into a string representation*)
-let print_pretty_arguments param = 
-  String.concat " " (List.map print_parameter param);;
-
-(**Pretty-print (transforms into a string) an AST*)
-let rec print_pretty_node node =
-  match node with 
-  | Nil -> ""
-  | Node (parameter, arguments) -> "(" ^ print_parameter parameter ^ ") 
-            [" ^ (String.concat " " (List.map print_pretty_node arguments)) ^ "]"
-
