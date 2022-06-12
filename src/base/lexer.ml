@@ -101,3 +101,21 @@ let validate_parenthesis_and_quote input_token_list =
     | Token.QUOTE::q -> aux stack (acc+1) q
     | _::q -> aux stack acc q
   in aux stack 0 input_token_list;;
+
+(**Algorithm
+  if a parenthesis is closed without having been opened then the token is eliminated
+  at the end close parenthesis are added in case of too much opened parenthesis*)
+let automatic_correction_of_parenthesis input_token_list = 
+  let stack = Stack.create () in 
+  let rec aux stack acc lst = match lst with 
+    | [] -> 
+      let r = ref acc in 
+      let n = Stack.length stack in
+      for _=0 to (n-1) do
+        r := Token.RIGHT_PARENTHESIS::!r
+      done;
+      List.rev (!r)
+    | Token.LEFT_PARENTHESIS::q -> Stack.push 1 stack; aux stack (Token.LEFT_PARENTHESIS::acc) q
+    | Token.RIGHT_PARENTHESIS::q -> if Stack.is_empty stack then aux stack acc q else let _ = Stack.pop stack in aux stack (Token.RIGHT_PARENTHESIS::acc) q
+    | t::q -> aux stack (t::acc) q
+  in aux stack [] input_token_list;;

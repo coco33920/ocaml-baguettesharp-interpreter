@@ -114,4 +114,6 @@ let recognize_function name list_of_args =
 
   | "APFELSTRUDEL" -> return list_of_args
 
-  | _ -> Parser.Exception (new Parser.bag_exception "unknown function");;
+  | _ -> 
+    let word = Levenshtein.select_minimal_distance_word name in 
+    Parser.Exception (new Parser.bag_exception ("The "^name^" function does not exists do you mean "^word^" ?"));;

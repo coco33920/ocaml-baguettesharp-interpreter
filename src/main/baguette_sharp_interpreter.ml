@@ -3,58 +3,6 @@ open Baguette_sharp
 open Utils
 
 (**List of all functions*)
-let list_of_funct = [
-  "PAINAUCHOCOLAT";
-  "PAINVIENNOIS";
-  "CROISSANT";
-  "MADELEINE";
-  "ECLAIR";
-  "CANELE";
-  "STHONORE";
-  "KOUGNAMANN";
-  "PROFITEROLE";
-  "FINANCIER";
-  "PAINAURAISIN";
-  "CHOCOLATINE";
-  "BRETZEL";
-  "BAGUETTEVIENNOISE";
-  "OPERA";
-  "MILLEFEUILLE";
-  "FRAISIER";
-  "QUATREQUART";
-  "TIRAMISU";
-  "MERINGUE";
-  "MERVEILLE";
-  "BRIOCHE";
-  "TARTE";
-  "FLAN";
-  "PAINDEPICE";
-  "CREPE";
-  "CHAUSSONAUXPOMMES";
-  "SABLE";
-  "CHOUQUETTE";
-  "CLAFOUTIS";
-  "PARISBREST";
-  "TARTEAUXFRAISES";
-  "TARTEAUXFRAMBOISES";
-  "TARTEAUXPOMMES";
-  "TARTEALARHUBARBE";
-  "GLACE";
-  "BEIGNET";
-  "DOUGHNUT";
-  "BUCHE";
-  "GAUFFREDELIEGE";
-  "GAUFFREDEBRUXELLE";
-  "GAUFFRE";
-  "PANCAKE";
-  "SIROPDERABLE";
-  "FROSTING";
-  "CARROTCAKE";
-  "GALETTEDESROIS";
-  "FRANGIPANE";
-  "BABAAURHUM";
-  "CHARLOTTEAUXFRAISES"
-];;
 
 let hash_table = Hashtbl.create 100;;
 let shared_ram = Hashtbl.create 1000;;
@@ -108,7 +56,8 @@ let _ = (list_of_funct,[
     "dfs <s:string> convert s to a float";
     "bfs <s:string> convert s to a boolean";
     "[";
-    "]"
+    "]";
+    ";"
   ]) |> (fun (a,b) -> List.combine a b) |> (List.iter (fun (a,b) -> Hashtbl.add hash_table a b));;
 
 let usage_message = "baguette-sharp --input <filename>";;
