@@ -70,7 +70,8 @@ and try_injection name list_of_arguments =
   in let a = Hashtbl.find_opt functions name in 
   match a with
     | Some (s,l) -> inject_arguments s list_of_arguments l
-    | None -> Parser.Exception (new Parser.bag_exception "unknown function")
+    | None -> let word = Levenshtein.select_minimal_distance_word name in 
+    Parser.Exception (new Parser.bag_exception ("The "^name^" function does not exists do you mean "^word^" ?"))
 and runtime ?(repl = false) list_of_node = 
   let array_of_node = Array.of_list list_of_node in 
   let n = Array.length array_of_node in

@@ -3,7 +3,7 @@
 <p>
   <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=coco33920&message=ocaml-baguettesharp-interpreter&color=55cdfc&logo=github&style=for-the-badge" alt="coco33920 - ocaml-baguettesharp-interpreter"></a>
   <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/"><img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc&style=for-the-badge" alt="GitHub release"></a>
-<a href="#license"><img src="https://img.shields.io/badge/License-MIT-55cdfc?style=for-the-badge" alt="License"></a>
+<a href="#license"><img src="https://img.shields.io/badge/License-GPLv3-55cdfc?style=for-the-badge" alt="License"></a>
   <div align="center">
   <a href="README.md">
     <img alt="FR" src="https://flagicons.lipis.dev/flags/4x3/fr.svg" width="30px" title="french-readme">

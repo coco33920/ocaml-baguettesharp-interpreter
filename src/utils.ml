@@ -1,3 +1,58 @@
+let list_of_funct = [
+  "PAINAUCHOCOLAT";
+  "PAINVIENNOIS";
+  "CROISSANT";
+  "MADELEINE";
+  "ECLAIR";
+  "CANELE";
+  "STHONORE";
+  "KOUGNAMANN";
+  "PROFITEROLE";
+  "FINANCIER";
+  "PAINAURAISIN";
+  "CHOCOLATINE";
+  "BRETZEL";
+  "BAGUETTEVIENNOISE";
+  "OPERA";
+  "MILLEFEUILLE";
+  "FRAISIER";
+  "QUATREQUART";
+  "TIRAMISU";
+  "MERINGUE";
+  "MERVEILLE";
+  "BRIOCHE";
+  "TARTE";
+  "FLAN";
+  "PAINDEPICE";
+  "CREPE";
+  "CHAUSSONAUXPOMMES";
+  "SABLE";
+  "CHOUQUETTE";
+  "CLAFOUTIS";
+  "PARISBREST";
+  "TARTEAUXFRAISES";
+  "TARTEAUXFRAMBOISES";
+  "TARTEAUXPOMMES";
+  "TARTEALARHUBARBE";
+  "GLACE";
+  "BEIGNET";
+  "DOUGHNUT";
+  "BUCHE";
+  "GAUFFREDELIEGE";
+  "GAUFFREDEBRUXELLE";
+  "GAUFFRE";
+  "PANCAKE";
+  "SIROPDERABLE";
+  "FROSTING";
+  "CARROTCAKE";
+  "GALETTEDESROIS";
+  "FRANGIPANE";
+  "BABAAURHUM";
+  "CHARLOTTEAUXFRAISES";
+  "BAGUETTE"
+];;
+
+
 let read_file filename = 
   let lines = ref [] in
   let chan = open_in filename in
@@ -21,9 +76,26 @@ let parse_file_verbosely ?(lexer=false) file =
   print_endline "Lexed code : ";
   print_newline ();
   Token.print_token_list token_list;
+  print_newline ();
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with
-  | Exception s -> print_endline (s#to_string)
+  | Exception _ -> 
+    let b = Lexer.automatic_correction_of_parenthesis token_list in
+    let ast = Parser.parse_file b in
+    begin
+    print_endline "The parenthesis scheme has automatically been corrected to the following lexed code";
+    print_newline ();
+    Token.print_token_list b;
+    print_newline ();
+    print_endline "Parsed code : ";
+    print_newline ();
+    (List.iter (fun s -> print_endline (Parser.print_pretty_node s)) ast);
+    print_newline ();
+    print_endline "Interpreter : ";
+    print_newline ();
+    Interpreter.runtime ast |> ignore
+    end 
+
   | _ -> (
       let ast = Parser.parse_file token_list in
       print_newline ();
@@ -56,9 +128,19 @@ let parse_line ?(verbose=false) ?(lexer=false) line repl =
   if verbose then(
     print_endline "Lexed code : ";
     Token.print_token_list token_list);
+    print_newline ();
   let a = Lexer.validate_parenthesis_and_quote token_list in 
   match a with 
-  | Exception s -> print_endline (s#to_string); Hashtbl.create 1
+  | Exception _ -> 
+    let b = Lexer.automatic_correction_of_parenthesis token_list in
+    let ast = Parser.parse_file b in
+    if verbose then 
+      (print_endline "Automatically Corrected Code : "; Token.print_token_list b; print_newline (); 
+      print_endline "Parsed code : ";
+       List.iter (fun s -> print_endline (Parser.print_pretty_node s)) ast;
+       print_endline "Runtime : ";
+       print_newline (););
+    Interpreter.runtime ~repl:repl ast;
   | _ -> let ast = Parser.parse_file token_list in
     if verbose then
       (print_endline "Parsed code : ";
