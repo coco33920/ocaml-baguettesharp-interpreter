@@ -1,43 +1,57 @@
-open Core
+print_endline "test";;
+
+open Llvm
+open! Baguette_sharp
 exception Error of string
-let context = Llvm.global_context ()
-let the_module = Llvm.create_module context "testcompiler"
-let builder = Llvm.builder context
-let int_type = Llvm.i32_type context
-let float_type = Llvm.double_type context
-let bool_type = Llvm.i1_type context
-let nul = Llvm.void_type context
-let construct_string str = 
-  Llvm.const_string context str;;
 
-let argument_to_value arg = 
-  match arg with 
-  |Parser.I i -> Llvm.const_int int_type i
-  |Parser.D d -> Llvm.const_float float_type d
-  |Parser.Str s -> construct_string s
-  |Parser.Bool b -> if b then Llvm.const_int bool_type 1 else Llvm.const_int bool_type 0
-  |_ -> Llvm.const_null nul
-  
+let read_file filename = 
+  let lines = ref [] in
+  let chan = open_in filename in
+  try
+    while true; do
+      let a = input_line chan in if not (String.starts_with ~prefix:"//" a) then lines := a :: !lines
+    done; !lines
+  with End_of_file ->
+    close_in chan;
+    List.rev !lines;;
+
+let parse_line file =
+  let str = [file] |> List.map String.trim |> String.concat " " in
+    let token_list = Lexer.generate_token str in
+    let a = Lexer.validate_parenthesis_and_quote token_list in 
+    match a with 
+    | Exception s -> failwith ("error"^(s#to_string))
+    | _ -> List.hd (Parser.parse_file token_list);;
 
 
-let node_of_param param = Parser.Node(param,[]);;
-let codegen_expr ast = match ast with
-  | Parser.Nil -> Llvm.const_null nul 
-  | Parser.Node(Parser.Argument a,_) -> argument_to_value a
-  | Parser.Node(Parser.CallExpression name,list_of_args) 
-    -> let l = List.map ~f:(Interpreter.exec_node) list_of_args in
-       let a = Functions.recognize_function name l
-        in 
-        let b = (match a with 
-          | Parser.Argument a -> argument_to_value a
-          | Parser.Exception e -> failwith (e#to_string)
-          | _ -> Llvm.const_null nul)
-        in b
-  | Parser.Node(Parser.Exception e,_) -> failwith e#to_string
-  | Parser.Node(Parser.GOTO f,_) -> construct_string f
-  | Parser.Node(Parser.Label f,_) -> construct_string f
-  | Parser.Node(IF,_) -> construct_string "IF"
-  | Parser.Node(COND,_) -> construct_string "COND"
-  | Parser.Node(Array,_) -> construct_string "ARRAY"
-  | Parser.Node(TBL _,_) -> construct_string "TBL"
+let context = global_context ()
+let the_module = create_module context "testcompiler"
+let builder = builder context
+let int_type = i32_type context
+let float_type = double_type context
+let bool_type = i1_type context
+let nul = void_type context
+let construct_string str = const_string context str;;
+let named_values:(string,llvalue) Hashtbl.t = Hashtbl.create 10
+let variables = Functions.main_ram;;
+let labels = Hashtbl.create 100;;
+let functions = Hashtbl.create 100;;
 
+
+let rec codegen_expr = function
+  | Parser.Argument (I i) -> const_int int_type i 
+  | Parser.Argument (D d) -> const_float float_type d
+  | Parser.Argument (Str s) -> construct_string s
+  | _ -> const_null nul;;
+
+let codegen_ast = function 
+  | Parser.Node ((Parser.Argument a),_) -> (codegen_expr (Parser.Argument a))
+  | _ -> failwith "not implemented yet";;
+
+
+let () = 
+  print_endline "Ligne de code : ";;
+  let b = read_line () in
+  let a = parse_line b in 
+  print_endline (Parser.print_pretty_node a);
+  dump_value (codegen_ast a);;

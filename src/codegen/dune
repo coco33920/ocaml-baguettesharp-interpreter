@@ -1,0 +1,9 @@
+(include_subdirs no)
+  (executable
+     (modes exe)
+     (name codegen)
+     (public_name baguette_sharp.compiler)
+     (libraries baguette_sharp fmt str linenoise))
+(env
+  (dev
+    (flags (:standard -w -32-39-38))))
