@@ -39,14 +39,17 @@ let variables = Functions.main_ram
 let labels = Hashtbl.create 100
 let functions = Hashtbl.create 100
 
-let rec codegen_expr = function
+let rec codegen_args = function
   | Parser.Argument (I i) -> const_int int_type i
   | Parser.Argument (D d) -> const_float float_type d
   | Parser.Argument (Str s) -> construct_string s
+  | Parser.Argument (Bool b) -> const_int bool_type (if b then 1 else 0)
+  | Parser.Argument (Nul ()) -> const_int int_type 0
   | _ -> const_null nul
 
 let codegen_ast = function
-  | Parser.Node (Parser.Argument a, _) -> codegen_expr (Parser.Argument a)
+  | Parser.Node (Parser.Argument a, _) -> codegen_args (Parser.Argument a)
+  | Parser.Node (Parser.Exception e, _) -> failwith ("error "^e#to_string)
   | _ -> failwith "not implemented yet"
 
 let () = print_endline "Ligne de code : ";;
