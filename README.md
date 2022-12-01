@@ -5,8 +5,8 @@
   <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/"><img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc&style=for-the-badge" alt="GitHub release"></a>
 <a href="#license"><img src="https://img.shields.io/badge/License-GPLv3-55cdfc?style=for-the-badge" alt="License"></a>
   <div align="center">
-  <a href="README_en.md">
-    <img alt="GB" src="https://flagicons.lipis.dev/flags/4x3/gb.svg" width="30px" title="english-readme">
+  <a href="README_fr.md">
+    <img alt="FR" src="https://flagicons.lipis.dev/flags/4x3/fr.svg" width="30px" title="french-readme">
   </a>
   </div>
 </p>
@@ -34,46 +34,45 @@
   <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.ocamllabs.io%2Fbadge%2Fcoco33920%2Focaml-baguettesharp-interpreter%2Fmaster&logo=ocaml&style=for-the-badge">
 </a>
 </div>
-<h4 align="center">Baguette# est de retour..... En OCaml !</h4>
+<h4 align="center">Baguette# is back!</h4>
 
-## Pré-requis 
-Ocaml version >= 4.13.1,modules fmt et linenoise ( pour le REPL )
+## Requirements
+Ocaml version >= 4.13.1, modules fmt,str and linenoise ( REPL )
 
 ```sh
-opam install fmt linenoise
+opam install fmt str linenoise
 ```
-
 ## Installation
 
-### Binaires pré-compilées
-**Téléchargement automatique** des binaire pour linux x86_64 (dernière version).
+### Pre-compiled binaries
+**Automatic download** of the linux x86_64 binaries
 ```bash
 curl https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/download.sh | sh
 ```
-le script télécharge la dernière version, l'installe sous `~/.local/bin/baguette_sharp` et le rend éxecutable
-alternativement vous pouvez faire
+the script downloads the latest binaries (which was tagged on the releases), install it as `~/.local/bin/baguette_sharp` 
+and flag it as executable. You can also do
 ```bash
 wget https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/download.sh
 sh download.sh
 ```
-ou encore juste éxecuter le script
+Or just executing the script itself
 ```bash
 wget https://github.com/coco33920/ocaml-baguettesharp-interpreter/releases/latest/download/baguette.linux64
-mv baguette.linux64 ~/.local/bin/baguette_sharp #par exemple pour l'avoir dans $PATH 
-chmod +x ~/.local/bin/baguette_sharp #pour être executable
+mv baguette.linux64 ~/.local/bin/baguette_sharp
+chmod +x ~/.local/bin/baguette_sharp
 ```
 
 ### OPAM
-Build la dernière version stable depuis OPAM `opam install baguette_sharp` compile et installe la dernière version OPAM
-de baguette_sharp sous `baguette_sharp.repl`
+Build the latest stable version in OPAM repositories `opam install baguette_sharp` it compile and install the latest
+baguette_sharp version under `baguette_sharp.repl` in OPAM files (which are in `$PATH`)
 
 ### Source
-Pour installer depuis les sources il faut installer d'abord les dépendances `opam install fmt linenoise` et avoir OCaml >= 4.13.1
-Installation depuis les sources automatiques (avec installations de dépendances) :
+You must install the dependencies to build from sources, which are `fmt` and `linenoise`. And an OCaml version of at least 4.13.1.
+An automatic script to download sources, install dependencies and build from source is available here :
 ```bash
 curl https://raw.githubusercontent.com/coco33920/ocaml-baguettesharp-interpreter/master/automatic.sh | sh
 ```
-ce qui reviens à faire
+Which is exactly :
 ```bash
 opam install -y linenoise fmt
 git clone https://github.com/coco33920/ocaml-baguettesharp-interpreter
@@ -81,32 +80,29 @@ cd ocaml-baguettesharp-interpreter
 dune build @install
 dune install
 ```
+The script, same as OPAM, install the repl under `baguette_sharp.repl` in the OPAM files.
 
-Le script installe le repl sous `baguette_sharp.repl` dans le bin de OPAM (qui est dans le `$PATH`)
+## History 
 
-## Histoire 
+I restarted this project early 2022, to act as a TIPE (a french weird oral exam for the _concours_ of _Écoles d'Ingénieurs_) to frame the formal language theory, and to do that you'll play with our _world famous_ pastries !
 
-J'ai repris ce projet début 2022, il sert de TIPE ENS et Tétraconcours ( je suis en prépa ) pour illustrer la théorie des langages formels de manière plus ludique, pour sa manière ludique de jouer avec... des pâtisseries!
+The lexer, parser and interpreter are finished, they take a string of language and transform it into an abstract syntax tree (AST) that the interpreter take to execute the language. I now work on the theoritical part of the issue (turing-completeness), and the compiler.
 
-Le parser est fini, il sert à transformer la liste de token en un arbre de syntaxe abstraite ( AST en anglais ) qui va permettre d'interpréter le langage après, l'algorithme s'occupe de transformer une liste en un arbre avec les fonctions/opérateurs et leurs arguments ( qui peuvent aussi être des fonctions ) ainsi que l'interpréteur qui prend l'AST et interprète le langage, le travail porte maintenant sur la partie théorique (turing-completeness) et la partie compilateur.
-
-La syntaxe est proche du BASIC mais sans les boucles explicite ( on peut les faire... mais il faut vous débrouiller ;) )
+The syntax is really close to a BASIC but with less explicit words and keywords you'll see :)
 
 ## Support
 
-Actuellement l'interpréteur supporte les entier, les flottant, les chaînes de caractères, les booleans, les conditions simple, le retour à une ligne antérieure/postérieure et les if/else et implémente les fonctions
-standard précédemment implémentées dans la version en GO
-La grammaire est identique, chaque mot/symbole est séparé d'un espace et chaque symbole et fonction ont un nom de pâtisserie/viennoiserie/sucrerie française ou non.
+The language supports integers, floating point numbers, strings, booleans, predicates, gotos, conditionnals gotos (if/else), 
+and implements many of the standard instructions you can find in a language standard library.
+Keywords are simple and are the only instances when you don't need parenthesis, go see the WIKI for more accurate informations
 
-Les keywords sont simple (voir le WIKI) et ne sont pas suivi de parenthèse ( comme le LABEL par exemple )
-
-## Installation
+## Building
 
 ```sh
-dune install
+dune build .
 ```
 
-## Utilisation
+## Usage
 
 ```sh
 dune exec baguette_sharp_interpreter
@@ -117,5 +113,3 @@ dune exec baguette_sharp_interpreter
 ```sh
 dune runtest
 ```
-
-Voir le WIKI ( en anglais ) pour des informations plus détaillées
