@@ -30,6 +30,9 @@
 <a href="https://doc.baguettesharp.fr">
     <img alt="b#" src="https://img.shields.io/badge/API-Documentation-f7a8d8?style=for-the-badge">
   </a>
+<a href="https://ci.ocamllabs.io/github/coco33920/ocaml-baguettesharp-interpreter">
+  <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.ocamllabs.io%2Fbadge%2Fcoco33920%2Focaml-baguettesharp-interpreter%2Fmaster&logo=ocaml&style=for-the-badge">
+</a>
 </div>
 <h4 align="center">Baguette# est de retour..... En OCaml !</h4>
 
