@@ -2,3 +2,5 @@ web.sh
 validate.sh
 _build/*
 .vscode/*
+listings/*
+listings
