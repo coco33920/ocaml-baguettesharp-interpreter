@@ -1,8 +1,7 @@
 (**The Token Module*)
 
-
 (**Type of tokens*)
-type token_type = 
+type token_type =
   | LEFT_PARENTHESIS
   | RIGHT_PARENTHESIS
   | KEYWORD of string
@@ -13,22 +12,22 @@ type token_type =
   | NULL_TOKEN
   | STRING_TOKEN of string
   | BOOL_TOKEN of bool
-  | ARRAY_BEGIN 
+  | ARRAY_BEGIN
   | PARAM_BEGIN
   | ARRAY_END
   | PARAM_END
   | COMMENT
-  | COMMA;;
+  | COMMA
 
 (**Parses a string into a token*)
-let string_to_token str = 
-  match (String.trim str) with
+let string_to_token str =
+  match String.trim str with
   | "CHOUQUETTE" -> LEFT_PARENTHESIS
   | "CLAFOUTIS" -> RIGHT_PARENTHESIS
   | "PARISBREST" -> QUOTE
   | "BAGUETTE" -> SEMI_COLON
   | "CUPCAKE" -> BOOL_TOKEN true
-  | "POPCAKE" -> BOOL_TOKEN false 
+  | "POPCAKE" -> BOOL_TOKEN false
   | "MUFFIN" -> KEYWORD "BEGIN"
   | "COOKIES" -> KEYWORD "END"
   | "ICECREAM" -> KEYWORD "LABEL"
@@ -42,13 +41,34 @@ let string_to_token str =
   | "CRUMBLE" -> PARAM_BEGIN
   | "//" -> COMMENT
   | "," -> COMMA
-  | str -> try INT_TOKEN(int_of_string str) with Failure _ -> 
-    (try FLOAT_TOKEN(float_of_string str) with Failure _-> NULL_TOKEN)
-                                               | _ -> NULL_TOKEN;;
+  | str -> (
+      try INT_TOKEN (int_of_string str) with
+      | Failure _ -> (
+          try FLOAT_TOKEN (float_of_string str) with Failure _ -> NULL_TOKEN)
+      | _ -> NULL_TOKEN)
 
 (**A list of token recognized by the lexer*)
-let recognized_token = [",";"CHOUQUETTE";"CLAFOUTIS";"PARISBREST";"BAGUETTE";"CUPCAKE";"SCHNECKENKUCHEN";"CRUMBLE"
-                       ;"POPCAKE";"MUFFIN";"COOKIES";"ICECREAM";"PAINVIENNOIS";"SABLE";"FRAMBOISIER";"BABAAURHUM";"//";"LOAD"];;
+let recognized_token =
+  [
+    ",";
+    "CHOUQUETTE";
+    "CLAFOUTIS";
+    "PARISBREST";
+    "BAGUETTE";
+    "CUPCAKE";
+    "SCHNECKENKUCHEN";
+    "CRUMBLE";
+    "POPCAKE";
+    "MUFFIN";
+    "COOKIES";
+    "ICECREAM";
+    "PAINVIENNOIS";
+    "SABLE";
+    "FRAMBOISIER";
+    "BABAAURHUM";
+    "//";
+    "LOAD";
+  ]
 
 (**Transforms a token into a string*)
 let token_to_string = function
@@ -56,9 +76,9 @@ let token_to_string = function
   | RIGHT_PARENTHESIS -> "{)}"
   | QUOTE -> "{\"}"
   | SEMI_COLON -> "{;}"
-  | INT_TOKEN(i) ->  "{Int " ^ string_of_int i ^ "}"
-  | FLOAT_TOKEN(i) -> "{Float " ^ string_of_float i ^ "}"
-  | STRING_TOKEN (s) -> "{String \"" ^ s ^ "\"}"
+  | INT_TOKEN i -> "{Int " ^ string_of_int i ^ "}"
+  | FLOAT_TOKEN i -> "{Float " ^ string_of_float i ^ "}"
+  | STRING_TOKEN s -> "{String \"" ^ s ^ "\"}"
   | BOOL_TOKEN f -> "{Bool: " ^ string_of_bool f ^ "}"
   | KEYWORD k -> "{KEYWORD: " ^ k ^ "}"
   | ARRAY_BEGIN -> "{[}"
@@ -67,15 +87,15 @@ let token_to_string = function
   | PARAM_END -> "{ } }"
   | COMMENT -> "{//}"
   | COMMA -> "{,}"
-  | NULL_TOKEN -> "NULL";;
+  | NULL_TOKEN -> "NULL"
 
 (**Transforms the value of a token into a string*)
 let token_to_litteral_string = function
   | LEFT_PARENTHESIS -> "("
   | RIGHT_PARENTHESIS -> ")"
   | SEMI_COLON -> ";"
-  | INT_TOKEN(i) -> string_of_int i ^ " "
-  | STRING_TOKEN (s) -> s 
+  | INT_TOKEN i -> string_of_int i ^ " "
+  | STRING_TOKEN s -> s
   | FLOAT_TOKEN d -> string_of_float d ^ " "
   | BOOL_TOKEN f -> string_of_bool f ^ " "
   | KEYWORD k -> k ^ " "
@@ -85,15 +105,17 @@ let token_to_litteral_string = function
   | PARAM_END -> "}"
   | COMMENT -> "//"
   | COMMA -> ","
-  | _ -> "";;
+  | _ -> ""
 
 (**Pretty print a token*)
-let pretty_print ppf tok = Fmt.pf ppf "Token %s" (token_to_string tok);;
+let pretty_print ppf tok = Fmt.pf ppf "Token %s" (token_to_string tok)
 
 (**Prints a list of token*)
 let print_token_list list =
-  let rec str acc list = 
+  let rec str acc list =
     match list with
     | [] -> acc
-    | t::q -> str (acc ^ (token_to_string t) ^ " ") q
-  in let s = str "[" list in print_string (s ^ "]");;
+    | t :: q -> str (acc ^ token_to_string t ^ " ") q
+  in
+  let s = str "[" list in
+  print_string (s ^ "]")
