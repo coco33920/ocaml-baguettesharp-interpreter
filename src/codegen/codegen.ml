@@ -39,6 +39,7 @@ let variables = Functions.main_ram
 let labels = Hashtbl.create 100
 let functions = Hashtbl.create 100
 
+
 let rec codegen_args = function
   | Parser.Argument (I i) -> const_int int_type i
   | Parser.Argument (D d) -> const_float float_type d
@@ -47,10 +48,21 @@ let rec codegen_args = function
   | Parser.Argument (Nul ()) -> const_int int_type 0
   | _ -> const_null nul
 
-let codegen_ast = function
+let rec codegen_call name param = 
+  let c = lookup_function name the_module in
+  let c = match c with 
+    Some s -> s
+    | None -> raise (Error ("function "^name^" unknown")) in
+  let args = List.map codegen_ast param in
+  let args = Array.of_list args in
+  build_call c args "calltmp" builder
+
+
+  and codegen_ast = function
   | Parser.Node (Parser.Argument a, _) -> codegen_args (Parser.Argument a)
   | Parser.Node (Parser.Exception e, _) -> failwith ("error "^e#to_string)
-  | _ -> failwith "not implemented yet"
+  | Parser.Node (Parser.CallExpression s, d) -> codegen_call s d
+  | _ -> failwith "not implemented yet";;
 
 let () = print_endline "Ligne de code : ";;
 
