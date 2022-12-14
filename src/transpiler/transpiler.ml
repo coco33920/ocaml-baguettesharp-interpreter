@@ -1,2 +1,1 @@
-let compile file outname = 
-  Naive.t file outname
+let compile file outname = Naive.t file outname

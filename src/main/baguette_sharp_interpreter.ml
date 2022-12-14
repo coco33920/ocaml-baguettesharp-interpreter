@@ -174,11 +174,11 @@ let anon_fun (_ : string) = ()
 
 let () =
   Arg.parse spec anon_fun usage_message;
-  if !output_file != "" 
-    then 
-      begin
-      print_endline ("Compiling file " ^ !input_file ^ " at output " ^ !output_file ^ " with ocamlopt");
-      Transpiler.compile !input_file !output_file |> ignore
-      end
-  else try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ ->
-    new_repl_funct ()
+  if !output_file != "" then (
+    print_endline
+      ("Compiling file " ^ !input_file ^ " at output " ^ !output_file
+     ^ " with ocamlopt");
+    Transpiler.compile !input_file !output_file |> ignore)
+  else
+    try parse_file ~verbose:!verbose ~lexer:!lexer !input_file
+    with _ -> new_repl_funct ()
