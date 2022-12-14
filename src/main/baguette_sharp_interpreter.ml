@@ -118,8 +118,8 @@ let output_file = ref "";;
 let verbose = ref false;;
 let lexer = ref false;;
 
-let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile (compilation is not implemented)");
-            ("--output", Arg.Set_string output_file, "precise where the file should be compiled (NOT IMPLEMENTED YET)");
+let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile");
+            ("--output", Arg.Set_string output_file, "precise where the file should be compiled");
             ("--version", Arg.Unit print_about, "print version and about the software");
             ("--verbose", Arg.Set verbose, "show test version");
             ("--lexer", Arg.Set lexer, "change the lexer to the char version" )];;
@@ -170,5 +170,11 @@ let anon_fun (_ : string) = ();;
 
 let () = 
   Arg.parse spec anon_fun usage_message;
-  try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ ->
+  if !output_file != "" 
+    then 
+      begin
+      print_endline ("Compiling file " ^ !input_file ^ " at output " ^ !output_file ^ " with ocamlopt");
+      Transpiler.compile !input_file !output_file |> ignore
+      end
+  else try parse_file ~verbose:!verbose ~lexer:!lexer !input_file with _ ->
     new_repl_funct ()
