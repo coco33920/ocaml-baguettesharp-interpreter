@@ -74,27 +74,18 @@ let output_file = ref ""
 let verbose = ref false
 let lexer = ref false
 
-<<<<<<< HEAD
-let spec = [("--input", Arg.Set_string input_file, "precise where is the file to interpret/compile");
-            ("--output", Arg.Set_string output_file, "precise where the file should be compiled");
-            ("--version", Arg.Unit print_about, "print version and about the software");
-            ("--verbose", Arg.Set verbose, "show test version");
-            ("--lexer", Arg.Set lexer, "change the lexer to the char version" )];;
-=======
 let spec =
   [
     ( "--input",
       Arg.Set_string input_file,
-      "precise where is the file to interpret/compile (compilation is not \
-       implemented)" );
+      "precise where is the file to interpret/compile" );
     ( "--output",
       Arg.Set_string output_file,
-      "precise where the file should be compiled (NOT IMPLEMENTED YET)" );
+      "precise where the file should be compiled" );
     ("--version", Arg.Unit print_about, "print version and about the software");
     ("--verbose", Arg.Set verbose, "show test version");
     ("--lexer", Arg.Set lexer, "change the lexer to the char version");
   ]
->>>>>>> 2f864dbb32e4b1e2fe878de44aeb23c88b00d8e7
 
 (**Take a filename and returns a list of the lines of the file*)
 
