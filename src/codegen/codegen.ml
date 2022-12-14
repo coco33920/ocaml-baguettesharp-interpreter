@@ -39,6 +39,13 @@ let variables = Functions.main_ram
 let labels = Hashtbl.create 100
 let functions = Hashtbl.create 100
 
+let std () = 
+  let f = define_function "CANELE" (function_type int_type [|int_type;int_type|]) the_module
+  in let bb = append_block context "entry" f in
+  position_at_end bb builder;
+  let ret_val = build_add  (const_int int_type 7) "addtmp" builder in 
+  let _ = build_ret ret_val builder in 
+  f
 
 let rec codegen_args = function
   | Parser.Argument (I i) -> const_int int_type i
@@ -55,8 +62,8 @@ let rec codegen_call name param =
     | None -> raise (Error ("function "^name^" unknown")) in
   let args = List.map codegen_ast param in
   let args = Array.of_list args in
+  
   build_call c args "calltmp" builder
-
 
   and codegen_ast = function
   | Parser.Node (Parser.Argument a, _) -> codegen_args (Parser.Argument a)
@@ -64,6 +71,7 @@ let rec codegen_call name param =
   | Parser.Node (Parser.CallExpression s, d) -> codegen_call s d
   | _ -> failwith "not implemented yet";;
 
+let () = let x = std () in dump_value x;;
 let () = print_endline "Ligne de code : ";;
 
 let b = read_line () in
