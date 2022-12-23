@@ -1,5 +1,6 @@
 (include_subdirs no)
-  (executable
-     (name bench_lexer)
-     (modes exe)
-     (libraries baguette_sharp fmt str))
+
+(executable
+ (name bench_lexer)
+ (modes exe)
+ (libraries baguette_sharp fmt str))
