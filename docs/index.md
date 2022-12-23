@@ -1,6 +1,7 @@
 # OCaml Baguette# Interpreter
 Welcome to the website of the Interpreter of OCaml.
 The content here is for the moment the README.md of the repo.
+See [Boulangerie](https://github.com/coco33920/boulangerie) for BOULANGERIE, the Baguette# Package Manager
 
 <div align="center">
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter">
@@ -10,7 +11,7 @@ The content here is for the moment the README.md of the repo.
 <img src="https://img.shields.io/github/release/coco33920/ocaml-baguettesharp-interpreter?include_prereleases=&sort=semver&color=55cdfc&style=for-the-badge">
 </a>
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/blob/master/LICENCE">
-<img src="https://img.shields.io/badge/License-MIT-55cdfc?style=for-the-badge">
+<img src="https://img.shields.io/badge/License-GPLv3-55cdfc?style=for-the-badge">
 </a>
 <br>
 <a href="https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki">
