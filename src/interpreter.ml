@@ -112,9 +112,13 @@ and runtime ?(repl = false) list_of_node =
         i := n + 1
     | Parser.LOAD s -> (
         i := !i + 1;
-        if not @@ Sys.file_exists s then print_endline "file do not exist"
+        let str = if not @@ Sys.file_exists s then 
+          if not @@ Sys.file_exists (Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie" ^ Filemanager.sep () ^ s ^ ".installed") then 
+            failwith (s ^ " isn't installed.")
         else
-          let str = read_file s |> List.map String.trim |> String.concat " " in
+          Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie" ^ Filemanager.sep () ^ "lib" ^ Filemanager.sep () ^ s ^ Filemanager.sep () ^ "lib.baguette"
+        else s in
+          let str = read_file str |> List.map String.trim |> String.concat " " in
           let token_list = Lexer.generate_token str in
           let a = Lexer.validate_parenthesis_and_quote token_list in
           match a with
