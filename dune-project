@@ -1,6 +1,6 @@
 (lang dune 3.0)
 (name baguette_sharp)
-(version 2.1.1)
+(version 2.2.1)
 (generate_opam_files false)
 
 (source
@@ -10,7 +10,7 @@
 
 (maintainers "Charlotte Thomas")
 
-(license MIT)
+(license GPLv3)
 
 (documentation https://github.com/coco33920/ocaml-baguettesharp-interpreter/wiki)
 (package
