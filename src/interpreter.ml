@@ -112,20 +112,28 @@ and runtime ?(repl = false) list_of_node =
         i := n + 1
     | Parser.LOAD s -> (
         i := !i + 1;
-        let str = if not @@ Sys.file_exists s then 
-          if not @@ Sys.file_exists (Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie" ^ Filemanager.sep () ^ s ^ ".installed") then 
-            failwith (s ^ " isn't installed.")
-        else
-          Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie" ^ Filemanager.sep () ^ "lib" ^ Filemanager.sep () ^ s ^ Filemanager.sep () ^ "lib.baguette"
-        else s in
-          let str = read_file str |> List.map String.trim |> String.concat " " in
-          let token_list = Lexer.generate_token str in
-          let a = Lexer.validate_parenthesis_and_quote token_list in
-          match a with
-          | Parser.Exception s -> print_endline (creating_stack_trace !i "" s)
-          | _ ->
-              let ram = Parser.parse_file token_list |> runtime in
-              fuse_hash_tbl ram Functions.main_ram)
+        let str =
+          if not @@ Sys.file_exists s then
+            if
+              not
+              @@ Sys.file_exists
+                   (Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie"
+                  ^ Filemanager.sep () ^ s ^ ".installed")
+            then failwith (s ^ " isn't installed.")
+            else
+              Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie"
+              ^ Filemanager.sep () ^ "lib" ^ Filemanager.sep () ^ s
+              ^ Filemanager.sep () ^ "lib.baguette"
+          else s
+        in
+        let str = read_file str |> List.map String.trim |> String.concat " " in
+        let token_list = Lexer.generate_token str in
+        let a = Lexer.validate_parenthesis_and_quote token_list in
+        match a with
+        | Parser.Exception s -> print_endline (creating_stack_trace !i "" s)
+        | _ ->
+            let ram = Parser.parse_file token_list |> runtime in
+            fuse_hash_tbl ram Functions.main_ram)
     | Parser.GOTO s -> (
         i := !i + 1;
         if not (String.equal s "else") then

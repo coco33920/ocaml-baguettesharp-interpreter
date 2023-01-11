@@ -218,10 +218,14 @@ let possible_completion_file word =
 
 let load_file_name ?(verbose = false) ?(lexer = false) file =
   try parse_file ~verbose ~lexer file
-  with _ -> 
-    let str = Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie" ^ Filemanager.sep () ^ "lib" ^ Filemanager.sep () ^ file ^ Filemanager.sep () ^ "lib.baguette"
-  in try parse_file ~verbose ~lexer str 
-with _ -> print_endline "this library isn't installed"
+  with _ -> (
+    let str =
+      Filemanager.home () ^ Filemanager.sep () ^ ".boulangerie"
+      ^ Filemanager.sep () ^ "lib" ^ Filemanager.sep () ^ file
+      ^ Filemanager.sep () ^ "lib.baguette"
+    in
+    try parse_file ~verbose ~lexer str
+    with _ -> print_endline "this library isn't installed")
 
 (**Load a file*)
 let load_file ?(verbose = false) ?(lexer = false) lst =
