@@ -34,7 +34,7 @@ let string_to_token str =
   | "PAINVIENNOIS" -> KEYWORD "GOTO"
   | "SABLE" -> KEYWORD "IF"
   | "FRAMBOISIER" -> KEYWORD "THEN"
-  | "LOAD" -> KEYWORD "LOAD"
+  | "LAUGEWECKLE" -> KEYWORD "LOAD"
   | "BABAAURHUM" -> ARRAY_BEGIN
   | "CHARLOTTEAUXFRAISES" -> ARRAY_END
   | "SCHNECKENKUCHEN" -> PARAM_END
@@ -67,7 +67,7 @@ let recognized_token =
     "FRAMBOISIER";
     "BABAAURHUM";
     "//";
-    "LOAD";
+    "LAUGEWECKLE";
   ]
 
 (**Transforms a token into a string*)
