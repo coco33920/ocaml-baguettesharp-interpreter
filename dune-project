@@ -1,6 +1,6 @@
 (lang dune 3.0)
 (name baguette_sharp)
-(version 2.2.1)
+(version 2.2.2)
 (generate_opam_files false)
 
 (source
