@@ -142,6 +142,7 @@ let recognize_function name list_of_args =
   | "MILLEFEUILLE" -> Math.floor list_of_args
   | "FRAISIER" -> Math.ceil list_of_args
   | "QUATREQUART" -> add_variable list_of_args
+
   | "TIRAMISU" ->
       Conditions.equality list_of_args (*operateur de conditions & binaire*)
   | "MERINGUE" -> Conditions.inferior_large list_of_args
@@ -193,6 +194,18 @@ let recognize_function name list_of_args =
   | "🎂🎵" -> Math.opposite list_of_args
   | "🥮🧈" -> Math.floor list_of_args
   | "🎂🍓" -> Math.ceil list_of_args
+
+  | "🥮🍵🍫" -> Conditions.equality list_of_args
+  | "🥚" -> Conditions.inferior_large list_of_args
+  | "🎂🍋" -> Conditions.inferior_strict list_of_args
+  | "🍞🥐" -> Conditions.superior_large list_of_args
+  | "🥧" -> Conditions.superior_strict list_of_args
+  | "🎂🥚" -> Conditions.binary_and list_of_args
+  | "🍞🌶️" -> Conditions.binary_or list_of_args
+  | "🍞🥚" -> Conditions.binary_xor list_of_args
+  | "🍞🍎" -> Conditions.binary_not list_of_args
+
+
   | _ ->
       let word = Levenshtein.select_minimal_distance_word name in
       Parser.Exception
