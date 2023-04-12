@@ -174,6 +174,25 @@ let recognize_function name list_of_args =
       String_manipulation.double_from_string list_of_args (*DFS*)
   | "FRANGIPANE" -> String_manipulation.bool_from_string list_of_args (*BFS*)
   | "APFELSTRUDEL" -> return list_of_args
+  
+  | "🍞🍫" -> printf list_of_args
+  | "🥐" -> print list_of_args
+  | "🧈" -> read_variable list_of_args
+  | "⛈️🍫" -> read_entry list_of_args
+  | "🌰" -> add_variable list_of_args
+
+  | "🧁🍷" -> Math.add list_of_args
+  | "🍒" -> Math.mult list_of_args
+  | "🎂🧈" -> Math.power list_of_args
+  | "🧁🍫" -> Math.sqrt list_of_args
+  | "🧁💰" -> Math.fibonacci list_of_args
+  | "🍞🍇" -> Math.substract list_of_args
+  | "🥐🍫" -> Math.divide list_of_args
+  | "🥨" -> Math.randint list_of_args
+  | "🥮🖼️" -> Math.logb list_of_args
+  | "🎂🎵" -> Math.opposite list_of_args
+  | "🥮🧈" -> Math.floor list_of_args
+  | "🎂🍓" -> Math.ceil list_of_args
   | _ ->
       let word = Levenshtein.select_minimal_distance_word name in
       Parser.Exception

@@ -43,17 +43,17 @@ let string_to_token str =
   | "," -> COMMA
   | "🧅" -> LEFT_PARENTHESIS
   | "🧄" -> RIGHT_PARENTHESIS
-  | "🥦" -> QUOTE
+  | "🍉" -> QUOTE
   | "🥖" -> SEMI_COLON
   | "🧁" -> BOOL_TOKEN true
   | "🎂" -> BOOL_TOKEN false
   | "🥮" -> KEYWORD "BEGIN"
   | "🍪" -> KEYWORD "END"
-  | "🍦" -> KEYWORD "LABEL"
+  | "🍨" -> KEYWORD "LABEL"
   | "🍞" -> KEYWORD "GOTO"
   | "🥠" -> KEYWORD "IF"
   | "🍰" -> KEYWORD "THEN"
-  | "🥨" -> KEYWORD "LOAD"
+  | "🍊" -> KEYWORD "LOAD"
   | "🍫" -> ARRAY_BEGIN
   | "🍬" -> ARRAY_END
   | "🍭" -> PARAM_END
