@@ -57,7 +57,7 @@ let string_to_token str =
   | "🍫" -> ARRAY_BEGIN
   | "🍬" -> ARRAY_END
   | "🍭" -> PARAM_END
-  | "🍮" -> PARAM_BEGIN 
+  | "🍮" -> PARAM_BEGIN
   | str -> (
       try INT_TOKEN (int_of_string str) with
       | Failure _ -> (
