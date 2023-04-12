@@ -221,7 +221,7 @@ let recognize_function name list_of_args =
   | "🧇" -> String_manipulation.split list_of_args
   | "🥞" -> String_manipulation.transform_to_array list_of_args
   | "🇨🇦🍁" -> String_manipulation.transform_from_array list_of_args
-  | "🍬" -> String_manipulation.convert_to_string list_of_args
+  | "🥯" -> String_manipulation.convert_to_string list_of_args
   | "🎂🥕" -> String_manipulation.int_from_string list_of_args
   | "🎂👑" -> String_manipulation.double_from_string list_of_args
   | "🥮👑" -> String_manipulation.bool_from_string list_of_args
