@@ -142,6 +142,7 @@ let recognize_function name list_of_args =
   | "MILLEFEUILLE" -> Math.floor list_of_args
   | "FRAISIER" -> Math.ceil list_of_args
   | "QUATREQUART" -> add_variable list_of_args
+
   | "TIRAMISU" ->
       Conditions.equality list_of_args (*operateur de conditions & binaire*)
   | "MERINGUE" -> Conditions.inferior_large list_of_args
@@ -152,6 +153,7 @@ let recognize_function name list_of_args =
   | "PAINDEPICE" -> Conditions.binary_or list_of_args
   | "CREPE" -> Conditions.binary_xor list_of_args
   | "CHAUSSONAUXPOMMES" -> Conditions.binary_not list_of_args
+  
   | "TARTEAUXFRAISES" -> Array_manipulation.access list_of_args (*ACCESS*)
   | "TARTEAUXFRAMBOISES" -> Array_manipulation.replace list_of_args (*REPLACE*)
   | "TARTEAUXPOMMES" -> Array_manipulation.create_array list_of_args (*CREATE*)
@@ -159,6 +161,7 @@ let recognize_function name list_of_args =
       Array_manipulation.create_matrix list_of_args (*MCREATE*)
   | "GLACE" -> Array_manipulation.display_array list_of_args (*DISPLAY*)
   | "BEIGNET" -> Array_manipulation.populate list_of_args (*POPULATE*)
+  
   | "DOUGHNUT" -> String_manipulation.replace list_of_args (*SREPLACE*)
   | "BUCHE" -> String_manipulation.create list_of_args (*SCREATE*)
   | "GAUFFREDELIEGE" -> String_manipulation.concat list_of_args (*SADD*)
@@ -174,6 +177,57 @@ let recognize_function name list_of_args =
       String_manipulation.double_from_string list_of_args (*DFS*)
   | "FRANGIPANE" -> String_manipulation.bool_from_string list_of_args (*BFS*)
   | "APFELSTRUDEL" -> return list_of_args
+  
+  | "🍞🍫" -> printf list_of_args
+  | "🥐" -> print list_of_args
+  | "🧈" -> read_variable list_of_args
+  | "⛈️🍫" -> read_entry list_of_args
+  | "🌰" -> add_variable list_of_args
+
+  | "🧁🍷" -> Math.add list_of_args
+  | "🍒" -> Math.mult list_of_args
+  | "🎂🧈" -> Math.power list_of_args
+  | "🧁🍫" -> Math.sqrt list_of_args
+  | "🧁💰" -> Math.fibonacci list_of_args
+  | "🍞🍇" -> Math.substract list_of_args
+  | "🥐🍫" -> Math.divide list_of_args
+  | "🥨" -> Math.randint list_of_args
+  | "🥮🖼️" -> Math.logb list_of_args
+  | "🎂🎵" -> Math.opposite list_of_args
+  | "🥮🧈" -> Math.floor list_of_args
+  | "🎂🍓" -> Math.ceil list_of_args
+
+  | "🥮🍵🍫" -> Conditions.equality list_of_args
+  | "🥚" -> Conditions.inferior_large list_of_args
+  | "🎂🍋" -> Conditions.inferior_strict list_of_args
+  | "🍞🥐" -> Conditions.superior_large list_of_args
+  | "🥧" -> Conditions.superior_strict list_of_args
+  | "🎂🥚" -> Conditions.binary_and list_of_args
+  | "🍞🌶️" -> Conditions.binary_or list_of_args
+  | "🍞🥚" -> Conditions.binary_xor list_of_args
+  | "🍞🍎" -> Conditions.binary_not list_of_args
+
+  | "🥧🍓" -> Array_manipulation.access list_of_args
+  | "🥧🫐" -> Array_manipulation.replace list_of_args
+  | "🥧🍎" -> Array_manipulation.create_array list_of_args
+  | "🥧🍋" -> Array_manipulation.create_matrix list_of_args
+  | "🍦" -> Array_manipulation.display_array list_of_args
+  | "🇫🇷🍩" -> Array_manipulation.populate list_of_args
+
+  | "🍩" -> String_manipulation.replace list_of_args
+  | "🎂🎄" -> String_manipulation.create list_of_args
+  | "🧇🍫" -> String_manipulation.concat list_of_args
+  | "🧇🇧🇪" -> String_manipulation.access list_of_args
+  | "🧇" -> String_manipulation.split list_of_args
+  | "🥞" -> String_manipulation.transform_to_array list_of_args
+  | "🇨🇦🍁" -> String_manipulation.transform_from_array list_of_args
+  | "🥯" -> String_manipulation.convert_to_string list_of_args
+  | "🎂🥕" -> String_manipulation.int_from_string list_of_args
+  | "🎂👑" -> String_manipulation.double_from_string list_of_args
+  | "🥮👑" -> String_manipulation.bool_from_string list_of_args
+
+  | "🥧🍎🇩🇪" -> return list_of_args
+
   | _ ->
       let word = Levenshtein.select_minimal_distance_word name in
       Parser.Exception

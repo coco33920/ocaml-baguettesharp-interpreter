@@ -41,6 +41,23 @@ let string_to_token str =
   | "CRUMBLE" -> PARAM_BEGIN
   | "//" -> COMMENT
   | "," -> COMMA
+  | "🧅" -> LEFT_PARENTHESIS
+  | "🧄" -> RIGHT_PARENTHESIS
+  | "🍉" -> QUOTE
+  | "🥖" -> SEMI_COLON
+  | "🧁" -> BOOL_TOKEN true
+  | "🎂" -> BOOL_TOKEN false
+  | "🥮" -> KEYWORD "BEGIN"
+  | "🍪" -> KEYWORD "END"
+  | "🍨" -> KEYWORD "LABEL"
+  | "🍞" -> KEYWORD "GOTO"
+  | "🥠" -> KEYWORD "IF"
+  | "🍰" -> KEYWORD "THEN"
+  | "🍊" -> KEYWORD "LOAD"
+  | "🍫" -> ARRAY_BEGIN
+  | "🍬" -> ARRAY_END
+  | "🍭" -> PARAM_END
+  | "🍮" -> PARAM_BEGIN 
   | str -> (
       try INT_TOKEN (int_of_string str) with
       | Failure _ -> (
