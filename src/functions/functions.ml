@@ -153,6 +153,7 @@ let recognize_function name list_of_args =
   | "PAINDEPICE" -> Conditions.binary_or list_of_args
   | "CREPE" -> Conditions.binary_xor list_of_args
   | "CHAUSSONAUXPOMMES" -> Conditions.binary_not list_of_args
+  
   | "TARTEAUXFRAISES" -> Array_manipulation.access list_of_args (*ACCESS*)
   | "TARTEAUXFRAMBOISES" -> Array_manipulation.replace list_of_args (*REPLACE*)
   | "TARTEAUXPOMMES" -> Array_manipulation.create_array list_of_args (*CREATE*)
@@ -160,6 +161,7 @@ let recognize_function name list_of_args =
       Array_manipulation.create_matrix list_of_args (*MCREATE*)
   | "GLACE" -> Array_manipulation.display_array list_of_args (*DISPLAY*)
   | "BEIGNET" -> Array_manipulation.populate list_of_args (*POPULATE*)
+  
   | "DOUGHNUT" -> String_manipulation.replace list_of_args (*SREPLACE*)
   | "BUCHE" -> String_manipulation.create list_of_args (*SCREATE*)
   | "GAUFFREDELIEGE" -> String_manipulation.concat list_of_args (*SADD*)
@@ -205,6 +207,26 @@ let recognize_function name list_of_args =
   | "🍞🥚" -> Conditions.binary_xor list_of_args
   | "🍞🍎" -> Conditions.binary_not list_of_args
 
+  | "🥧🍓" -> Array_manipulation.access list_of_args
+  | "🥧🫐" -> Array_manipulation.replace list_of_args
+  | "🥧🍎" -> Array_manipulation.create_array list_of_args
+  | "🥧🍋" -> Array_manipulation.create_matrix list_of_args
+  | "🍦" -> Array_manipulation.display_array list_of_args
+  | "🇫🇷🍩" -> Array_manipulation.populate list_of_args
+
+  | "🍩" -> String_manipulation.replace list_of_args
+  | "🎂🎄" -> String_manipulation.create list_of_args
+  | "🧇🍫" -> String_manipulation.concat list_of_args
+  | "🧇🇧🇪" -> String_manipulation.access list_of_args
+  | "🧇" -> String_manipulation.split list_of_args
+  | "🥞" -> String_manipulation.transform_to_array list_of_args
+  | "🇨🇦🍁" -> String_manipulation.transform_from_array list_of_args
+  | "🍬" -> String_manipulation.convert_to_string list_of_args
+  | "🎂🥕" -> String_manipulation.int_from_string list_of_args
+  | "🎂👑" -> String_manipulation.double_from_string list_of_args
+  | "🥮👑" -> String_manipulation.bool_from_string list_of_args
+
+  | "🥧🍎🇩🇪" -> return list_of_args
 
   | _ ->
       let word = Levenshtein.select_minimal_distance_word name in
