@@ -20,5 +20,4 @@
  (synopsis "The Baguette# Interpreter REPL")
  (description "The REPL for Baguette#")
  (depends
- {"ocaml">=4.13.1})
- )
+  (ocaml (>= 4.13.1))))
